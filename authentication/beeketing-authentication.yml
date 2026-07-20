@@ -1,0 +1,32 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication.md
+docs: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication.md
+summary:
+  types: [oauth2, http]
+  api_key_in: [query]
+  oauth2_flows: [authorizationCode]
+  notes: >-
+    ShopBase supports two app types. Public apps authenticate via OAuth 2.0
+    authorization-code grant (API key + secret from the Partner Dashboard,
+    per-store access token). Private apps authenticate via HTTP Basic
+    authentication with credentials generated in the store admin.
+schemes:
+- name: PublicAppOAuth2
+  type: oauth2
+  app_type: public
+  scheme: authorizationCode
+  authorizationUrl: https://{shop}.onshopbase.com/admin/oauth/authorize
+  tokenUrl: https://{shop}.onshopbase.com/admin/oauth/access_token.json
+  client_credentials: API key + API secret key issued in the Partner Dashboard
+  install_verification: HMAC signature on install/redirect requests
+  scope_param: comma-separated scopes (e.g. write_orders,read_customers)
+  docs: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/oauth.md
+- name: PrivateAppBasic
+  type: http
+  app_type: private
+  scheme: basic
+  description: >-
+    Private apps interact with the API on behalf of a single store using HTTP
+    Basic authentication; credentials are generated from that store's admin.
+  docs: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/private-apps.md
