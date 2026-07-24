@@ -1,0 +1,29 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-an-app/making-your-first-request/using-webhooks/webhook-events-and-topics.md
+docs: https://developers.shopbase.com/build-an-app/making-your-first-request/using-webhooks.md
+spec_type: Webhooks
+notes: >-
+  ShopBase publishes a webhook catalog (topics per resource) but no AsyncAPI
+  document. Captured here as a webhook surface (type Webhooks).
+topics:
+- resource: Cart
+  events: [carts/create, carts/update]
+- resource: Checkout
+  events: [checkouts/create, checkouts/update, checkouts/delete]
+- resource: Collection
+  events: [collections/create, collections/update]
+- resource: Fulfillment
+  events: [fulfillments/create, fulfillments/update]
+- resource: Order
+  events: [orders/cancelled, orders/create, orders/fulfilled, orders/paid, orders/partially_fulfilled, orders/updated, orders/delete]
+- resource: OrderTransaction
+  events: [order_transactions/create]
+- resource: Product
+  events: [products/create, products/update, products/delete]
+- resource: Refund
+  events: [refunds/create]
+- resource: Shop
+  events: [app/uninstalled, shop/update]
+- resource: Theme
+  events: [themes/create, themes/publish, themes/update, themes/delete]

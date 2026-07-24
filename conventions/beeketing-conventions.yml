@@ -1,0 +1,39 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/llms.txt
+docs: https://developers.shopbase.com
+authentication:
+  style: OAuth 2.0 authorization-code (public apps) or HTTP Basic (private apps)
+  ref: authentication/beeketing-authentication.yml
+idempotency:
+  supported: false
+  notes: ShopBase does not document an idempotency-key header or mechanism.
+pagination:
+  style: page-offset
+  params: [page, limit]
+  notes: >-
+    REST Admin API list endpoints use page + limit query params. An offset over
+    100,000 (page * limit) returns HTTP 429. Example limit value seen: 250.
+rate_limiting:
+  algorithm: leaky-bucket
+  bucket_size: 30
+  leak_rate: 2/second
+  header: X-Sb-Shop-Api-Call-Limit
+  header_format: "current/bucket_size (e.g. 22/30)"
+  throttled_status: 429
+  ref: rate-limits/beeketing-rate-limits.yml
+error_envelope:
+  fields: [errors, error]
+  ref: errors/beeketing-problem-types.yml
+versioning:
+  scheme: none-documented
+  notes: >-
+    API paths are unversioned (/admin/<resource>.json). No dated or numbered API
+    version scheme is published.
+media_type:
+  request: application/json
+  response: application/json
+host_pattern: https://{shop}.onshopbase.com/admin
+webhooks:
+  supported: true
+  ref: asyncapi/beeketing-webhooks.yml

@@ -1,0 +1,21 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-a-theme/storefront-sdk.md
+docs: https://developers.shopbase.com/build-a-theme/storefront-sdk.md
+components:
+- family: Storefront SDK
+  kind: client-side-javascript
+  description: >-
+    Client-side SDK for themes and storefront apps to access shop data and
+    listen to shop events such as add-to-cart and update-cart-quantity.
+  docs: https://developers.shopbase.com/build-a-theme/storefront-sdk.md
+- family: Theme editor / configure
+  kind: embedded-admin-ui
+  description: >-
+    Theme editor surface and configure schema for merchant-facing theme
+    customization inside the ShopBase admin.
+  docs: https://developers.shopbase.com/build-a-theme/theme-development-resources/theme-editor.md
+notes: >-
+  These are client-side/embeddable surfaces, distinct from server-side SDK
+  packages. ShopBase does not publish first-party server SDK packages on npm,
+  PyPI, or other public registries (probed 2026-07-18, all 404).

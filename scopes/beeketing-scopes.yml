@@ -1,0 +1,39 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/api-access-scopes.md
+docs: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/api-access-scopes.md
+schemes:
+- name: PublicAppOAuth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://{shop}.onshopbase.com/admin/oauth/authorize
+    tokenUrl: https://{shop}.onshopbase.com/admin/oauth/access_token.json
+notes: >-
+  Authenticated access scopes control access to REST Admin API and GraphQL Admin
+  API resources. Any write scope implicitly grants the matching read scope.
+  Granted scopes can be inspected via the AccessScope resource.
+scopes:
+- {scope: read_themes, description: Read access to Asset and Theme}
+- {scope: write_themes, description: Write access to Asset and Theme}
+- {scope: read_products, description: Read Product, Product Variant, Product Image, Product Custom Collection}
+- {scope: write_products, description: Write Product, Product Variant, Product Image, Product Custom Collection}
+- {scope: read_product_listings, description: Read Product Listing and Collection Listing}
+- {scope: read_inventory, description: Read Inventory Level and Inventory Item}
+- {scope: write_inventory, description: Write Inventory Level and Inventory Item}
+- {scope: read_customers, description: Read Customer Detail and Customer Group}
+- {scope: write_customers, description: Write Customer Detail and Customer Group}
+- {scope: read_orders, description: Read Order, Transaction and Fulfillment}
+- {scope: write_orders, description: Write Order, Transaction and Fulfillment}
+- {scope: read_fulfillments, description: Read Fulfillment Service}
+- {scope: write_fulfillments, description: Write Fulfillment Service}
+- {scope: read_script_tags, description: Read Script Tag}
+- {scope: write_script_tags, description: Write Script Tag}
+- {scope: read_content, description: Read Page and Redirect}
+- {scope: write_content, description: Write Page and Redirect}
+- {scope: read_shipping, description: Read Carrier Service, Shipping Rate, Country and Province}
+- {scope: write_shipping, description: Write Carrier Service, Shipping Rate, Country and Province}
+- {scope: read_checkouts, description: Read Checkouts}
+- {scope: write_checkouts, description: Write Checkouts}
+- {scope: read_price_rules, description: Read Price Rules}
+- {scope: write_price_rules, description: Write Price Rules}
+- {scope: read_analytics, description: Read Analytics}

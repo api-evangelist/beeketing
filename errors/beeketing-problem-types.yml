@@ -1,0 +1,27 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-an-app/making-your-first-request/response-status-codes.md
+format: json
+envelope:
+  fields: [errors, error]
+  notes: >-
+    On a 422 the response body provides detail in the `errors` or `error`
+    parameters. ShopBase does not publish an RFC 9457 problem+json media type.
+problems:
+- {status: 200, title: OK, detail: The request was successfully processed by ShopBase}
+- {status: 201, title: Created, detail: The request has been fulfilled and a new resource has been created}
+- {status: 202, title: Accepted, detail: The request has been accepted but not yet processed}
+- {status: 303, title: See Other, detail: The response can be found under a different URI in the Location header via GET}
+- {status: 400, title: Bad Request, detail: Request not understood (bad syntax, wrong Content-Type, or invalid OAuth code)}
+- {status: 401, title: Unauthorized, detail: Authentication credentials are missing or incorrect}
+- {status: 402, title: Payment Required, detail: The requested shop is currently frozen}
+- {status: 403, title: Forbidden, detail: Missing the appropriate access scope for this action}
+- {status: 404, title: Not Found, detail: The requested resource was not found}
+- {status: 406, title: Not Acceptable, detail: Resource cannot generate content acceptable per the Accept headers}
+- {status: 422, title: Unprocessable Entity, detail: Well-formed body with semantic errors; see errors/error params}
+- {status: 423, title: Locked, detail: The requested shop is currently locked}
+- {status: 429, title: Too Many Requests, detail: Rate limit exceeded (see leaky-bucket rate limits)}
+- {status: 500, title: Internal Server Error, detail: An internal error occurred in ShopBase}
+- {status: 501, title: Not Implemented, detail: Endpoint unavailable on that shop (e.g. Plus-only API on non-Plus shop) or reserved}
+- {status: 503, title: Service Unavailable, detail: Server currently unavailable; check the status page}
+- {status: 504, title: Gateway Timeout, detail: Request could not complete in time; break into smaller requests}

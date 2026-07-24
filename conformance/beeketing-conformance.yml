@@ -1,0 +1,26 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/oauth.md
+standards:
+- id: oauth2
+  conforms: true
+  evidence: OAuth 2.0 authorization-code grant (RFC 6749) documented for public apps
+- id: oidc
+  conforms: false
+  evidence: No OpenID Connect discovery or id_token support documented
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors returned via errors/error JSON fields, not application/problem+json
+- id: webhooks
+  conforms: true
+  evidence: Documented webhook topics per resource (asyncapi/beeketing-webhooks.yml)
+- id: rate-limit-headers
+  conforms: true
+  evidence: X-Sb-Shop-Api-Call-Limit throttle header (leaky-bucket)
+- id: pagination
+  conforms: true
+  evidence: page + limit query-parameter pagination on list endpoints
+notes: >-
+  Standards conformance derived from published developer docs. No third-party
+  compliance certifications (SOC 2 / ISO 27001 / PCI DSS / HIPAA) are published,
+  so no Compliance pointer is emitted.

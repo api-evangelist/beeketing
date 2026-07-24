@@ -1,0 +1,41 @@
+# ShopBase Developers
+
+## ShopBase Developers
+
+- [Getting started](https://developers.shopbase.com/master.md): ShopBase enables you to create powerful e-commerce solutions for a variety of scenarios, including integrating your service into the ShopBase admin, build a ShopBase app & themes.
+- [Making your first request](https://developers.shopbase.com/build-an-app/making-your-first-request.md): This guide describes the basic steps for getting started with ShopBase's API. You can create your development stores to test your apps, themes, and other integrations that you build.
+- [Authentication](https://developers.shopbase.com/build-an-app/making-your-first-request/authentication.md): Before it can interact with the ShopBase API, your app must provide the necessary authentication credentials in each HTTP request that it makes to ShopBase.
+- [Public apps](https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/public-apps.md): A public ShopBase app can interact with the ShopBase API on behalf of multiple stores.
+- [Private apps](https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/private-apps.md)
+- [OAuth](https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/oauth.md): Your app cannot read ShopBase data without authenticating first. It must get permission from a user before gaining access to any of the resources in the REST API.
+- [API access scopes](https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/api-access-scopes.md): Part of the authorization process requires specifying which parts of a shop's data the client would like access to. Clients can ask for any of the authenticated/unauthenticated access scopes listed:
+- [Rest API References](https://developers.shopbase.com/build-an-app/making-your-first-request/rest-api-references.md): The REST Admin API lets you build apps and other integrations for the ShopBase admin.
+- [Rate limits](https://developers.shopbase.com/build-an-app/making-your-first-request/rest-api-references/rate-limits.md)
+- [Using webhooks](https://developers.shopbase.com/build-an-app/making-your-first-request/using-webhooks.md)
+- [Webhook events and topics](https://developers.shopbase.com/build-an-app/making-your-first-request/using-webhooks/webhook-events-and-topics.md)
+- [Response status codes](https://developers.shopbase.com/build-an-app/making-your-first-request/response-status-codes.md): When ShopBase receives a request to an API endpoint, a number of different HTTP status codes can be returned in the response depending on the original request.
+- [How to submit an app to ShopBase App Store](https://developers.shopbase.com/build-an-app/how-to-submit-an-app-to-shopbase-app-store.md): Kindly make sure your app is fully tested and works before submitting it. The App Approval team will tests all apps before publishing them to the ShopBase App Store.
+- [Getting your app approved](https://developers.shopbase.com/build-an-app/getting-your-app-approved.md)
+- [App requirements](https://developers.shopbase.com/build-an-app/getting-your-app-approved/app-requirements.md): The following requirements are used at ShopBase to review all apps.
+- [Testing your app](https://developers.shopbase.com/build-an-app/getting-your-app-approved/testing-your-app.md): Before you submit your app for review, you need to test it on a development store to check for any bugs or errors
+- [Submitting your app](https://developers.shopbase.com/build-an-app/getting-your-app-approved/submitting-your-app.md)
+- [The review process](https://developers.shopbase.com/build-an-app/getting-your-app-approved/the-review-process.md)
+- [Getting started building themes](https://developers.shopbase.com/build-a-theme/getting-started.md): This guide describes the basic steps for getting started to build a theme for ShopBase.
+- [Theme development resources](https://developers.shopbase.com/build-a-theme/theme-development-resources.md)
+- [Connect to your store & start developing](https://developers.shopbase.com/build-a-theme/theme-development-resources/connect-to-your-store-and-start-developing.md)
+- [Theme structure](https://developers.shopbase.com/build-a-theme/theme-development-resources/theme-structure.md)
+- [Theme object, methods, and props](https://developers.shopbase.com/build-a-theme/theme-development-resources/theme-object-methods-and-props.md)
+- [Theme editor](https://developers.shopbase.com/build-a-theme/theme-development-resources/theme-editor.md)
+- [How to update configure for theme editor](https://developers.shopbase.com/build-a-theme/theme-development-resources/theme-editor/how-to-update-configure-for-theme-editor.md)
+- [How to submit a theme to ShopBase Theme Store](https://developers.shopbase.com/build-a-theme/how-to-submit-a-theme-to-shopbase-theme-store.md): Kindly make sure your theme is fully tested and works before submitting it. The Theme Approval team will tests all themes before publishing them to the ShopBase Theme Store.
+- [Storefront SDK](https://developers.shopbase.com/build-a-theme/storefront-sdk.md): You can use ShopBase Storefront SDK to access shop data, listen to shop events like add to cart, update cart quantity, etc.
+- [Debug apps with Postman](https://developers.shopbase.com/test-and-debug-app/test-and-debug-app.md)
+- [Manage orders and shipping](https://developers.shopbase.com/tutorial/manage-orders-and-shipping.md)
+- [Manage orders with the REST Admin API](https://developers.shopbase.com/tutorial/manage-orders-and-shipping/manage-orders-with-the-rest-admin-api.md)
+- [Transaction](https://developers.shopbase.com/tutorial/manage-orders-and-shipping/manage-orders-with-the-rest-admin-api/transaction.md)
+- [Order](https://developers.shopbase.com/tutorial/manage-orders-and-shipping/manage-orders-with-the-rest-admin-api/order.md)
+- [Edit an existing order with the Admin API](https://developers.shopbase.com/tutorial/manage-orders-and-shipping/edit-an-existing-order-with-the-admin-api.md)
+- [Manage fulfillments with Fulfillment and FulfillmentService resources](https://developers.shopbase.com/tutorial/manage-orders-and-shipping/manage-fulfillments-with-fulfillment-and-fulfillmentservice-resources.md)
+- [Get a country field using Admin API](https://developers.shopbase.com/tutorial/manage-orders-and-shipping/get-a-country-field-using-admin-api.md)
+- [How to create your payment gateway on ShopBase](https://developers.shopbase.com/integrate-a-payment-gateway/how-to-create-your-payment-gateway.md): Kindly make sure your gateway is fully tested and works before integrating it. The ShopBase Approval team will tests all gateways before publishing them to ShopBase merchants.
+- [Technical Specifications](https://developers.shopbase.com/integrate-a-payment-gateway/technical-specifications.md)

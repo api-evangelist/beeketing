@@ -1,0 +1,20 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-an-app/making-your-first-request/rest-api-references/rate-limits.md
+docs: https://developers.shopbase.com/build-an-app/making-your-first-request/rest-api-references/rate-limits.md
+algorithm: leaky-bucket
+header: X-Sb-Shop-Api-Call-Limit
+header_format: "current/bucket_size"
+throttled_status: 429
+rate_limits:
+- name: REST Admin API general limit
+  scope: per-shop
+  bucket_size: 30
+  limit_count: 30
+  leak_rate: 2/second
+  burst: 30
+  sustained: 2 requests/second
+- name: GET offset limit
+  scope: pagination
+  limit_count: 100000
+  notes: A GET whose page*limit offset exceeds 100,000 returns 429.

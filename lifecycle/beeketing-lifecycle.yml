@@ -1,0 +1,14 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com
+versioning:
+  scheme: unversioned
+  notes: REST Admin API paths are unversioned (/admin/<resource>.json).
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No published deprecation policy or RFC 8594 Sunset/Deprecation header support found.
+sla:
+  url: null
+status_page: https://www.shopbasestatus.com
+deprecated_operations: []

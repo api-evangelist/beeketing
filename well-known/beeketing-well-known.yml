@@ -1,0 +1,29 @@
+generated: '2026-07-18'
+method: searched
+source: live probes of /.well-known/* on ShopBase developer + API hosts
+notes: >-
+  No /.well-known/ discovery documents are published on the ShopBase developer,
+  API-doc, or OpenCommerce Group hosts. All probes returned 404 (or a 301 to the
+  marketing site). Absence is valid, recorded data.
+hosts:
+- host: https://developers.shopbase.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://api.shopbase.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+- host: https://opencommercegroup.com
+  documents:
+  - {path: /.well-known/security.txt, status: 301}
+  - {path: /.well-known/openid-configuration, status: 301}
+  - {path: /.well-known/oauth-authorization-server, status: 301}
+  - {path: /.well-known/api-catalog, status: 301}
+  - {path: /.well-known/ai-plugin.json, status: 301}

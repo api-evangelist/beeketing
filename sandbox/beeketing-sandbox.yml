@@ -1,0 +1,18 @@
+generated: '2026-07-18'
+method: searched
+source: https://developers.shopbase.com/build-an-app/making-your-first-request.md
+docs: https://developers.shopbase.com/build-an-app/getting-your-app-approved/testing-your-app.md
+test_environment:
+  type: development-stores
+  description: >-
+    Partners create development stores from the Partner Dashboard to test apps,
+    themes, and other integrations before submission. Apps must be tested on a
+    development store to check for bugs before being submitted for review.
+  partner_dashboard: https://accounts.shopbase.com/partners
+  debug_tooling:
+    - name: Postman
+      docs: https://developers.shopbase.com/test-and-debug-app/test-and-debug-app.md
+      description: Guide for debugging ShopBase apps with Postman.
+notes: >-
+  ShopBase publishes no fixed magic test card numbers, test key prefixes, or
+  hosted test tokens; testing is done against isolated development stores.

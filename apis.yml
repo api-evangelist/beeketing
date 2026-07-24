@@ -1,7 +1,29 @@
 aid: beeketing
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/beeketing.png
 name: Beeketing
-description: Beeketing is a company surfaced as a portfolio company of 500-global and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Beeketing began as a Vietnam-founded e-commerce marketing startup (backed by
+  500 Global) that built conversion-optimization apps for Shopify and other
+  online stores, and evolved into OpenCommerce Group — the operator of ShopBase,
+  a cross-border commerce platform serving 100,000+ merchants across 195
+  countries alongside PrintBase and PlusBase. The developer surface is the
+  ShopBase Developer Platform: a Shopify-style REST Admin API (plus a GraphQL
+  Admin API) for building public and private apps, themes, and payment gateways.
+  It is secured with OAuth 2.0 authorization-code flow (public apps) or HTTP
+  Basic auth (private apps), scoped with granular access scopes, and supports
+  webhooks, leaky-bucket rate limiting, an app/theme store, and a Storefront SDK.
 url: https://raw.githubusercontent.com/api-evangelist/beeketing/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -11,10 +33,45 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- E-commerce
+- Cross-border Commerce
+- Marketing
+- Shopify Apps
+- REST API
+- OAuth
+- Webhooks
+- Themes
+- Payments
+apis:
+- name: ShopBase Admin API
+  description: >-
+    REST Admin API (and GraphQL Admin API) for building apps, themes, and
+    payment gateways on ShopBase — products, orders, transactions, fulfillments,
+    customers, inventory, checkouts, shipping, price rules, and analytics.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://api-doc.shopbase.com
+  tags:
+  - REST API
+  - E-commerce
+  - OAuth
+  properties:
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -23,3 +80,60 @@ maintainers:
 common:
 - type: Website
   url: https://opencommercegroup.com
+- type: DeveloperPortal
+  url: https://developers.shopbase.com
+- type: Documentation
+  url: https://developers.shopbase.com
+- type: APIReference
+  url: https://api-doc.shopbase.com
+- type: GettingStarted
+  url: https://developers.shopbase.com/build-an-app/making-your-first-request.md
+- type: Support
+  url: https://help.shopbase.com/en/
+- type: Blog
+  url: https://www.shopbase.com/blog
+- type: GitHubOrganization
+  url: https://github.com/beeketing
+- type: Pricing
+  url: https://www.shopbase.com/pricing
+- type: SignUp
+  url: https://accounts.shopbase.com/sign-up
+- type: Login
+  url: https://accounts.shopbase.com/sign-in
+- type: TermsOfService
+  url: https://www.shopbase.com/terms-of-service
+- type: PrivacyPolicy
+  url: https://www.shopbase.com/privacy-policy
+- type: StatusPage
+  url: https://www.shopbasestatus.com
+- type: Authentication
+  url: authentication/beeketing-authentication.yml
+- type: OAuthScopes
+  url: scopes/beeketing-scopes.yml
+- type: Webhooks
+  url: asyncapi/beeketing-webhooks.yml
+- type: RateLimits
+  url: rate-limits/beeketing-rate-limits.yml
+- type: ErrorCatalog
+  url: errors/beeketing-problem-types.yml
+- type: Conventions
+  url: conventions/beeketing-conventions.yml
+- type: Lifecycle
+  url: lifecycle/beeketing-lifecycle.yml
+- type: Sandbox
+  url: sandbox/beeketing-sandbox.yml
+- type: Components
+  url: components/beeketing-components.yml
+- type: Conformance
+  url: conformance/beeketing-conformance.yml
+- type: DomainSecurity
+  url: security/beeketing-domain-security.yml
+- type: WellKnown
+  url: well-known/beeketing-well-known.yml
+- type: LLMsTxt
+  url: llms/beeketing-llms.txt
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
