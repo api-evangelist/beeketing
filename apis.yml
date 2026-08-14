@@ -24,6 +24,9 @@ description: >-
   It is secured with OAuth 2.0 authorization-code flow (public apps) or HTTP
   Basic auth (private apps), scoped with granular access scopes, and supports
   webhooks, leaky-bucket rate limiting, an app/theme store, and a Storefront SDK.
+  A machine-readable contract is published: a Swagger 2.0 document of 97 paths,
+  153 operations and 268 definitions, served at
+  https://api-doc.shopbase.com/public-swagger.json and rendered with ReDoc.
 url: https://raw.githubusercontent.com/api-evangelist/beeketing/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -33,7 +36,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-18'
+modified: '2026-08-13'
 tags:
 - Company
 - E-commerce
@@ -52,7 +55,13 @@ apis:
     payment gateways on ShopBase — products, orders, transactions, fulfillments,
     customers, inventory, checkouts, shipping, price rules, and analytics.
   humanURL: https://developers.shopbase.com
-  baseURL: https://api-doc.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  x-baseURL-note: >-
+    Templated, per-store host. Corrected 2026-08-13: apis.yml previously carried
+    https://api-doc.shopbase.com, which is the ReDoc reference site, not an API
+    host. ShopBase's own documentation gives the call host as
+    https://{shop}.onshopbase.com/admin, and the published Swagger 2.0 document
+    sets host to the placeholder shop-name.onshopbase.com with basePath /admin.
   tags:
   - REST API
   - E-commerce
@@ -62,6 +71,10 @@ apis:
     url: https://developers.shopbase.com
   - type: APIReference
     url: https://api-doc.shopbase.com
+  - type: OpenAPI
+    url: openapi/beeketing-shopbase-admin-openapi.json
+  - type: Overlay
+    url: overlays/beeketing-shopbase-admin-overlay.yaml
   - type: Authentication
     url: authentication/beeketing-authentication.yml
   - type: OAuthScopes
@@ -72,6 +85,10 @@ apis:
     url: rate-limits/beeketing-rate-limits.yml
   - type: ErrorCatalog
     url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -128,12 +145,58 @@ common:
   url: conformance/beeketing-conformance.yml
 - type: DomainSecurity
   url: security/beeketing-domain-security.yml
-- type: WellKnown
-  url: well-known/beeketing-well-known.yml
 - type: LLMsTxt
   url: llms/beeketing-llms.txt
+- type: OpenAPI
+  url: openapi/beeketing-shopbase-admin-openapi.json
+- type: Overlay
+  url: overlays/beeketing-shopbase-admin-overlay.yaml
+- type: DataModel
+  url: data-model/beeketing-data-model.yml
+- type: Packages
+  url: packages/beeketing-packages.yml
+- type: CLI
+  url: cli/beeketing-cli.yml
+- type: Plans
+  url: plans/beeketing-plans-pricing.yml
+- type: ChangeLog
+  url: changelog/beeketing-changelog.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ChangeLog
+  url: https://updates.shopbase.com/
+- type: Roadmap
+  url: https://ideas.shopbase.com/
+x-partner-surfaces:
+  app_store: https://apps.shopbase.com/
+  partner_dashboard: https://partners.shopbase.com/
+  theme_starter: https://github.com/ShopBaseCom/starter-theme-test
+  first_party_github_org: https://github.com/ShopBaseCom
+x-well-known-probe:
+  file: well-known/beeketing-well-known.yml
+  note: >-
+    Probe recorded, NO WellKnown pointer emitted. Every /.well-known/ path on
+    every ShopBase / OpenCommerce Group host returned 404, 500, or an SPA
+    catch-all HTML shell on 2026-08-13. The previous round carried a WellKnown
+    pointer at a file whose own contents record zero documents; it has been
+    removed rather than credited.
+x-ownership:
+  verified: '2026-08-13'
+  note: >-
+    Beeketing is the former brand of OpenCommerce Group, whose product is
+    ShopBase. beeketing.com 301s to https://www.shopbase.com/. The harvested
+    contract is served from ShopBase's own reference host and says so about
+    itself: info.contact.email support@shopbase.com, licence url
+    https://www.shopbase.net, host shop-name.onshopbase.com — all ShopBase, none
+    of them a sibling or third-party product.
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 15
+  artifacts_updated: 9
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: >-
+    Round 2. Contract discovery found the previously missed machine-readable
+    spec: the ReDoc page at api-doc.shopbase.com loads
+    /public-swagger.json — a real 560KB Swagger 2.0 document, 153 operations.
+    Everything derived this round is grounded in it.
