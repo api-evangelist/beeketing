@@ -1,0 +1,148 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — ShopBase Admin API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-08-13'
+  method: generated
+  source: openapi/beeketing-shopbase-admin-openapi.json
+  extends: openapi/beeketing-shopbase-admin-openapi.json
+  note: >-
+    Non-destructive overlay capturing what API Evangelist established about the
+    ShopBase Admin API from the provider's own developer documentation but that
+    the published Swagger 2.0 document omits: the real host pattern, the OAuth
+    2.0 and HTTP Basic authentication the docs specify, rate-limit and pagination
+    semantics, contact and licence facts, and the webhook surface. The original
+    specification is never mutated.
+actions:
+- target: $.info
+  description: Add contact, terms and external documentation that the published spec omits.
+  update:
+    description: >-
+      REST Admin API for ShopBase stores — products, variants, images,
+      collections, customers, orders, draft orders, transactions, refunds,
+      fulfillments, abandoned checkouts, price rules, discount codes, metafields,
+      pages, redirects, script tags and webhooks. The published document is
+      titled "ShopBase Internal API" and is served publicly as the ShopBase API
+      reference at https://api-doc.shopbase.com.
+    contact:
+      name: ShopBase Developer Support
+      email: support@shopbase.com
+      url: https://developers.shopbase.com
+    x-status-page: https://www.shopbasestatus.com
+- target: $
+  description: >-
+    Record the real, per-store host pattern documented by ShopBase. The published
+    document sets host to the literal placeholder shop-name.onshopbase.com.
+  update:
+    x-host-template: 'https://{shop}.onshopbase.com'
+    x-base-path: /admin
+    externalDocs:
+      description: ShopBase Developer Platform
+      url: https://developers.shopbase.com
+- target: $.securityDefinitions
+  description: >-
+    Document the two authentication models ShopBase publishes. The spec declares
+    only opaque header apiKey schemes; the docs define how those tokens are
+    obtained.
+  update:
+    PublicAppOAuth2:
+      type: oauth2
+      flow: accessCode
+      authorizationUrl: 'https://{shop}.onshopbase.com/admin/oauth/authorize'
+      tokenUrl: 'https://{shop}.onshopbase.com/admin/oauth/access_token.json'
+      description: >-
+        Public apps use the OAuth 2.0 authorization-code grant with an API key and
+        secret issued in the Partner Dashboard, and verify install/redirect
+        requests with an HMAC signature. The resulting per-store access token is
+        the value sent in the APP_ACCESS_TOKEN header.
+      scopes:
+        read_themes: Read Asset and Theme
+        write_themes: Write Asset and Theme
+        read_products: Read Product, Product Variant, Product Image, Custom Collection
+        write_products: Write Product, Product Variant, Product Image, Custom Collection
+        read_product_listings: Read Product Listing and Collection Listing
+        read_inventory: Read Inventory Level and Inventory Item
+        write_inventory: Write Inventory Level and Inventory Item
+        read_customers: Read Customer Detail and Customer Group
+        write_customers: Write Customer Detail and Customer Group
+        read_orders: Read Order, Transaction and Fulfillment
+        write_orders: Write Order, Transaction and Fulfillment
+        read_fulfillments: Read Fulfillment Service
+        write_fulfillments: Write Fulfillment Service
+        read_script_tags: Read Script Tag
+        write_script_tags: Write Script Tag
+        read_content: Read Page and Redirect
+        write_content: Write Page and Redirect
+        read_shipping: Read Carrier Service, Shipping Rate, Country and Province
+        write_shipping: Write Carrier Service, Shipping Rate, Country and Province
+        read_checkouts: Read Checkouts
+        write_checkouts: Write Checkouts
+        read_price_rules: Read Price Rules
+        write_price_rules: Write Price Rules
+        read_analytics: Read Analytics
+    PrivateAppBasic:
+      type: basic
+      description: >-
+        Private apps act on behalf of a single store using HTTP Basic
+        authentication with credentials generated in that store's admin.
+- target: $.securityDefinitions.APP_ACCESS_TOKEN
+  description: Explain what the APP_ACCESS_TOKEN header actually carries.
+  update:
+    description: >-
+      Per-store access token issued by the OAuth authorization-code exchange for
+      a public app. Sent as a request header. Operations declare the access
+      scopes the token must carry.
+- target: $.securityDefinitions.SHOP_ACCESS_TOKEN
+  description: Clarify the shop-level token.
+  update:
+    description: Shop-scoped access token used by store-level integrations.
+- target: $.securityDefinitions.USER_ACCESS_TOKEN
+  description: Clarify the user-level token.
+  update:
+    description: >-
+      Staff-user access token; used by the two operations that act in a specific
+      staff user's context rather than an app's.
+- target: $
+  description: Attach the cross-cutting runtime semantics ShopBase documents but does not encode in the spec.
+  update:
+    x-rate-limits:
+      algorithm: leaky-bucket
+      bucket_size: 30
+      leak_rate: 2 requests/second
+      header: X-Sb-Shop-Api-Call-Limit
+      header_format: current/bucket_size
+      throttled_status: 429
+      pagination_offset_ceiling: 100000
+      docs: https://developers.shopbase.com/build-an-app/making-your-first-request/rest-api-references/rate-limits.md
+      artifact: rate-limits/beeketing-rate-limits.yml
+    x-pagination:
+      style: page-offset
+      params: [page, limit]
+      max_offset: 100000
+      note: A GET whose page * limit offset exceeds 100,000 returns 429.
+    x-idempotency:
+      supported: false
+      note: >-
+        ShopBase documents no idempotency key. Retrying a POST such as
+        create-the-refund or creates-a-transaction-for-an-order can duplicate the
+        effect; callers must dedupe client-side.
+    x-error-envelope:
+      fields: [errors, error]
+      problem_json: false
+      artifact: errors/beeketing-problem-types.yml
+    x-webhooks:
+      supported: true
+      management_operations: [retrieves-a-list-of-webhooks, create-webhook, update-webhook, delete-webhook-by-id]
+      catalog: asyncapi/beeketing-webhooks.yml
+      docs: https://developers.shopbase.com/build-an-app/making-your-first-request/using-webhooks/webhook-events-and-topics.md
+    x-versioning:
+      scheme: unversioned
+      note: Admin API paths carry no version segment; no dated or numbered API version is published.
+- target: $.paths['/admin/payment-simulator.json']
+  description: Mark the payment simulator as test-only tooling.
+  update:
+    x-sandbox: true
+    x-note: >-
+      Payment Simulator operations exist to test a payment-gateway integration on
+      a development store. They are not a production payment surface.

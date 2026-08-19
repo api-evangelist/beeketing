@@ -1,0 +1,125 @@
+generated: '2026-08-13'
+method: searched
+source: https://registry.npmjs.org/ (npm registry metadata) + https://developers.shopbase.com/build-a-theme/theme-development-resources.md
+docs: https://developers.shopbase.com/build-a-theme/theme-development-resources.md
+notes: >-
+  ShopBase (OpenCommerce Group, formerly Beeketing) publishes no server-side API
+  client SDK on any public registry. The only first-party packages found are the
+  npm `@shopbase-theme/*` and `@shopbase-internal-theme/*` scopes, published by
+  the npm user `shopbase`, which ship the theme-development CLI and one storefront
+  Vue component. PyPI, RubyGems, Packagist, crates.io, NuGet, Maven Central and
+  pkg.go.dev were searched for shopbase / beeketing / opencommerce and returned no
+  first-party client. The GitHub org github.com/Beeketing (205 repos) is almost
+  entirely forks of third-party Go libraries; github.com/ShopBaseCom holds 4
+  first-party repos (starter theme, gateway demo, AsiaBill gateway SDK) and none
+  are published to a package registry.
+decay_signal: >-
+  Every first-party package is stale. The publicly documented CLI
+  (@shopbase-theme/cli) last published 2019-11-04 — six and a half years before
+  this probe — while the REST Admin API it accompanies is still served. The
+  internal-theme fork was last published 2021-08-04. There is no versioned,
+  maintained client for the 153-operation Admin API at all.
+packages:
+- name: '@shopbase-theme/cli'
+  registry: npm
+  url: https://www.npmjs.com/package/@shopbase-theme/cli
+  official: true
+  language: javascript
+  kind: cli
+  binary: shopbase-theme
+  install: npm install -g @shopbase-theme/cli
+  version: 1.0.0
+  published: '2019-11-04'
+  description: Command line interface for 3rd party development theme
+  note: >-
+    The CLI the ShopBase theme docs tell developers to install. Last published
+    2019-11-04.
+- name: '@shopbase-theme/cli-service'
+  registry: npm
+  url: https://www.npmjs.com/package/@shopbase-theme/cli-service
+  official: true
+  language: javascript
+  kind: library
+  version: 1.0.0
+  published: '2019-11-04'
+  note: Internal service package for @shopbase-theme/cli.
+- name: '@shopbase-theme/cli-utils'
+  registry: npm
+  url: https://www.npmjs.com/package/@shopbase-theme/cli-utils
+  official: true
+  language: javascript
+  kind: library
+  version: 1.0.0
+  published: '2019-11-04'
+  note: Shared utilities for @shopbase-theme/cli.
+- name: '@shopbase-theme/vue-concise-carousel'
+  registry: npm
+  url: https://www.npmjs.com/package/@shopbase-theme/vue-concise-carousel
+  official: true
+  language: javascript
+  kind: ui-component
+  version: 0.0.16
+  published: '2024-03-14'
+  description: Vue Concise Carousel is SSR and CSR friendly
+  note: >-
+    Storefront/theme UI component under the first-party @shopbase-theme npm
+    scope; the most recently published ShopBase package found.
+- name: '@shopbase-internal-theme/cli'
+  registry: npm
+  url: https://www.npmjs.com/package/@shopbase-internal-theme/cli
+  official: true
+  language: javascript
+  kind: cli
+  version: 1.0.7
+  published: '2021-08-04'
+  note: >-
+    Internal fork of the theme CLI, published under the same `shopbase` npm user
+    but not referenced from the public docs.
+- name: '@shopbase-internal-theme/cli-service'
+  registry: npm
+  url: https://www.npmjs.com/package/@shopbase-internal-theme/cli-service
+  official: true
+  language: javascript
+  kind: library
+  version: 1.0.7
+  published: '2021-08-04'
+- name: '@shopbase-internal-theme/cli-utils'
+  registry: npm
+  url: https://www.npmjs.com/package/@shopbase-internal-theme/cli-utils
+  official: true
+  language: javascript
+  kind: library
+  version: 1.0.2
+  published: '2020-07-24'
+- name: ShopBaseCom/asiabill-sdk
+  registry: github
+  url: https://github.com/ShopBaseCom/asiabill-sdk
+  official: true
+  language: typescript
+  kind: gateway-sdk
+  version: null
+  published: null
+  note: >-
+    First-party reference implementation of an AsiaBill payment-gateway
+    integration for ShopBase. Distributed as a GitHub repository only — no
+    package-registry release, so there is no registry metadata endpoint to read a
+    version or publish date from.
+- name: ShopBaseCom/starter-theme-test
+  registry: github
+  url: https://github.com/ShopBaseCom/starter-theme-test
+  official: true
+  language: vue
+  kind: starter-template
+  version: null
+  published: null
+  note: >-
+    The official starter theme the Theme CLI clones (`shopbase-theme create`).
+    Git-distributed, not registry-published; last pushed 2022-12-11.
+absent_registries:
+- {registry: pypi, searched: [shopbase, beeketing, opencommerce], result: no first-party package}
+- {registry: rubygems, searched: [shopbase, beeketing], result: no first-party package}
+- {registry: packagist, searched: [shopbase, beeketing], result: no first-party package}
+- {registry: crates.io, searched: [shopbase], result: no first-party package}
+- {registry: nuget, searched: [shopbase], result: no first-party package}
+- {registry: maven-central, searched: [shopbase], result: no first-party package}
+- {registry: pkg.go.dev, searched: [shopbase, beeketing], result: no first-party package}

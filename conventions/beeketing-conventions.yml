@@ -1,39 +1,94 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
 source: https://developers.shopbase.com/llms.txt
 docs: https://developers.shopbase.com
+spec: openapi/beeketing-shopbase-admin-openapi.json
 authentication:
   style: OAuth 2.0 authorization-code (public apps) or HTTP Basic (private apps)
+  transport: 'Access token sent in the APP_ACCESS_TOKEN request header (spec securityDefinitions)'
   ref: authentication/beeketing-authentication.yml
 idempotency:
   supported: false
-  notes: ShopBase does not document an idempotency-key header or mechanism.
+  header: null
+  notes: >-
+    ShopBase documents no idempotency-key header or mechanism, and the published
+    Swagger 2.0 document declares none. Unsafe operations that move money or send
+    messages — create-the-refund, creates-a-transaction-for-an-order,
+    charge-invoice, send-recovery-email, send-recovery-sms — cannot be retried
+    safely; callers must read current state before re-issuing.
 pagination:
   style: page-offset
   params: [page, limit]
+  max_offset: 100000
+  observed_limit_value: 250
   notes: >-
     REST Admin API list endpoints use page + limit query params. An offset over
-    100,000 (page * limit) returns HTTP 429. Example limit value seen: 250.
+    100,000 (page * limit) returns HTTP 429. There is no cursor and no Link
+    header, so a large catalog cannot be walked to the end — narrow the query
+    instead (by collection, vendor, type or tag).
+field_expansion:
+  supported: false
+  notes: No documented `expand`, `fields` or sparse-fieldset parameter.
+metadata:
+  supported: true
+  mechanism: Metafield resource
+  operations: [retrieves-meta-fields, create-meta-field, update-meta-field, delete-meta-field]
+  notes: >-
+    Arbitrary key/value extension is modelled as a first-class Metafield resource
+    rather than a `metadata` object on each entity.
+request_id_tracing:
+  supported: false
+  notes: >-
+    No request-id or correlation-id response header is documented, and none is
+    declared in the spec. There is no published way to reference a single call
+    when contacting support.
 rate_limiting:
   algorithm: leaky-bucket
   bucket_size: 30
   leak_rate: 2/second
+  scope: per-shop
   header: X-Sb-Shop-Api-Call-Limit
   header_format: "current/bucket_size (e.g. 22/30)"
+  standard_headers: false
+  retry_after: false
   throttled_status: 429
   ref: rate-limits/beeketing-rate-limits.yml
+  notes: >-
+    The throttle signal is a proprietary header, not RateLimit-* / X-RateLimit-*,
+    and no Retry-After is published on 429.
 error_envelope:
   fields: [errors, error]
+  problem_json: false
   ref: errors/beeketing-problem-types.yml
 versioning:
   scheme: none-documented
   notes: >-
     API paths are unversioned (/admin/<resource>.json). No dated or numbered API
-    version scheme is published.
+    version scheme, no version header, no version negotiation. The published spec
+    carries info.version 1.0.0, which has not changed and is not referenced by
+    any call.
+  ref: lifecycle/beeketing-lifecycle.yml
 media_type:
   request: application/json
   response: application/json
-host_pattern: https://{shop}.onshopbase.com/admin
+  notes: >-
+    Resource paths carry a literal `.json` suffix rather than negotiating on
+    Accept.
+path_conventions:
+  base: 'https://{shop}.onshopbase.com/admin'
+  suffix: .json
+  id_style: bare integers
+  notes: >-
+    Path templates in the published spec embed Go-router regex constraints, e.g.
+    /admin/orders/{order_id:(?:\d+)}.json. Tooling that reads the spec verbatim
+    must strip the `:(?:\d+)` fragment to build a callable URL — a real
+    interoperability cost, and the strongest argument for the overlay in
+    overlays/beeketing-shopbase-admin-overlay.yaml.
 webhooks:
   supported: true
+  asyncapi: false
   ref: asyncapi/beeketing-webhooks.yml
+bulk_operations:
+  supported: partial
+  operations: [patch-multiple-product, delete-multi-products, delete-redirects-by-ids, delete-bulk-customer-addresses-by-customer-ids, update-multi-product-images-for-multi-variants]
+  notes: A handful of resources accept id arrays; there is no general batch endpoint and no async bulk job API.

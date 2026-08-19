@@ -1,0 +1,54 @@
+generated: '2026-08-13'
+method: searched
+source: https://developers.shopbase.com/build-a-theme/theme-development-resources.md
+docs: https://developers.shopbase.com/build-a-theme/theme-development-resources.md
+name: ShopBase Theme CLI
+binary: shopbase-theme
+package: '@shopbase-theme/cli'
+version: 1.0.0
+published: '2019-11-04'
+scope: >-
+  Theme development only. There is no first-party CLI for the REST Admin API —
+  the CLI builds, connects, serves and submits ShopBase storefront themes.
+requirements:
+  runtime: Node.js
+  minimum_version: 10.13.0
+  note: Documented Node floor is 10.13.0, itself long out of support.
+install:
+- method: npm
+  command: npm install -g @shopbase-theme/cli
+- method: yarn
+  command: yarn global add @shopbase-theme/cli
+commands:
+- group: auth
+  commands:
+  - {command: 'shopbase-theme auth:login', description: 'Authenticate with a ShopBase Partner account using email and password.'}
+- group: scaffold
+  commands:
+  - {command: 'shopbase-theme create <handle>', description: 'Create a new theme project, cloned from the official starter-theme repo. The handle matches the theme handle in the Partner Dashboard.'}
+- group: develop
+  commands:
+  - {command: 'shopbase-theme connect', description: 'Add the local development theme to any store the authenticated account can access. The theme must build successfully first.'}
+  - {command: 'shopbase-theme serve [path]', description: 'Start a local development server for the theme; an optional path points at a theme project other than the working directory.'}
+- group: help
+  commands:
+  - {command: 'shopbase-theme help', description: 'List all available commands.'}
+flows:
+- name: Build and publish a ShopBase theme
+  steps:
+  - Create a partner account and a theme entry in the ShopBase Partner Dashboard.
+  - 'shopbase-theme auth:login'
+  - shopbase-theme create new-theme
+  - shopbase-theme serve
+  - shopbase-theme connect
+  - Submit a new theme version for review from the Partner Dashboard theme detail page.
+  docs: https://developers.shopbase.com/build-a-theme/getting-started.md
+related:
+  starter_theme: https://github.com/ShopBaseCom/starter-theme-test
+  partner_dashboard: https://partners.shopbase.com
+  packages: packages/beeketing-packages.yml
+notes: >-
+  The docs still instruct developers to install @shopbase-theme/cli, whose latest
+  npm release is 1.0.0 from 2019-11-04. A later internal fork
+  (@shopbase-internal-theme/cli 1.0.7, 2021-08-04) exists on npm under the same
+  publisher but is not referenced from the public documentation.

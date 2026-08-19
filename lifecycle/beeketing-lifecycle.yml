@@ -1,14 +1,51 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
 source: https://developers.shopbase.com
+spec: openapi/beeketing-shopbase-admin-openapi.json
 versioning:
   scheme: unversioned
-  notes: REST Admin API paths are unversioned (/admin/<resource>.json).
+  spec_info_version: 1.0.0
+  notes: >-
+    REST Admin API paths are unversioned (/admin/<resource>.json). The published
+    Swagger document carries info.version 1.0.0, which is not addressable by a
+    caller and does not change with the API.
 deprecation:
   policy_url: null
   sunset_header: false
-  notes: No published deprecation policy or RFC 8594 Sunset/Deprecation header support found.
+  deprecation_header: false
+  notes: >-
+    No published deprecation policy and no RFC 8594 Sunset / Deprecation header
+    support found. No operation in the 153-operation spec is marked
+    `deprecated: true`.
 sla:
   url: null
+  notes: No published uptime commitment or service-level agreement.
 status_page: https://www.shopbasestatus.com
+status_page_machine_readable:
+  atlassian_statuspage_api: false
+  rss: https://www.shopbasestatus.com/history.rss
+  notes: >-
+    /api/v2/summary.json returns 404, so the status page is not an Atlassian
+    Statuspage instance with the usual JSON API. An incident-history RSS feed is
+    served (HTTP 200).
+changelog:
+  url: https://updates.shopbase.com/
+  api: https://api.shopbase.com/v1/sale-support/change-log-post-list
+  latest_entry: '2025-10-14'
+  api_change_entries_in_window: 0
+  ref: changelog/beeketing-changelog.yml
+  notes: >-
+    The changelog is merchant/product-facing. Nothing in the recent window
+    announces an Admin API addition, deprecation or breaking change, and the most
+    recent entry of any language predates this probe by roughly ten months.
 deprecated_operations: []
+maintenance_signals:
+- {signal: theme CLI last npm release, value: '2019-11-04', ref: packages/beeketing-packages.yml}
+- {signal: latest changelog entry, value: '2025-10-14', ref: changelog/beeketing-changelog.yml}
+- {signal: changelog site copyright, value: '© ShopBase 2024'}
+- {signal: spec still served and rendered, value: 'HTTP 200, cache-busted daily (?v=2026081321)', ref: openapi/beeketing-shopbase-admin-openapi.json}
+notes: >-
+  The signals point in two directions and are recorded as such: the API reference
+  is live and its spec URL is cache-busted with a current date stamp, while every
+  dated developer-facing artefact around it — CLI releases, changelog entries,
+  site copyright — has not moved in ten months or more.

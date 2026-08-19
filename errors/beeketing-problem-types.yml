@@ -1,12 +1,25 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
 source: https://developers.shopbase.com/build-an-app/making-your-first-request/response-status-codes.md
+spec: openapi/beeketing-shopbase-admin-openapi.json
 format: json
 envelope:
   fields: [errors, error]
+  problem_json: false
   notes: >-
     On a 422 the response body provides detail in the `errors` or `error`
     parameters. ShopBase does not publish an RFC 9457 problem+json media type.
+spec_coverage:
+  operations: 153
+  declaring_2xx_only: 151
+  declaring_any_4xx: 2
+  declaring_any_5xx: 0
+  note: >-
+    The published Swagger 2.0 document is effectively silent on failure: 151 of
+    153 operations declare a 200 and nothing else, and only the two Balance
+    operations declare a 400. Every error semantic below therefore comes from the
+    prose status-code page, not from the machine-readable contract — a generated
+    client built from the spec alone would have no error model at all.
 problems:
 - {status: 200, title: OK, detail: The request was successfully processed by ShopBase}
 - {status: 201, title: Created, detail: The request has been fulfilled and a new resource has been created}

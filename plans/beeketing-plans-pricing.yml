@@ -1,0 +1,79 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.shopbase.com/pricing
+docs: https://www.shopbase.com/pricing
+product: ShopBase
+currency: USD
+billing_periods: [monthly, annual]
+plan_count: 3
+trial:
+  available: true
+  length_days: 14
+  credit_card_required: false
+  note: '"Try ShopBase for 14 days free, no credit card required."'
+api_access:
+  included_in: all
+  note: >-
+    "Access to ShopBase APIs" is listed under Apps & Ecosystem on every tier.
+    ShopBase publishes no separate API-only or developer plan, and no per-call
+    API pricing — API access is a feature of the merchant subscription. The
+    Partner/app-developer surface (Partner Dashboard, development stores) is
+    separate and free.
+plans:
+- name: Basic Base
+  price_monthly: 19
+  price_annual_per_month: 17
+  currency: USD
+  billing_period: monthly-or-annual
+  positioning: Beginners or businesses with 2-5 team members and small order volume.
+  limits:
+    staff_accounts: 5
+    storefronts_included: 1
+    extra_storefront_price: 14
+    domains_per_store: 2
+    sales_per_store: unlimited
+    bandwidth: unlimited
+  fees:
+    payment_processing: 2.0%
+  includes: [ShopBase APIs, App store free apps, Affiliate program, Fraud analysis, Free SSL, Abandoned cart recovery, Store analytics]
+- name: Standard Base
+  price_monthly: 59
+  price_annual_per_month: 53
+  currency: USD
+  billing_period: monthly-or-annual
+  positioning: Growing businesses with more team members and larger transactions.
+  most_popular: true
+  limits:
+    staff_accounts: 10
+    storefronts_included: 1
+    extra_storefront_price: 42
+    domains_per_store: 10
+    sales_per_store: unlimited
+    bandwidth: unlimited
+  fees:
+    payment_processing: 1.0%
+  includes: [ShopBase APIs, App store free apps, Affiliate program, Fraud analysis, Free SSL, Abandoned cart recovery, Store analytics]
+- name: Pro Base
+  price_monthly: 249
+  price_annual_per_month: 224
+  currency: USD
+  billing_period: monthly-or-annual
+  positioning: Enterprises with high-volume orders and large transactions.
+  limits:
+    staff_accounts: 100
+    storefronts_included: 1
+    extra_storefront_price: 175
+    domains_per_store: 20
+    sales_per_store: unlimited
+    bandwidth: unlimited
+  fees:
+    payment_processing: 0.5%
+  includes: [ShopBase APIs, App store free apps, Affiliate program, Fraud analysis, Free SSL, Abandoned cart recovery, Store analytics]
+discounts:
+- {name: Annual billing, description: Save up to 10% when paid annually}
+notes: >-
+  Prices read verbatim from the public ShopBase pricing page on 2026-08-13. The
+  page markets a "ShopBase Payments with discounted rate" line on every tier as
+  "Coming soon", which is recorded as-is and not treated as a shipped feature.
+  PrintBase and PlusBase, the sibling OpenCommerce Group products, are priced on
+  their own pages and are not included here.

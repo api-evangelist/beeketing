@@ -1,7 +1,8 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
 source: https://developers.shopbase.com/build-an-app/making-your-first-request.md
 docs: https://developers.shopbase.com/build-an-app/getting-your-app-approved/testing-your-app.md
+spec: openapi/beeketing-shopbase-admin-openapi.json
 test_environment:
   type: development-stores
   description: >-
@@ -9,10 +10,43 @@ test_environment:
     themes, and other integrations before submission. Apps must be tested on a
     development store to check for bugs before being submitted for review.
   partner_dashboard: https://accounts.shopbase.com/partners
+  test_mode_key_prefix: null
+  separate_test_host: false
+  note: >-
+    There is no test/live key-prefix scheme and no separate sandbox host. The
+    isolation boundary is the development store itself, addressed at the same
+    https://{shop}.onshopbase.com host as a production store.
   debug_tooling:
-    - name: Postman
-      docs: https://developers.shopbase.com/test-and-debug-app/test-and-debug-app.md
-      description: Guide for debugging ShopBase apps with Postman.
+  - name: Postman
+    docs: https://developers.shopbase.com/test-and-debug-app/test-and-debug-app.md
+    description: Guide for debugging ShopBase apps with Postman.
+    public_collection: false
+    note: A written walkthrough, not a published/forkable Postman collection.
+payment_simulator:
+  available: true
+  purpose: >-
+    Exercise a payment-gateway integration end to end on a development store
+    without a real acquirer. Surfaced in the published spec under the "Payment
+    Simulator" tag.
+  operations:
+  - {operationId: post-redirect-handler, method: POST, path: /admin/payment-simulator.json, summary: Payment redirect handler}
+  - {operationId: 'capture,-refund-or-void-handler', method: POST, path: /admin/payment-simulator/action.json, summary: Capture, refund or void handler}
+  - {operationId: check-credential-handler, method: POST, path: /admin/payment-simulator/check-credential.json, summary: Credential check}
+  - {operationId: get-transaction-handler, method: GET, path: /admin/payment-simulator/transaction.json, summary: Get transaction}
+  security: >-
+    These four operations declare no security scheme in the spec — they are the
+    endpoints a gateway integration is called on and calls back to during a test,
+    not app-authenticated Admin API calls.
+  docs: https://developers.shopbase.com/integrate-a-payment-gateway/how-to-create-your-payment-gateway.md
+  reference_implementation: https://github.com/ShopBaseCom/demo-intergrated-gateway
+test_values:
+  test_cards: none-published
+  test_bank_accounts: none-published
+  hosted_test_tokens: none-published
+  time_simulation: none-published
+  fixtures_or_triggers: none-published
 notes: >-
-  ShopBase publishes no fixed magic test card numbers, test key prefixes, or
-  hosted test tokens; testing is done against isolated development stores.
+  ShopBase publishes no magic test card numbers, no test key prefixes and no
+  hosted test tokens; testing runs against isolated development stores, with the
+  Payment Simulator standing in for an acquirer when building a gateway. No test
+  clocks or fixture/trigger tooling are documented.

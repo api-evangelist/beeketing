@@ -1,16 +1,19 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
 source: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication.md
 docs: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication.md
+spec: openapi/beeketing-shopbase-admin-openapi.json
 summary:
-  types: [oauth2, http]
-  api_key_in: [query]
+  types: [oauth2, http, apiKey]
+  api_key_in: [header]
   oauth2_flows: [authorizationCode]
   notes: >-
     ShopBase supports two app types. Public apps authenticate via OAuth 2.0
     authorization-code grant (API key + secret from the Partner Dashboard,
     per-store access token). Private apps authenticate via HTTP Basic
-    authentication with credentials generated in the store admin.
+    authentication with credentials generated in the store admin. The published
+    Swagger 2.0 document declares the resulting tokens as three opaque header
+    apiKey schemes and binds access scopes to individual operations.
 schemes:
 - name: PublicAppOAuth2
   type: oauth2
@@ -30,3 +33,49 @@ schemes:
     Private apps interact with the API on behalf of a single store using HTTP
     Basic authentication; credentials are generated from that store's admin.
   docs: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/private-apps.md
+- name: APP_ACCESS_TOKEN
+  type: apiKey
+  in: header
+  parameter: APP_ACCESS_TOKEN
+  source: openapi/beeketing-shopbase-admin-openapi.json#/securityDefinitions
+  description: >-
+    The per-store access token an app obtains from the OAuth authorization-code
+    exchange, sent as a request header. Declared on 146 of the 153 published
+    operations.
+- name: SHOP_ACCESS_TOKEN
+  type: apiKey
+  in: header
+  parameter: SHOP_ACCESS_TOKEN
+  source: openapi/beeketing-shopbase-admin-openapi.json#/securityDefinitions
+  description: >-
+    Shop-scoped access token declared in the spec's securityDefinitions. No
+    published operation references it, and the developer docs do not describe how
+    one is issued.
+- name: USER_ACCESS_TOKEN
+  type: apiKey
+  in: header
+  parameter: USER_ACCESS_TOKEN
+  source: openapi/beeketing-shopbase-admin-openapi.json#/securityDefinitions
+  description: >-
+    Staff-user access token; declared on 2 operations that act in a staff user's
+    context rather than an app's.
+enforcement:
+  scoped_operations: 116
+  unscoped_token_operations: 32
+  unauthenticated_operations: 5
+  note: >-
+    Derived from the spec. 116 operations declare an explicit access scope on
+    APP_ACCESS_TOKEN; 32 declare the token with no scope; 2 use USER_ACCESS_TOKEN;
+    5 (the four Payment Simulator operations and one webhook receiver) carry no
+    security block at all, because they are called BY ShopBase or by a gateway
+    rather than by an app. Scope list in scopes/beeketing-scopes.yml.
+gaps:
+  openid_connect: false
+  mtls: false
+  token_refresh_documented: false
+  token_revocation_documented: false
+  note: >-
+    ShopBase documents no OIDC discovery, no refresh-token rotation, no
+    revocation endpoint, and serves no /.well-known/oauth-authorization-server
+    (see well-known/beeketing-well-known.yml). The authorization and token URLs
+    are per-store and can only be discovered from the prose docs.

@@ -1,7 +1,8 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
 source: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/api-access-scopes.md
 docs: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/api-access-scopes.md
+spec: openapi/beeketing-shopbase-admin-openapi.json
 schemes:
 - name: PublicAppOAuth2
   flows:
@@ -12,6 +13,39 @@ notes: >-
   Authenticated access scopes control access to REST Admin API and GraphQL Admin
   API resources. Any write scope implicitly grants the matching read scope.
   Granted scopes can be inspected via the AccessScope resource.
+enforcement_in_spec:
+  source: openapi/beeketing-shopbase-admin-openapi.json
+  note: >-
+    The published Swagger document binds scopes to individual operations on the
+    APP_ACCESS_TOKEN scheme, so the required scope per call is machine-readable.
+    Counts below are the number of operations declaring each scope; 32 operations
+    declare APP_ACCESS_TOKEN with no scope, 2 use USER_ACCESS_TOKEN, and 5 (the
+    Payment Simulator handlers and the Twilio webhook receiver) declare no
+    security at all.
+  operations_per_scope:
+    read_products: 22
+    write_products: 20
+    read_orders: 19
+    write_orders: 17
+    write_customers: 9
+    write_content: 7
+    read_content: 5
+    read_customers: 5
+    write_fulfillments: 3
+    write_script_tags: 3
+    read_fulfillments: 2
+    read_script_tags: 2
+  declared_but_unused_in_spec: [read_themes, write_themes, read_product_listings, read_inventory, write_inventory, read_shipping, write_shipping, read_checkouts, write_checkouts, read_price_rules, write_price_rules, read_analytics]
+  unused_note: >-
+    Twelve documented scopes appear on no operation in the published contract.
+    Some cover surfaces the spec omits (themes/assets, inventory, shipping,
+    analytics); others cover resources the spec DOES include. The twelve
+    abandoned-checkout operations declare read_orders / write_orders rather than
+    read_checkouts / write_checkouts, and all eleven price-rule and discount-code
+    operations declare APP_ACCESS_TOKEN with an EMPTY scope array rather than
+    read_price_rules / write_price_rules. An app therefore cannot tell from the
+    contract which scope the server actually enforces on those calls, and must
+    request from the docs list rather than from the spec.
 scopes:
 - {scope: read_themes, description: Read access to Asset and Theme}
 - {scope: write_themes, description: Write access to Asset and Theme}

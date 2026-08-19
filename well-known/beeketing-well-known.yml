@@ -1,18 +1,29 @@
-generated: '2026-07-18'
-method: searched
-source: live probes of /.well-known/* on ShopBase developer + API hosts
+generated: '2026-08-13'
+method: probed
+source: live probes of /.well-known/* on every ShopBase / OpenCommerce Group host
 notes: >-
-  No /.well-known/ discovery documents are published on the ShopBase developer,
-  API-doc, or OpenCommerce Group hosts. All probes returned 404 (or a 301 to the
-  marketing site). Absence is valid, recorded data.
+  No /.well-known/ discovery document is published on any host this company
+  controls. Re-probed 2026-08-13 across a wider host set than the 2026-07-18
+  round. Absence is valid, recorded data — and because no path returned a real
+  document, NO WellKnown or SecurityTxt pointer is emitted in apis.yml.
+false_positives:
+  warning: >-
+    Two hosts answer HTTP 200 with `content-type: text/html` for EVERY path,
+    including /.well-known/agent-card.json, /openapi.json and /swagger.json.
+    These are single-page-app catch-alls returning a 12,477-byte HTML shell, not
+    documents. They are recorded as misses.
+  hosts: [accounts.shopbase.com, 'www.opencommercegroup.com (via 301 from apex)']
 hosts:
 - host: https://developers.shopbase.com
   documents:
   - {path: /.well-known/security.txt, status: 404}
   - {path: /.well-known/openid-configuration, status: 404}
   - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/oauth-protected-resource, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
 - host: https://api.shopbase.com
   documents:
   - {path: /.well-known/security.txt, status: 404}
@@ -20,10 +31,57 @@ hosts:
   - {path: /.well-known/oauth-authorization-server, status: 404}
   - {path: /.well-known/api-catalog, status: 404}
   - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://api-doc.shopbase.com
+  documents:
+  - {path: /.well-known/security.txt, status: 500}
+  - {path: /.well-known/agent-card.json, status: 500}
+  - {path: /.well-known/agent.json, status: 500}
+  note: >-
+    The ReDoc reference host returns 500 for every path other than / and the
+    spec file it loads.
+- host: https://www.shopbase.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/openid-configuration, status: 404}
+  - {path: /.well-known/oauth-authorization-server, status: 404}
+  - {path: /.well-known/api-catalog, status: 404}
+  - {path: /.well-known/ai-plugin.json, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+- host: https://beeketing.com
+  documents:
+  - {path: /.well-known/security.txt, status: 404}
+  - {path: /.well-known/agent-card.json, status: 404}
+  - {path: /.well-known/agent.json, status: 404}
+  note: >-
+    beeketing.com 301s to https://www.shopbase.com/ — the legacy brand domain now
+    resolves to the current product.
+- host: https://accounts.shopbase.com
+  documents:
+  - {path: /.well-known/security.txt, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/openid-configuration, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/oauth-authorization-server, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/oauth-protected-resource, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/api-catalog, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/ai-plugin.json, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/agent-card.json, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/agent.json, status: 200, document: false, content_type: text/html}
+  note: SPA catch-all — every path returns the same 12,477-byte HTML shell. Treated as a miss.
 - host: https://opencommercegroup.com
   documents:
-  - {path: /.well-known/security.txt, status: 301}
-  - {path: /.well-known/openid-configuration, status: 301}
-  - {path: /.well-known/oauth-authorization-server, status: 301}
-  - {path: /.well-known/api-catalog, status: 301}
-  - {path: /.well-known/ai-plugin.json, status: 301}
+  - {path: /.well-known/security.txt, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/openid-configuration, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/oauth-authorization-server, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/oauth-protected-resource, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/api-catalog, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/ai-plugin.json, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/agent-card.json, status: 200, document: false, content_type: text/html}
+  - {path: /.well-known/agent.json, status: 200, document: false, content_type: text/html}
+  note: >-
+    Apex 301s to www.opencommercegroup.com, whose Webflow catch-all returns the
+    marketing page HTML for any path. Treated as a miss.
+result:
+  documents_found: 0
+  pointer_emitted: false

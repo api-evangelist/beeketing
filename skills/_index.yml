@@ -1,0 +1,40 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/beeketing-shopbase-admin-openapi.json
+provider: Beeketing / OpenCommerce Group
+api: ShopBase Admin API
+host: 'https://{shop}.onshopbase.com/admin'
+notes: >-
+  Packaged Agent Skills authored by API Evangelist from the ShopBase Admin API
+  Swagger 2.0 document published at https://api-doc.shopbase.com. Every
+  operationId referenced is grepped from that spec — none are invented. ShopBase
+  publishes no AGENTS.md, no skills of its own, and no MCP server, so these are
+  generated, not harvested. Each skill carries the cross-cutting rules the spec
+  omits: leaky-bucket rate limiting, the 100,000-offset pagination ceiling, the
+  absence of any idempotency key, and the non-RFC-9457 error envelope.
+skills:
+- name: beeketing-fulfill-an-order
+  file: beeketing-fulfill-an-order.md
+  description: Find an unfulfilled order, create a fulfillment, then complete or cancel it.
+  scopes: [read_orders, write_orders, write_fulfillments]
+  operations: 8
+- name: beeketing-refund-an-order
+  file: beeketing-refund-an-order.md
+  description: Calculate a refund before creating it, then verify the resulting transaction.
+  scopes: [read_orders, write_orders]
+  operations: 7
+- name: beeketing-sync-product-catalog
+  file: beeketing-sync-product-catalog.md
+  description: Page a catalog and create or update products, variants, images and collection membership.
+  scopes: [read_products, write_products]
+  operations: 14
+- name: beeketing-recover-abandoned-checkouts
+  file: beeketing-recover-abandoned-checkouts.md
+  description: List abandoned checkouts, preview and send recovery email or SMS, cancel a scheduled send.
+  scopes: [read_orders, write_orders]
+  operations: 11
+- name: beeketing-manage-webhooks
+  file: beeketing-manage-webhooks.md
+  description: Register, inspect, update and delete webhook subscriptions across the published topic catalog.
+  scopes: []
+  operations: 5

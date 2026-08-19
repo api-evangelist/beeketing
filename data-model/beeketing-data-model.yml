@@ -1,0 +1,152 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/beeketing-shopbase-admin-openapi.json
+docs: https://api-doc.shopbase.com
+notes: >-
+  Entity graph derived from the ShopBase Admin API Swagger 2.0 document
+  (97 paths, 153 operations, 268 definitions). Relationships are read from
+  path nesting (/admin/orders/{order_id}/refunds.json) and from *_id / *_ids
+  reference fields on the definitions. ShopBase does not publish prefixed object
+  ids — identifiers are bare integers — so no id_prefix map is recorded.
+identifiers:
+  style: integer
+  prefixes: none
+  note: >-
+    Ids are numeric and shop-scoped (e.g. product_id, order_id, variant_id).
+    Path templates encode the numeric constraint directly, e.g.
+    /admin/orders/{order_id:(?:\d+)}.json.
+tenancy:
+  scope: shop
+  note: >-
+    Every request is made against a single store host
+    (https://{shop}.onshopbase.com/admin), and most definitions carry a shop_id.
+    There is no cross-shop resource in the public contract.
+entities:
+- name: Shop
+  operations: [retrieves-the-shop's-configuration]
+  description: The store itself; root of the tenancy.
+  relationships:
+  - {type: has_many, target: Product, via: shop_id}
+  - {type: has_many, target: Order, via: shop_id}
+  - {type: has_many, target: Customer, via: shop_id}
+  - {type: has_many, target: Page, via: shop_id}
+  - {type: has_many, target: Redirect, via: shop_id}
+  - {type: has_many, target: PriceRule, via: shop_id}
+  - {type: has_many, target: Domain, via: shop_id}
+- name: Product
+  operations: [get-all-products, create-a-product, update-a-product, delete-a-product, get-detail-of-a-product, patch-multiple-product, get-count-of-all-products]
+  relationships:
+  - {type: has_many, target: ProductVariant, via: product_id}
+  - {type: has_many, target: ProductImage, via: product_id}
+  - {type: has_many, target: Collect, via: product_id}
+  - {type: belongs_to, target: Shop, via: shop_id}
+- name: ProductVariant
+  operations: [get-all-variants-of-a-product, create-a-variant-of-a-product, update-a-variant-of-a-product, delete-a-variant-of-product, get-detail-of-a-variant]
+  relationships:
+  - {type: belongs_to, target: Product, via: product_id}
+  - {type: has_one, target: ProductImage, via: image_id}
+- name: ProductImage
+  operations: [get-all-images-of-a-product, create-a-product-image, update-a-product-image, delete-a-product-image]
+  relationships:
+  - {type: belongs_to, target: Product, via: product_id}
+  - {type: has_many, target: ProductVariant, via: variant_ids}
+- name: CustomCollection
+  operations: [retrieve-a-list-of-custom-collections, update-custom-collection, delete-a-custom-collection]
+  relationships:
+  - {type: has_many, target: Collect, via: collection_id}
+- name: SmartCollection
+  operations: [retrieve-a-list-of-smart-collections, retrieve-a-single-smart-collections, delete-a-smart-collection]
+  description: Rule-based collection; membership is computed rather than joined through Collect.
+- name: Collect
+  operations: [retrieve-a-list-of-collect, create-a-collect, retrieve-a-single-collect, delete-a-collect]
+  description: Join entity binding a Product to a CustomCollection.
+  relationships:
+  - {type: belongs_to, target: Product, via: product_id}
+  - {type: belongs_to, target: CustomCollection, via: collection_id}
+- name: Customer
+  operations: [retrieves-a-list-of-customers, creates-a-customer, updates-a-customer, deletes-a-customer, retrieves-a-single-customer, send-invitation-email-to-customer]
+  relationships:
+  - {type: has_many, target: CustomerAddress, via: customer_id}
+  - {type: has_many, target: Order, via: customer_id}
+- name: CustomerAddress
+  operations: [get-customer-addresses-by-customer-id, create-customer-address-for-customer, update-customer-address-for-customer, set-default-customer-address-for-a-customer]
+  relationships:
+  - {type: belongs_to, target: Customer, via: customer_id}
+- name: Order
+  operations: [retrieves-a-list-of-orders, creates-an-order, updates-an-order, retrieves-a-specific-order, cancel-specific-order, open-specific-order, adjust-order, deletes-an-order]
+  relationships:
+  - {type: belongs_to, target: Customer, via: customer_id}
+  - {type: has_many, target: OrderLineItem, via: order_id}
+  - {type: has_many, target: Transaction, via: order_id}
+  - {type: has_many, target: Refund, via: order_id}
+  - {type: has_many, target: Fulfillment, via: order_id}
+- name: OrderLineItem
+  description: Line item on an order; not independently addressable in the public contract.
+  relationships:
+  - {type: belongs_to, target: Order, via: order_id}
+  - {type: belongs_to, target: Product, via: product_id}
+  - {type: belongs_to, target: ProductVariant, via: variant_id}
+- name: DraftOrder
+  operations: [retrieves-a-list-of-draft-orders, create-a-draft-order, update-a-draft-order, receive-a-single-draftorder, deletes-a-draft-order]
+  relationships:
+  - {type: has_one, target: Order, via: order_id, note: A completed draft order becomes an order.}
+- name: Transaction
+  operations: [retrieves-a-list-of-transactions, creates-a-transaction-for-an-order, retrieves-a-specific-transaction]
+  relationships:
+  - {type: belongs_to, target: Order, via: order_id}
+  - {type: belongs_to, target: Transaction, via: parent_id, note: Captures and refunds reference the authorizing transaction.}
+- name: Refund
+  operations: [retrieves-a-list-of-refunds-for-an-order, create-the-refund, calculate-the-refund, retrieve-a-specific-refund]
+  relationships:
+  - {type: belongs_to, target: Order, via: order_id}
+- name: Fulfillment
+  operations: [retrieves-fulfillments-associated-with-an-order, create-fulfillment, update-fulfillment, cancel-a-fulfillment, complete-a-fulfillment, mark-a-fulfillment-as-open]
+  relationships:
+  - {type: belongs_to, target: Order, via: order_id}
+  - {type: has_many, target: OrderLineItem, via: line_item_id}
+- name: FulfillmentService
+  operations: [receive-a-list-of-all-fulfillmentservices, create-a-new-fulfillmentservices, modify-an-existing-fulfillmentservice, remove-a-fulfillmentservice-from-the-database]
+  relationships:
+  - {type: has_many, target: Product, via: 'product mapping (remove-product-mapping-with-fulfillment-services)'}
+- name: AbandonedCheckout
+  operations: [retrieves-a-list-of-checkouts, retrieves-a-checkout, send-recovery-email, send-recovery-sms, retrieves-a-list-of-checkout-timelines, update-checkout-note]
+  relationships:
+  - {type: has_one, target: Order, note: A recovered checkout produces an order.}
+- name: PriceRule
+  operations: [create-price-rule, retrieves-a-single-price-rule, updates-a-single-price-rule, delete-a-single-price-rule, counts-all-price-rules]
+  relationships:
+  - {type: has_many, target: DiscountCode, via: price_rule_id}
+  - {type: has_many, target: Product, via: entitled_product_ids}
+  - {type: has_many, target: ProductVariant, via: entitled_variant_ids}
+  - {type: has_many, target: CustomCollection, via: entitled_collection_ids}
+  - {type: has_many, target: Customer, via: prerequisite_customer_ids}
+- name: DiscountCode
+  operations: [get-a-list-discount-code, create-a-discount-code, update-a-discount-code, delete-a-discount-code, get-a-discount-code]
+  relationships:
+  - {type: belongs_to, target: PriceRule, via: price_rule_id}
+- name: Metafield
+  operations: [retrieves-meta-fields, create-meta-field, update-meta-field, delete-meta-field, counts-meta-fields]
+  description: Generic key/value extension attached to owner resources.
+- name: Webhook
+  operations: [retrieves-a-list-of-webhooks, create-webhook, update-webhook, delete-webhook-by-id, get-webhook-by-id]
+  relationships:
+  - {type: belongs_to, target: Shop, via: shop_id}
+  note: Topics catalog in asyncapi/beeketing-webhooks.yml.
+- name: ScriptTag
+  operations: [retrieves-a-list-of-script_tags, create-script_tag, update-script_tag, delete-script_tag-by-id]
+  description: Storefront JavaScript injected by an app; pairs with the Storefront SDK.
+- name: Page
+  operations: [retrieves-a-list-pages-of-a-shop-id, create-a-page, update-a-page, delete-a-specific-page]
+- name: Redirect
+  operations: [retrieves-a-list-redirects-of-a-shop-id, create-a-redirect, update-a-redirect, delete-a-specific-redirect]
+- name: Domain
+  operations: [get-list-domain-of-the-shop-by-shop-id.]
+  relationships:
+  - {type: belongs_to, target: Shop, via: shop_id}
+- name: Balance
+  operations: [charge-invoice, refund-balance]
+  description: Merchant balance charge/refund used for ShopBase billing settlement.
+counts:
+  entities: 25
+  operations_mapped: 153
+  definitions_in_spec: 268

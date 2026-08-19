@@ -1,0 +1,54 @@
+generated: '2026-08-13'
+method: probed
+source: https://api.shopbase.com/v1/sale-support/change-log-post-list?page=1&limit=20
+docs: https://updates.shopbase.com/
+scheme:
+  type: product-changelog
+  api_versioned: false
+  note: >-
+    ShopBase publishes a dated product changelog for merchants, not an API
+    changelog. There is no API version scheme, no per-release API notes, and no
+    entry in the recent window that announces an Admin API change. The REST Admin
+    API paths remain unversioned (/admin/<resource>.json).
+machine_readable:
+  available: true
+  endpoint: https://api.shopbase.com/v1/sale-support/change-log-post-list
+  method: GET
+  auth: none
+  params: [page, limit]
+  format: json
+  envelope: '{success, message, data[], total_post}'
+  entry_fields: [id, handle, title, tags, language, publish_time, created_at, updated_at, short_description, description]
+  note: >-
+    The updates.shopbase.com page is a client-rendered SPA; the entries are
+    served unauthenticated by this JSON endpoint, which the page's own JS bundle
+    calls. Discovered by reading the bundle, then probed directly (HTTP 200).
+    Language is encoded as "0" = English, "1" = Vietnamese, with Chinese also
+    published.
+total_entries: 615
+latest_entry_date: '2025-10-14'
+staleness:
+  observed: '2026-08-13'
+  days_since_latest_entry: 303
+  note: >-
+    The most recent changelog post of any language is dated 2025-10-14 and the
+    most recent English post is 2025-09-25, roughly ten months before this probe.
+    The changelog site footer still reads "© ShopBase 2024".
+entries:
+- {date: '2025-10-14', title: 'PrintBase Heroes League 2025', language: vi, type: promotion, breaking: false}
+- {date: '2025-09-25', title: '[PrintBase/PrintHub] Weekly update Sep 18, 2025 - Sep 24, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-07-09', title: '[PrintBase/PrintHub] Weekly update July 3, 2025 - Jul 9, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-07-01', title: '[PrintBase/PrintHub] Weekly update Jun 26, 2025 - Jul 2, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-06-11', title: '[PrintBase/PrintHub] Weekly update Jun 05, 2025 - Jun 11, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-06-04', title: '[PrintBase/PrintHub] Weekly update May 29, 2025 - Jun 04, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-05-14', title: '[PrintBase/PrintHub] Weekly update May 8, 2025 - May 14, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-04-30', title: '[PrintBase/PrintHub] Weekly update Apr 24, 2025 - Apr 30, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-04-10', title: '[PrintBase/PrintHub] Weekly update Apr 3, 2025 - Apr 9, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-03-19', title: '[PrintBase/PrintHub] Weekly update Mar 13, 2025 - Mar 19, 2025', language: en, type: product-update, breaking: false}
+- {date: '2025-01-22', title: '[PrintBase/PrintHub] Weekly update Jan 16, 2025 - Jan 22, 2025', language: en, type: product-update, breaking: false}
+breaking_changes_in_window: 0
+notes: >-
+  Recent window only (first page of 615 entries, newest first). Every entry in
+  the window is a PrintBase/PrintHub merchant-facing product or promotion note;
+  none announce an Admin API addition, deprecation, or breaking change. See
+  lifecycle/beeketing-lifecycle.yml for the absence of a deprecation policy.

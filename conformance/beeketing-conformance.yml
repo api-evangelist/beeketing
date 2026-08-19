@@ -1,26 +1,74 @@
-generated: '2026-07-18'
+generated: '2026-08-13'
 method: searched
 source: https://developers.shopbase.com/build-an-app/making-your-first-request/authentication/oauth.md
+spec: openapi/beeketing-shopbase-admin-openapi.json
 standards:
+- id: openapi
+  conforms: partial
+  evidence: >-
+    A machine-readable contract is published and served publicly at
+    https://api-doc.shopbase.com/public-swagger.json — Swagger 2.0 (OpenAPI 2.0),
+    97 paths, 153 operations, 268 definitions, rendered with ReDoc 2.5.2. It is
+    two major versions behind current OpenAPI 3.x, is titled "ShopBase Internal
+    API", carries the placeholder host shop-name.onshopbase.com, and embeds
+    Go-router regex fragments in its path templates.
+- id: swagger-2.0
+  conforms: true
+  evidence: >-
+    Document declares a top-level "swagger" key with value "2.0" and parses;
+    captured verbatim in openapi/.
 - id: oauth2
   conforms: true
   evidence: OAuth 2.0 authorization-code grant (RFC 6749) documented for public apps
 - id: oidc
   conforms: false
   evidence: No OpenID Connect discovery or id_token support documented
+- id: oauth-server-metadata
+  conforms: false
+  evidence: >-
+    No /.well-known/oauth-authorization-server or /.well-known/openid-configuration
+    on any host (RFC 8414 / RFC 9728) — see well-known/beeketing-well-known.yml.
 - id: rfc9457-problem-details
   conforms: false
   evidence: Errors returned via errors/error JSON fields, not application/problem+json
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No Sunset or Deprecation header and no deprecation policy published
 - id: webhooks
   conforms: true
-  evidence: Documented webhook topics per resource (asyncapi/beeketing-webhooks.yml)
+  evidence: >-
+    Documented webhook topics per resource (asyncapi/beeketing-webhooks.yml) plus
+    five webhook-management operations in the spec.
+- id: asyncapi
+  conforms: false
+  evidence: Webhook surface is documented in prose only; no AsyncAPI document published
 - id: rate-limit-headers
-  conforms: true
-  evidence: X-Sb-Shop-Api-Call-Limit throttle header (leaky-bucket)
+  conforms: partial
+  evidence: >-
+    A throttle header is returned (X-Sb-Shop-Api-Call-Limit, format current/30)
+    but it is proprietary — not RateLimit-* per draft-ietf-httpapi-ratelimit — and
+    no Retry-After accompanies a 429.
 - id: pagination
   conforms: true
   evidence: page + limit query-parameter pagination on list endpoints
+- id: idempotency
+  conforms: false
+  evidence: No idempotency key on any unsafe operation
+- id: json-schema
+  conforms: partial
+  evidence: 268 Swagger 2.0 definitions; no standalone JSON Schema documents published
+- id: llmstxt
+  conforms: true
+  evidence: https://developers.shopbase.com/llms.txt served (HTTP 200), with .md variants of every docs page
+compliance_certifications:
+  published: false
+  searched: [SOC 2, ISO 27001, PCI DSS, HIPAA, FedRAMP, GDPR sub-processor list]
+  note: >-
+    No trust centre, certification page, or named third-party audit is published
+    on shopbase.com, opencommercegroup.com or the developer portal. Probed with
+    probe-security-programs.py on 2026-08-13: vdp=none, trust=none. No Compliance
+    pointer is emitted.
 notes: >-
-  Standards conformance derived from published developer docs. No third-party
-  compliance certifications (SOC 2 / ISO 27001 / PCI DSS / HIPAA) are published,
-  so no Compliance pointer is emitted.
+  Conformance read from the published developer docs and the harvested Swagger
+  2.0 document. Where a standard is marked partial, the reason is stated rather
+  than rounded up.

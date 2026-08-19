@@ -1,0 +1,52 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/beeketing-shopbase-admin-openapi.json
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: searched
+  note: >-
+    ShopBase / OpenCommerce Group ships no MCP server of any kind. No hosted
+    endpoint, no npm or PyPI stdio package, no mention of MCP anywhere in the
+    developer documentation or the llms.txt index. The tools below are a
+    CANDIDATE mapping derived by API Evangelist from the published Swagger 2.0
+    document; nothing here is served by the provider.
+probes:
+- {url: 'https://api.shopbase.com/mcp', method: POST, body: tools/list, status: 404}
+- {url: 'https://mcp.shopbase.com/mcp', method: POST, body: tools/list, status: 0, note: host does not resolve}
+- {url: 'https://developers.shopbase.com/mcp', method: POST, body: tools/list, status: 405}
+- {url: 'https://www.shopbase.com/mcp', method: POST, body: tools/list, status: 405, note: marketing site returns 405 for POST on any path}
+candidate_tools:
+- {tool: shopbase_list_products, rest: get-all-products, scope: read_products}
+- {tool: shopbase_get_product, rest: get-detail-of-a-product, scope: read_products}
+- {tool: shopbase_create_product, rest: create-a-product, scope: write_products}
+- {tool: shopbase_update_product, rest: update-a-product, scope: write_products}
+- {tool: shopbase_list_variants, rest: get-all-variants-of-a-product, scope: read_products}
+- {tool: shopbase_list_collections, rest: retrieve-a-list-of-custom-collections, scope: read_products}
+- {tool: shopbase_list_orders, rest: retrieves-a-list-of-orders, scope: read_orders}
+- {tool: shopbase_get_order, rest: retrieves-a-specific-order, scope: read_orders}
+- {tool: shopbase_create_order, rest: creates-an-order, scope: write_orders}
+- {tool: shopbase_cancel_order, rest: cancel-specific-order, scope: write_orders}
+- {tool: shopbase_list_draft_orders, rest: retrieves-a-list-of-draft-orders, scope: read_orders}
+- {tool: shopbase_create_fulfillment, rest: create-fulfillment, scope: write_orders}
+- {tool: shopbase_calculate_refund, rest: calculate-the-refund, scope: write_orders}
+- {tool: shopbase_create_refund, rest: create-the-refund, scope: write_orders}
+- {tool: shopbase_list_transactions, rest: retrieves-a-list-of-transactions, scope: read_orders}
+- {tool: shopbase_list_customers, rest: retrieves-a-list-of-customers, scope: read_customers}
+- {tool: shopbase_create_customer, rest: creates-a-customer, scope: write_customers}
+- {tool: shopbase_list_abandoned_checkouts, rest: retrieves-a-list-of-checkouts, scope: read_orders}
+- {tool: shopbase_send_recovery_email, rest: send-recovery-email, scope: write_orders}
+- {tool: shopbase_list_price_rules, rest: retrieves-price-rules, scope: 'none declared in spec (empty scope array)'}
+- {tool: shopbase_create_discount_code, rest: create-a-discount-code, scope: 'none declared in spec (empty scope array)'}
+- {tool: shopbase_list_webhooks, rest: retrieves-a-list-of-webhooks}
+- {tool: shopbase_create_webhook, rest: create-webhook}
+- {tool: shopbase_get_shop, rest: "retrieves-the-shop's-configuration"}
+notes: >-
+  Each candidate tool would inherit its parameters and request body verbatim from
+  the referenced operationId in
+  openapi/beeketing-shopbase-admin-openapi.json. No tool crosswalk artifact is
+  emitted, because a crosswalk binds REAL published MCP tools to REST operations
+  and there are no published tools to bind. Rate limiting is a leaky bucket of 30
+  with a 2/second leak per shop, so any future server must serialise writes; there
+  is no idempotency key, so retries are unsafe on create/refund/transaction tools.
