@@ -39,6 +39,17 @@ created: '2026-07-17'
 modified: '2026-08-13'
 tags:
 - Company
+- E-Commerce
+- Cross-Border Commerce
+- Marketing
+- Shopify Apps
+- REST API
+- Authentication
+- Webhook
+- Themes
+- Payments
+tags_raw:
+- Company
 - E-commerce
 - Cross-border Commerce
 - Marketing
@@ -63,6 +74,10 @@ apis:
     https://{shop}.onshopbase.com/admin, and the published Swagger 2.0 document
     sets host to the placeholder shop-name.onshopbase.com with basePath /admin.
   tags:
+  - REST API
+  - E-Commerce
+  - Authentication
+  tags_raw:
   - REST API
   - E-commerce
   - OAuth
