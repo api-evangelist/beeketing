@@ -60,36 +60,22 @@ tags_raw:
 - Themes
 - Payments
 apis:
-- name: ShopBase Admin API
+- aid: beeketing:beeketing-abandoned-checkout-api
+  name: Beeketing Abandoned Checkout API
   description: >-
-    REST Admin API (and GraphQL Admin API) for building apps, themes, and
-    payment gateways on ShopBase — products, orders, transactions, fulfillments,
-    customers, inventory, checkouts, shipping, price rules, and analytics.
+    You can query the Checkout resource to return abandoned checkouts. A checkout is considered abandoned
+    when a customer leaves the checkout after the first page without completing their purchase
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
-  x-baseURL-note: >-
-    Templated, per-store host. Corrected 2026-08-13: apis.yml previously carried
-    https://api-doc.shopbase.com, which is the ReDoc reference site, not an API
-    host. ShopBase's own documentation gives the call host as
-    https://{shop}.onshopbase.com/admin, and the published Swagger 2.0 document
-    sets host to the placeholder shop-name.onshopbase.com with basePath /admin.
   tags:
-  - REST API
-  - E-Commerce
-  - Authentication
-  tags_raw:
-  - REST API
-  - E-commerce
-  - OAuth
+  - Abandoned Checkout
   properties:
+  - type: OpenAPI
+    url: openapi/beeketing-abandoned-checkout-api-openapi.yml
   - type: Documentation
     url: https://developers.shopbase.com
   - type: APIReference
     url: https://api-doc.shopbase.com
-  - type: OpenAPI
-    url: openapi/beeketing-shopbase-admin-openapi.json
-  - type: Overlay
-    url: overlays/beeketing-shopbase-admin-overlay.yaml
   - type: Authentication
     url: authentication/beeketing-authentication.yml
   - type: OAuthScopes
@@ -102,8 +88,724 @@ apis:
     url: errors/beeketing-problem-types.yml
   - type: DataModel
     url: data-model/beeketing-data-model.yml
-  - type: AgentSkill
-    url: skills/_index.yml
+- aid: beeketing:beeketing-balance-api
+  name: Beeketing Balance API
+  description: The Balance API from Beeketing — 2 operation(s) for balance.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Balance
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-balance-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-collect-api
+  name: Beeketing Collect API
+  description: >-
+    The Collect resource connects a product to a custom collection. </br></br>Collects are meant for managing
+    the relationship between products and custom collections. For every product in a custom collection
+    there is a collect that tracks the ID of both the product and the custom collection. A product can
+    be in more than one collection, and will have a collect connecting it to each collection. Unlike many
+    ShopBase resources, collects aren't apparent to store owners. </br></br>Collects are for placing products
+    in custom collections only. Smart collections use rules to determine which products are their members
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Collect
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-collect-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-custom-collection-api
+  name: Beeketing Custom Collection API
+  description: The Custom Collection API from Beeketing — 3 operation(s) for custom collection.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Custom Collection
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-custom-collection-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-customer-address-api
+  name: Beeketing Customer Address API
+  description: The Customer Address API from Beeketing — 4 operation(s) for customer address.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Customer Address
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-customer-address-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-customer-api
+  name: Beeketing Customer API
+  description: The Customer API from Beeketing — 4 operation(s) for customer.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Customer
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-customer-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-discountcode-api
+  name: Beeketing Discount Code API
+  description: The DiscountCode API from Beeketing — 3 operation(s) for discountcode.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - DiscountCode
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-discountcode-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-domain-api
+  name: Beeketing Domain API
+  description: You can use the domain resource to view
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Domain
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-domain-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-draftorder-api
+  name: Beeketing Draft Order API
+  description: The DraftOrder API from Beeketing — 2 operation(s) for draftorder.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - DraftOrder
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-draftorder-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-fulfillment-api
+  name: Beeketing Fulfillment API
+  description: >-
+    You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment. </br></br>A
+    fulfillment represents a group of one or more items in an order
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Fulfillment
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-fulfillment-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-fulfillmentservice-api
+  name: Beeketing Fulfillment Service API
+  description: The FulfillmentService API from Beeketing — 2 operation(s) for fulfillmentservice.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - FulfillmentService
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-fulfillmentservice-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-metafield-api
+  name: Beeketing Metafield API
+  description: The Metafield API from Beeketing — 3 operation(s) for metafield.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Metafield
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-metafield-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-order-api
+  name: Beeketing Order API
+  description: >-
+    An order is a customer's completed request to purchase one or more products from a shop. An order
+    is created when a customer completes the checkout process, during which time they provide an email
+    address or phone number, billing address and payment information. </br></br>Orders can be created
+    through the API, but no payment information will be collected, and no transaction performed. You can
+    mark the order with any payment status
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Order
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-order-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-page-api
+  name: Beeketing Page API
+  description: The Page API from Beeketing — 3 operation(s) for page.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Page
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-page-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-payment-simulator-api
+  name: Beeketing Payment Simulator API
+  description: The Payment Simulator API from Beeketing — 4 operation(s) for payment simulator.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Payment Simulator
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-payment-simulator-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-phuborderapi-api
+  name: Beeketing Phub Order API
+  description: PhubOrderApi
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - PhubOrderApi
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-phuborderapi-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-pricerule-api
+  name: Beeketing Price Rule API
+  description: The PriceRule API from Beeketing — 3 operation(s) for pricerule.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - PriceRule
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-pricerule-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-product-api
+  name: Beeketing Product API
+  description: >-
+    The Product resource lets you update and create products in a merchant's store. You can use product
+    variants with the Product resource to create or update different versions of the same product. You
+    can also add or update product images. </br></br>You can add products to collections with the CustomCollection
+    resource and the SmartCollection resource
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Product
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-product-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-product-image-api
+  name: Beeketing Product Image API
+  description: The Product Image API from Beeketing — 3 operation(s) for product image.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Product Image
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-product-image-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-product-variant-api
+  name: Beeketing Product Variant API
+  description: >-
+    A variant can be added to a Product resource to represent one version of a product with several options.
+    The Product resource will have a variant for every possible combination of its options. Each product
+    can have a maximum of three options and a maximum of 250 variants.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Product Variant
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-product-variant-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-redirect-api
+  name: Beeketing Redirect API
+  description: The Redirect API from Beeketing — 2 operation(s) for redirect.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Redirect
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-redirect-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-refund-api
+  name: Beeketing Refund API
+  description: >-
+    There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The
+    line items included in the refund, along with restocking instructions</br></br>Before you create a
+    refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
+    that are being refunded, their quantity and restock instructions, and whether you're refunding shipping
+    costs. You can then use the response in the body of the request to create the actual refund.</br></br>When
+    you create a refund using the response from the calculate endpoint, you can set additional options,
+    such as whether to notify the customer of the refund. You can refund less than the calculated amount
+    for either shipping or the line items by setting a custom value for the amount property.</br></br>If
+    a refund includes shipping costs, or if you choose to refund line items for less than their calculated
+    amount, then an order adjustment is created automatically to account for the discrepancy in the store's
+    financial reports.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Refund
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-refund-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-scripttag-api
+  name: Beeketing Script Tag API
+  description: The ScriptTag API from Beeketing — 2 operation(s) for scripttag.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - ScriptTag
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-scripttag-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-shop-api
+  name: Beeketing Shop API
+  description: The Shop API from Beeketing — 1 operation(s) for shop.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Shop
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-shop-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-smartcollection-api
+  name: Beeketing Smart Collection API
+  description: The SmartCollection API from Beeketing — 3 operation(s) for smartcollection.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - SmartCollection
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-smartcollection-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-transaction-api
+  name: Beeketing Transaction API
+  description: >-
+    There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The
+    line items included in the refund, along with restocking instructions</br></br>Before you create a
+    refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
+    that are being refunded, their quantity and restock instructions, and whether you're refunding shipping
+    costs. You can then use the response in the body of the request to create the actual refund.</br></br>When
+    you create a refund using the response from the calculate endpoint, you can set additional options,
+    such as whether to notify the customer of the refund. You can refund less than the calculated amount
+    for either shipping or the line items by setting a custom value for the amount property.</br></br>If
+    a refund includes shipping costs, or if you choose to refund line items for less than their calculated
+    amount, then an order adjustment is created automatically to account for the discrepancy in the store's
+    financial reports.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Transaction
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-transaction-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-webhook-api
+  name: Beeketing Webhook API
+  description: The Webhook API from Beeketing — 2 operation(s) for webhook.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Webhook
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
