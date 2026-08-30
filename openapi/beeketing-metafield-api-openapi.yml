@@ -1,0 +1,372 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Metafield API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Metafield
+paths:
+  /admin/metafields.json:
+    get:
+      summary: Retrieves meta fields belong to an resource with options.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseMetafieldsDto'
+      parameters:
+      - name: limit
+        description: 'Return up to this many results per page. (default: 50, maximum: 250).'
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: since_id
+        description: Restrict results to after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: created_at_min
+        description: 'Show metafields created after date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_max
+        description: 'Show metafields created before date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_min
+        description: 'Show metafields last updated after date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_max
+        description: 'Show metafields last updated before date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: namespace
+        description: Retrieves metafields with given namespace.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: key
+        description: Retrieves metafields with given key.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: value_type
+        description: 'Show only metafields with given value types. Valid values: string, integer, json_string'
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Metafield
+      operationId: retrieves-meta-fields
+      security:
+      - APP_ACCESS_TOKEN: []
+    post:
+      summary: Creates new metafield.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseMetafieldDto'
+      tags:
+      - Metafield
+      operationId: create-meta-field
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIRequestMetafield'
+              description: Metafield struct
+        description: Metafield struct
+        required: true
+  /admin/metafields/count.json:
+    get:
+      summary: Retrieves count meta fields belong to an resource with options.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseCountDto'
+      parameters:
+      - name: limit
+        description: 'Return up to this many results per page. (default: 50, maximum: 250).'
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: since_id
+        description: Restrict results to after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: created_at_min
+        description: 'Show metafields created after date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_max
+        description: 'Show metafields created before date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_min
+        description: 'Show metafields last updated after date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_max
+        description: 'Show metafields last updated before date. (format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: namespace
+        description: Counts metafields with given namespace.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: key
+        description: Counts metafields with given key.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: value_type
+        description: 'Counts only metafields with given value types. Valid values: string, integer, json_string'
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Metafield
+      operationId: counts-meta-fields
+      security:
+      - APP_ACCESS_TOKEN: []
+  /admin/metafields/{metafield_id:[0-9]+}.json:
+    get:
+      summary: Retrieves a single metafield by id.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseMetafieldDto'
+      parameters:
+      - name: metafield_id
+        description: Metafield id.
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Metafield
+      operationId: retrieves-specific-meta-field
+      security:
+      - APP_ACCESS_TOKEN: []
+    delete:
+      summary: Deletes a metafield.
+      responses:
+        '200':
+          description: ''
+      parameters:
+      - name: metafield_id
+        description: Metafield id
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Metafield
+      operationId: delete-meta-field
+      security:
+      - APP_ACCESS_TOKEN: []
+    put:
+      summary: Updates new metafield.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseMetafieldDto'
+      parameters:
+      - name: product_id
+        description: Product ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: metafield_id
+        description: Metafield ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Metafield
+      operationId: update-meta-field
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIRequestMetafield'
+              description: Metafield request
+        description: Metafield request
+        required: true
+components:
+  schemas:
+    APIResponseMetafieldDto:
+      properties:
+        metafield:
+          $ref: '#/components/schemas/MetafieldDto'
+      type: object
+    APIResponseCountDto:
+      properties:
+        count:
+          type: integer
+      type: object
+    MetafieldDto:
+      properties:
+        description:
+          type: string
+        id:
+          type: integer
+          description: A unique numeric identifier for the meta field. Each id is unique across the ShopBase system. No two metafield will have the same id, even if they're from different shops.
+          example: 632910392
+        key:
+          type: string
+        namespace:
+          type: string
+        owner_id:
+          type: integer
+        owner_resource:
+          type: string
+        updated_at:
+          type: integer
+        value:
+          type: object
+        value_type:
+          type: string
+      type: object
+    APIResponseMetafieldsDto:
+      properties:
+        metafields:
+          items:
+            $ref: '#/components/schemas/MetafieldDto'
+          type: array
+      type: object
+    APIRequestMetafield:
+      properties:
+        metafield:
+          $ref: '#/components/schemas/MetafieldDto'
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

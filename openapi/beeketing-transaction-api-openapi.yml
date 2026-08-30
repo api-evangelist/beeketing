@@ -1,0 +1,361 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Transaction API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+  description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The line items included in the refund, along with restocking instructions</br></br>Before you create a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items that are being refunded, their quantity and restock instructions, and whether you're refunding shipping costs. You can then use the response in the body of the request to create the actual refund.</br></br>When you create a refund using the response from the calculate endpoint, you can set additional options, such as whether to notify the customer of the refund. You can refund less than the calculated amount for either shipping or the line items by setting a custom value for the amount property.</br></br>If a refund includes shipping costs, or if you choose to refund line items for less than their calculated amount, then an order adjustment is created automatically to account for the discrepancy in the store's financial reports.
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The line items included in the refund, along with restocking instructions</br></br>Before you create a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items that are being refunded, their quantity and restock instructions, and whether you're refunding shipping costs. You can then use the response in the body of the request to create the actual refund.</br></br>When you create a refund using the response from the calculate endpoint, you can set additional options, such as whether to notify the customer of the refund. You can refund less than the calculated amount for either shipping or the line items by setting a custom value for the amount property.</br></br>If a refund includes shipping costs, or if you choose to refund line items for less than their calculated amount, then an order adjustment is created automatically to account for the discrepancy in the store's financial reports.
+  name: Transaction
+paths:
+  /admin/orders/{order_id:(?:\\d+)}/transactions.json:
+    get:
+      summary: Retrieves a list of transactions.
+      description: Transactions attached to multi-currency orders are in the presentment currency by default. To retrieve transactions in the shop currency, include the URL parameter in_shop_currency=true.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderTransactionsSwaggerResponse'
+      parameters:
+      - name: since_id
+        description: Retrieve only transactions after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: fields
+        description: Show only certain fields, specifed by a comma-separated list of fields names.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: in_shop_currency
+        description: Show amounts in the shop currency.
+        in: query
+        required: false
+        schema:
+          type: boolean
+      tags:
+      - Transaction
+      operationId: retrieves-a-list-of-transactions
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_orders
+    post:
+      summary: Creates a transaction for an order.
+      description: Creates a transaction for an order.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleOrderTransactionSwaggerResponse'
+      tags:
+      - Transaction
+      operationId: creates-a-transaction-for-an-order
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransactionDto'
+              description: Request input
+        description: Request input
+  /admin/orders/{order_id:(?:\\d+)}/transactions/count.json:
+    get:
+      summary: Retrieves a count of an order's transactions.
+      description: Count an order's transactions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      tags:
+      - Transaction
+      operationId: retrieves-a-count-of-an-order's-transactions
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_orders
+  /admin/orders/{order_id:(?:\\d+)}/transactions/{transaction_id:(?:\\d+)}.json:
+    get:
+      summary: Retrieves a specific transaction.
+      description: Retrieve a specific transaction for an order. Transactions attached to multi-currency orders are in the presentment currency by default. To retrieve transactions in the shop currency, include the URL parameter in_shop_currency=true.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderTransactionSwaggerResponse'
+      parameters:
+      - name: fields
+        description: Show only certain fields, specifed by a comma-separated list of fields names.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: in_shop_currency
+        description: Show amounts in the shop currency.
+        in: query
+        required: false
+        schema:
+          type: boolean
+      tags:
+      - Transaction
+      operationId: retrieves-a-specific-transaction
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_orders
+components:
+  schemas:
+    OrderTransactionsSwaggerResponse:
+      properties:
+        transactions:
+          items:
+            $ref: '#/components/schemas/TransactionDto'
+          type: array
+      type: object
+    PaymentDetailsDto:
+      properties:
+        avs_result_code:
+          type: string
+          description: The response code from the [address verification system](https://en.wikipedia.org/wiki/Address_Verification_System). The code is a single letter; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
+          example: '123456'
+        credit_card_bin:
+          type: string
+          description: The [issuer identification number](https://en.wikipedia.org/wiki/ISO/IEC_7812) (IIN), formerly known as bank identification number (BIN) of the customer's credit card. This is made up of the first few digits of the credit card number.
+          example: M
+        credit_card_company:
+          type: string
+          description: The name of the company that issued the customer's credit card.
+          example: Visa
+        credit_card_number:
+          type: string
+          description: The customer's credit card number, with most of the leading digits redacted.
+        cvv_result_code:
+          type: string
+          description: The response code from the credit card company indicating whether the customer entered the [card security code](https://en.wikipedia.org/wiki/Card_security_code), or card verification value, correctly. The code is a single letter or empty string; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
+          example: M
+      type: object
+    CountResponse:
+      properties:
+        count:
+          type: integer
+      type: object
+    TransactionDto:
+      properties:
+        amount:
+          type: number
+          description: The amount of money included in the transaction. If you don't provide a value for `amount`, then it defaults to the total cost of the order (even if a previous transaction has been made towards it).
+          example: 10
+        authorization:
+          type: string
+          description: The authorization code associated with the transaction.
+          example: ch_1AtJu6CktlpKSclI4zjeQb2t
+        conversion_rate:
+          type: number
+        created_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the transaction was created.
+          example: '2019-03-13T16:09:54-04:00'
+        currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency used for the payment.
+          example: USD
+        currency_exchange_adjustment:
+          $ref: '#/components/schemas/CurrencyExchangeAdjustmentDto'
+          description: An adjustment on the transaction showing the amount lost or gained due to fluctuations in the currency exchange rate
+        device_id:
+          type: integer
+          description: The ID for the device.
+          example: 1
+        error_code:
+          type: ErrorCode
+          description: A standardized error code, independent of the payment provider.
+        gateway:
+          type: string
+          description: The name of the gateway the transaction was issued through.
+          example: shopbase_payments
+        id:
+          type: integer
+          description: The ID for the transaction.
+          example: 999225661
+        kind:
+          type: string
+          description: 'The transaction''s type. Valid values
+
+            * **authorization**: Money that the customer has agreed to pay. The authorization period can be between 7 and 30 days (depending on your payment service) while a store waits for a payment to be captured.
+
+            * **capture**: A transfer of money that was reserved during the authorization of a shop.
+
+            * **sale**: The authorization and capture of a payment performed in one single step.
+
+            * **void**: The cancellation of a pending authorization or capture.
+
+            * **refund**: The partial or full return of captured money to the customer.'
+          example: capture
+        location_id:
+          type: integer
+          description: The ID of the physical location where the transaction was processed.
+          example: 49202758
+        message:
+          type: string
+          description: A string generated by the payment provider with additional information about why the transaction succeeded or failed.
+          example: Marked the Cash on Delivery (COD) payment as received.
+        order_id:
+          type: integer
+          description: The ID for the order that the transaction is associated with.
+          example: 450789469
+        parent_id:
+          type: integer
+          description: The ID of an associated transaction.
+          example: 584698724408
+        payment_details:
+          $ref: '#/components/schemas/PaymentDetailsDto'
+          description: Information about the credit card used for this transaction.
+        processed_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when a transaction was processed. This value is the date that's used in the analytic reports. By default, it matches the created_at value. If you're importing transactions from an app or another platform, then you can set processed_at to a date and time in the past to match when the original transaction was processed.
+          example: '2019-05-10T11:00:00-05:00'
+        receipt:
+          type: object
+          description: A transaction receipt attached to the transaction by the gateway. The value of this field depends on which gateway the shop is using.
+        source_name:
+          type: string
+          description: 'The origin of the transaction. This is set by ShopBase and can''t be overridden. Example values: web, pos, iphone, and android.'
+          example: web
+        status:
+          type: string
+          description: 'The status of the transaction. Valid values: `pending`, `failure`, `success`, and `error`'
+          example: success
+        test:
+          type: boolean
+          description: Whether the transaction is a test transaction.
+          example: true
+        transaction_amount:
+          type: number
+          description: The amount of money included in the payment gateway's transaction.
+        transaction_currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the payment provider's transaction currency used for the payment.
+        updated_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the transaction was updated.
+          example: '2019-03-13T16:09:54-04:00'
+      type: object
+    OrderTransactionSwaggerResponse:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionDto'
+      type: object
+    SingleOrderTransactionSwaggerResponse:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionDto'
+      type: object
+    CurrencyExchangeAdjustmentDto:
+      properties:
+        adjustment:
+          type: number
+          description: The difference between the amounts on the associated transaction and the parent transaction.
+          example: -0.01
+        currency:
+          type: string
+          description: The shop currency.
+          example: CAD
+        final_amount:
+          type: number
+          description: The amount of the associated transaction in the shop currency.
+          example: -53.63
+        id:
+          type: integer
+          description: The ID of the adjustment.
+          example: 1
+        original_amount:
+          type: number
+          description: The amount of the parent transaction in the shop currency.
+          example: -53.62
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

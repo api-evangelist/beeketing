@@ -1,0 +1,254 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Smart Collection API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: SmartCollection
+paths:
+  /admin/smart_collections.json:
+    get:
+      summary: Retrieves a list of smart collections.
+      description: Retrieve a list of all smart collections.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetListSmartCollectionSwagger'
+      tags:
+      - SmartCollection
+      operationId: retrieve-a-list-of-smart-collections
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+  /admin/smart_collections/count.json:
+    get:
+      summary: Retrieves a count of collects.
+      description: Retrieves a count of collects.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountSmartCollectResponseSwagger'
+      tags:
+      - SmartCollection
+      operationId: retrieve-a-count-of-smart-collections
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+  /admin/smart_collections/{smart_collection_id:\\d+}.json:
+    get:
+      summary: Retrieves a single smart collection.
+      description: Retrieve a specific collection by ID.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetSingleSmartCollectionSwagger'
+      tags:
+      - SmartCollection
+      operationId: retrieve-a-single-smart-collections
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+    delete:
+      summary: Removes a smart collection.
+      description: Remove a smart collection.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteSmartCollectResponseSwagger'
+      tags:
+      - SmartCollection
+      operationId: delete-a-smart-collection
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_products
+components:
+  schemas:
+    GetSingleSmartCollectionSwagger:
+      properties:
+        smart_collection:
+          $ref: '#/components/schemas/CustomCollectionDto'
+      type: object
+    CustomCollectionDto:
+      properties:
+        body_html:
+          type: string
+          description: The description of the custom collection, complete with HTML markup. Many templates display this on their custom collection pages.
+          example: <p>The best selling iPods ever</p>
+        handle:
+          type: string
+          description: 'A human-friendly unique string for the custom collection automatically generated from its title. This is used in shop themes by the Liquid templating language to refer to the custom collection. (limit: 255 characters)'
+          example: IPods
+        id:
+          type: integer
+          description: The ID for the custom collection
+          example: 632910392
+        image:
+          $ref: '#/components/schemas/CustomCollectionImage'
+          description: Image associated with the custom collection. Valid values are
+        metafields:
+          items:
+            $ref: '#/components/schemas/CustomCollectionMetafield'
+          type: array
+        published:
+          type: boolean
+          description: A flag mark custom collection is published or not
+          example: true
+        sort_order:
+          type: string
+          description: A string repesent sort order of collection
+          example: best-selling
+        title:
+          type: string
+          description: 'The name of the custom collection. (limit: 255 characters)'
+          example: IPods
+      type: object
+    CustomCollectionImage:
+      properties:
+        alt:
+          type: string
+          description: Alternative text that describes the collection image.
+          example: iPods
+        created_at:
+          type: string
+          description: The time and date (ISO 8601 format) when the image was added to the collection.
+          example: '2018-04-19T09:34:47-04:00'
+        height:
+          type: integer
+          description: The height of the image in pixels.
+          example: 488
+        src:
+          type: string
+          description: The source URL that specifies the location of the image.
+          example: https://img.btdmp.com/collections/ipod.jpg
+        width:
+          type: integer
+          description: The width of the image in pixels.
+          example: 500
+      type: object
+    CustomCollectionMetafield:
+      properties:
+        key:
+          type: string
+          description: A key string for which meta field we use (description_tag, title_tag,..)
+          example: description_tag
+        namespace:
+          type: string
+          description: sphere of influence of key
+          example: global
+        value:
+          type: string
+          description: Value of corresponding key
+          example: description_tag
+        value_type:
+          type: string
+          description: Type of value
+          example: string
+      type: object
+    GetListSmartCollectionSwagger:
+      properties:
+        smart_collections:
+          items:
+            $ref: '#/components/schemas/CustomCollectionDto'
+          type: array
+      type: object
+    DeleteSmartCollectResponseSwagger:
+      properties:
+        success:
+          type: boolean
+          description: Remove a smart collection.
+          example: true
+      type: object
+    CountSmartCollectResponseSwagger:
+      properties:
+        count:
+          type: integer
+          description: Get count of SmartCollection.
+          example: 3
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

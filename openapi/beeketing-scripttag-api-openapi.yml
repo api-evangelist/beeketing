@@ -1,0 +1,257 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Script Tag API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: ScriptTag
+paths:
+  /admin/script_tags.json:
+    get:
+      summary: Retrieves a list of all script tags
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScriptTagsSwaggerResponse'
+      parameters:
+      - name: limit
+        description: The maximum number of results to show.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: since_id
+        description: Restrict results to after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: src
+        description: Show script tags with this URL.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: fields
+        description: A comma-separated list of fields to include in the response.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - ScriptTag
+      operationId: retrieves-a-list-of-script_tags
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_script_tags
+    post:
+      summary: Create a new script tag
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScriptTagSwaggerResponse'
+      tags:
+      - ScriptTag
+      operationId: create-script_tag
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_script_tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScriptTagSwaggerResponse'
+              description: Request input
+        description: Request input
+        required: true
+  /admin/script_tags/{script_tag_id}.json:
+    get:
+      summary: Retrieves a single script tag
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScriptTagSwaggerResponse'
+      parameters:
+      - name: fields
+        description: A comma-separated list of fields to include in the response.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - ScriptTag
+      operationId: get-script_tag-by-id
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_script_tags
+    delete:
+      summary: Deletes a script tag
+      responses:
+        '200':
+          description: ''
+      tags:
+      - ScriptTag
+      operationId: delete-script_tag-by-id
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_script_tags
+    put:
+      summary: Updates a script tag
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScriptTagSwaggerResponse'
+      tags:
+      - ScriptTag
+      operationId: update-script_tag
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_script_tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScriptTagSwaggerResponse'
+              description: Request input
+        description: Request input
+        required: true
+components:
+  schemas:
+    ScriptTagSwaggerResponse:
+      properties:
+        script_tag:
+          $ref: '#/components/schemas/ScriptTagV2'
+      type: object
+    ScriptTagsSwaggerResponse:
+      properties:
+        script_tags:
+          items:
+            $ref: '#/components/schemas/ScriptTagV2'
+          type: array
+      type: object
+    ScriptTagV2:
+      properties:
+        created_at:
+          type: integer
+          description: The date and time ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)) when the script tag was created.
+        display_scope:
+          type: string
+          description: 'The page or pages on the online store where the script should be included. Valid values
+
+            * **online_store**: Include the script only on the web storefront.
+
+            * **order_status**: Include the script only on the order status page.
+
+            * **all**: Include the script on both the web storefront and the order status page.'
+          example: online_store
+        event:
+          type: string
+          description: 'The DOM event that triggers the loading of the script. Valid values: `onload`.'
+          example: onload
+        id:
+          type: integer
+          description: The ID for the script tag.
+          example: 596726825
+        private_app_id:
+          type: integer
+          description: The ID for the private app.
+          example: 596726826
+        src:
+          type: string
+          description: The URL of the remote script.
+          example: https://js-aplenty.com/foo.js
+        third_app_id:
+          type: integer
+          description: The ID for the app.
+          example: 596726825
+        updated_at:
+          type: integer
+          description: The date and time ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)) when the script tag was last updated.
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

@@ -1,0 +1,297 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Webhook API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Webhook
+paths:
+  /admin/webhooks.json:
+    get:
+      summary: Retrieves a list of webhooks
+      description: Retrieves a list of webhooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhooksSwaggerResponse'
+      parameters:
+      - name: address
+        description: Retrieve webhook subscriptions that send the POST request to this URI.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_max
+        description: 'Retrieve webhook subscriptions that were created before a given date and time (format: 2014-04-25T16:15:47-04:00).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_min
+        description: 'Retrieve webhook subscriptions that were created after a given date and time (format: 2014-04-25T16:15:47-04:00).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_min
+        description: 'Retrieve webhooks that were updated before a given date and time (format: 2014-04-25T16:15:47-04:00).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_max
+        description: 'Retrieve webhooks that were updated after a given date and time (format: 2014-04-25T16:15:47-04:00).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: fields
+        description: Comma-separated list of the properties you want returned for each item in the result list. Use this parameter to restrict the returned list of items to only those properties you specify.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: limit
+        description: Maximum number of webhook subscriptions that should be returned. Setting this parameter outside the maximum range will return an error.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: since_id
+        description: Restrict the returned list to webhook subscriptions whose id is greater than the specified since_id.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: topic
+        description: 'Show webhook subscriptions with a given topic. Valid topics are: app/uninstalled, carts/create, carts/update, checkouts/create, checkouts/delete, checkouts/update, collection_listings/add, collection_listings/remove, collection_listings/update, collections/create, collections/delete, collections/update, customer_groups/create, customer_groups/delete, customer_groups/update, customers/create, customers/delete, customers/disable, customers/enable, customers/update, draft_orders/create, draft_orders/delete, draft_orders/update, fulfillment_events/create, fulfillment_events/delete, fulfillments/create, fulfillments/update, order_transactions/create, orders/cancelled, orders/create, orders/delete, orders/fulfilled, orders/paid, orders/partially_fulfilled, orders/updated, product_listings/add, product_listings/remove, product_listings/update, products/create, products/delete, products/update, refunds/create, shop/update, themes/create, themes/delete, themes/publish, themes/update, inventory_levels/connect, inventory_levels/update, inventory_levels/disconnect, inventory_items/create, inventory_items/update, inventory_items/delete, locations/create, locations/update, locations/delete, tender_transactions/create'
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Webhook
+      operationId: retrieves-a-list-of-webhooks
+      security:
+      - APP_ACCESS_TOKEN: []
+    post:
+      summary: Create a webhook
+      description: Create a webhook subscription's topic or address URIs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookSwaggerResponse'
+      tags:
+      - Webhook
+      operationId: create-webhook
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookSwaggerResponse'
+              description: Input request
+        description: Input request
+        required: true
+  /admin/webhooks/{webhook_id:(?:\\d+)}.json:
+    get:
+      summary: Retrieves a single of webhooks
+      description: Retrieves a single of webhooks
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookSwaggerResponse'
+      parameters:
+      - name: fields
+        description: Comma-separated list of the properties you want returned for each item in the result list. Use this parameter to restrict the returned list of items to only those properties you specify.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Webhook
+      operationId: get-webhook-by-id
+      security:
+      - APP_ACCESS_TOKEN: []
+    delete:
+      summary: Delete a webhook
+      description: Delete a webhook
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SwaggerDeleteResponse'
+      tags:
+      - Webhook
+      operationId: delete-webhook-by-id
+      security:
+      - APP_ACCESS_TOKEN: []
+    put:
+      summary: Update a webhook
+      description: Update a webhook subscription's topic or address URIs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookSwaggerResponse'
+      tags:
+      - Webhook
+      operationId: update-webhook
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookSwaggerResponse'
+              description: Input request
+        description: Input request
+        required: true
+components:
+  schemas:
+    Webhook:
+      properties:
+        address:
+          type: string
+          description: URI where the webhook subscription should send the POST request when the event occurs.
+          example: https://apple.com/uninstall
+        created_at:
+          type: integer
+          description: Date and time when the webhook subscription was created. The API returns this value in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
+          example: 901431826
+        fields:
+          items:
+            type: string
+          type: array
+          description: Optional array of fields that should be included in the webhook subscription.
+          example:
+          - id
+          - updated_at
+        format:
+          type: string
+          description: Format in which the webhook subscription should send the data. Valid values are `JSON` and `XML`.
+          example: json
+        id:
+          type: integer
+          description: Unique numeric identifier for the webhook subscription.
+          example: 901431826
+        metafield_namespaces:
+          items:
+            type: string
+          type: array
+          description: Optional array of namespaces for any metafields that should be included the webhook subscription.
+          example:
+          - google
+          - inventory
+        topic:
+          type: string
+          description: 'Event that triggers the webhook. Valid values are: app/uninstalled, carts/create, carts/update, checkouts/create, checkouts/delete, checkouts/update, collection_listings/add, collection_listings/remove, collection_listings/update, collections/create, collections/delete, collections/update, customer_groups/create, customer_groups/delete, customer_groups/update, customers/create, customers/delete, customers/disable, customers/enable, customers/update, draft_orders/create, draft_orders/delete, draft_orders/update, fulfillment_events/create, fulfillment_events/delete, fulfillments/create, fulfillments/update, order_transactions/create, orders/cancelled, orders/create, orders/delete, orders/fulfilled, orders/paid, orders/partially_fulfilled, orders/updated, product_listings/add, product_listings/remove, product_listings/update, products/create, products/delete, products/update, refunds/create, shop/update, themes/create, themes/delete, themes/publish, themes/update, inventory_levels/connect, inventory_levels/update, inventory_levels/disconnect, inventory_items/create, inventory_items/update, inventory_items/delete, locations/create, locations/update, locations/delete, tender_transactions/create'
+          example: app/uninstalled
+        updated_at:
+          type: integer
+          description: Date and time when the webhook subscription was updated. The API returns this value in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
+          example: 901431826
+      type: object
+    WebhookSwaggerResponse:
+      properties:
+        webhook:
+          $ref: '#/components/schemas/Webhook'
+      type: object
+    WebhooksSwaggerResponse:
+      properties:
+        webhooks:
+          items:
+            $ref: '#/components/schemas/Webhook'
+          type: array
+      type: object
+    SwaggerDeleteResponse:
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

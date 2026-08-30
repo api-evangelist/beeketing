@@ -1,0 +1,275 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Shop API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Shop
+paths:
+  /admin/shop.json:
+    get:
+      summary: Retrieves shop.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopDto'
+      tags:
+      - Shop
+      operationId: retrieves-the-shop's-configuration
+      security:
+      - APP_ACCESS_TOKEN: []
+components:
+  schemas:
+    ShopDto:
+      properties:
+        address1:
+          type: string
+          description: The shop's street address.
+          example: 127 Altenwerth
+        address2:
+          type: string
+          description: The the optional second line of the shop's street address.
+          example: Suite 100
+        city:
+          type: string
+          description: The shop's city.
+          example: Hanoi
+        country:
+          type: string
+          description: The shop's country. In most cases matches the country_code.
+          example: US
+        country_code:
+          type: string
+          description: The two-letter country code corresponding to the shop's country.
+          example: US
+        country_name:
+          type: string
+          description: The shop's normalized country name.
+          example: United States
+        county_taxes:
+          type: boolean
+          description: 'Whether the shop is applying taxes on a per-county basis. Only applicable to shops based in the US. Valid values: true or false.'
+          example: true
+        created_at:
+          type: integer
+          description: The timestamp when the shop was created.
+          example: 1561694636
+        currency:
+          type: string
+          description: The three-letter code (ISO 4217 format) for the shop's default currency.
+          example: USD
+        current_active_storefront:
+          type: integer
+        customer_email:
+          type: string
+          description: The contact email used for communication between the shop owner and the customer.
+          example: email@shopbase.com
+        domain:
+          type: string
+          description: The shop's onshopbase.com domain.
+          example: apple.onshopbase.com
+        email:
+          type: string
+          description: The contact email used for communication between ShopBase and the shop owner.
+          example: steve@job.com
+        enable:
+          type: boolean
+        enable_multi_storefront:
+          type: boolean
+        enable_onboarding_multi_sf:
+          type: boolean
+        end_free_trial_at:
+          type: integer
+          description: The timestamp when the shop's free trial was ended.
+          example: 1561694636
+        iana_timezone:
+          type: string
+          description: The name of the timezone assigned by the IANA.
+          example: America/Los_Angeles
+        id:
+          type: integer
+          description: A unique identifier for the shop.
+          example: 107333978
+        latitude:
+          type: number
+          description: The latitude of the shop's location.
+          example: 45.427408
+        longitude:
+          type: number
+          description: The longitude of the shop's location.
+          example: -75.68903
+        max_free_storefront:
+          type: integer
+        money_format:
+          type: string
+          description: A string representing the way currency is formatted when the currency isn't specified.
+          example: $
+        money_in_emails_format:
+          type: string
+          description: A string representing the way currency is formatted in email notifications when the currency isn't specified.
+          example: $
+        money_with_currency_format:
+          type: string
+          description: A string representing the way currency is formatted when the currency is specified.
+          example: $ USD
+        money_with_currency_in_emails_format:
+          type: string
+          description: A string representing the way currency is formatted in email notifications when the currency is specified.
+          example: $ USD
+        multi_storefront:
+          type: integer
+        name:
+          type: string
+          description: The name of the shop.
+          example: The Apple Store
+        online_store_enable:
+          type: integer
+        onshopbase_domain:
+          type: string
+          description: The shop's onshopbase.com domain.
+          example: apple.onshopbase.com
+        parent_id:
+          type: integer
+        password_enabled:
+          type: boolean
+          description: Whether the password protection page is enabled on the online storefront.
+          example: true
+        phone:
+          type: string
+          description: The contact phone number for the shop.
+          example: +1 (979) 825 5365
+        primary_domain:
+          type: string
+          description: The shop's domain.
+          example: apple.com
+        primary_locale:
+          type: string
+          description: The shop's primary locale, as configured in the language settings of the shop's theme.
+          example: fr
+        province:
+          type: string
+          description: The shop's normalized province or state name.
+          example: California
+        province_code:
+          type: string
+          description: The two-letter code for the shop's province or state.
+          example: CA
+        shop_owner:
+          type: string
+          description: The username of the shop owner.
+          example: Santa Claus
+        source:
+          type: string
+        storefront_fee:
+          type: number
+        storefront_free:
+          type: boolean
+        subscription_expired_at:
+          type: integer
+          description: The timestamp when the shop was expired.
+          example: 1561694636
+        tax_shipping:
+          type: boolean
+          description: 'Whether taxes are charged for shipping. Valid values: true or false.'
+          example: false
+        taxes_included:
+          type: boolean
+          description: 'Whether applicable taxes are included in product prices. Valid values: true or false.'
+          example: true
+        timezone:
+          type: string
+          description: The name of the timezone the shop is in.
+          example: (GMT-05:00) Eastern Time
+        updated_at:
+          type: integer
+          description: The timestamp when the shop was last updated.
+          example: 1561694636
+        used_free_storefront:
+          type: integer
+        weight_unit:
+          type: string
+          description: The default unit of weight measurement for the shop.
+          example: lb
+        zip:
+          type: string
+          description: The shop's zip or postal code.
+          example: '100000'
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

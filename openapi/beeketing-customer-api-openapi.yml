@@ -1,0 +1,516 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Customer API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Customer
+paths:
+  /admin/customers.json:
+    get:
+      summary: Retrieves a list of customers.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerForResponse'
+      parameters:
+      - name: ids
+        description: Restrict results to customers specified by a comma-separated list of IDs.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: since_id
+        description: Restrict results to those after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: integer
+      - name: created_at_min
+        description: 'Show customers created after a specified date. format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: created_at_max
+        description: 'Show customers created before a specified date. format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: updated_at_min
+        description: 'Show customers last updated after a specified date. format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: updated_at_max
+        description: 'Show customers last updated before a specified date. format: 2014-04-25T16:15:47-04:00)'
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: limit
+        description: The maximum number of results to show.
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 50
+          maximum: 250
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Customer
+      operationId: retrieves-a-list-of-customers
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_customers
+    post:
+      summary: Creates a customer.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerSwaggerResponse'
+      tags:
+      - Customer
+      operationId: creates-a-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDto'
+              description: Customer struct
+        description: Customer struct
+        required: true
+  /admin/customers/count.json:
+    get:
+      summary: Retrieve a count of all customers
+      description: Retrieves a count of all customers.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CountResponse'
+      tags:
+      - Customer
+      operationId: retrieves-a-count-of-all-customers
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_customers
+  /admin/customers/{customer_id:[0-9]+}/send_invite.json:
+    post:
+      summary: Sends an account invite to a customer.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendInvitationRequest'
+      tags:
+      - Customer
+      operationId: send-invitation-email-to-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendInvitationRequest'
+              description: Sends an account invite to a customer.
+        description: Sends an account invite to a customer.
+        required: true
+  /admin/customers/{id:\\d+}.json:
+    get:
+      summary: Retrieves a single customer.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerDto'
+      parameters:
+      - name: customer_id
+        description: Customer ID.
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Customer
+      operationId: retrieves-a-single-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_customers
+    delete:
+      summary: Remove an existing customer
+      description: Deletes a customer. A customer can't be deleted if they have existing orders.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.SwaggerDeleteResponse'
+      tags:
+      - Customer
+      operationId: deletes-a-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+    put:
+      summary: Updates a customer.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerSwaggerResponse'
+      tags:
+      - Customer
+      operationId: updates-a-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerDto'
+              description: Customer struct
+        description: Customer struct
+        required: true
+components:
+  schemas:
+    CustomerForResponse:
+      properties:
+        customers:
+          items:
+            $ref: '#/components/schemas/CustomerDto'
+          type: array
+      type: object
+    CustomerAddressDetail:
+      properties:
+        address1:
+          type: string
+          description: The customer's mailing address.
+          example: 123 Fake Street
+        address2:
+          type: string
+          description: An additional field for the customer's mailing address.
+        city:
+          type: string
+          description: The customer's city, town, or village.
+          example: Fakecity
+        company:
+          type: string
+          description: The customer's company.
+        country:
+          type: string
+          description: The customer's country.
+          example: Vietnam
+        country_code:
+          type: string
+          description: The two-letter country code corresponding to the customer's country.
+          example: VN
+        country_id:
+          type: integer
+          description: A unique identifier for the customer.
+        country_name:
+          type: string
+          description: The customer's normalized country name.
+          example: Viet nam
+        cpf_number:
+          type: string
+          description: Brazil CPF Number
+        cpf_or_cnpj_number:
+          type: string
+          description: CPF/CNPJ number
+          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
+        created_at:
+          type: string
+          description: Created at time
+          format: date-time
+        default:
+          type: boolean
+          description: Whether this address is the default address for the customer.
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
+          type: integer
+          description: A unique identifier for the address.
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: Smith
+        latitude:
+          type: number
+          description: Latitude
+        longitude:
+          type: number
+          description: Longtitude
+        name:
+          type: string
+          description: Address name
+          example: example name
+        phone:
+          type: string
+          description: 'Phone number
+
+            Example 555-555-5555'
+        province:
+          type: string
+          description: Province
+          example: Ontario
+        province_code:
+          type: string
+          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
+        updated_at:
+          type: string
+          description: Updated at time
+          format: date-time
+        zip:
+          type: string
+          description: ZIP
+          example: K2P 1L4
+      type: object
+    models.SwaggerDeleteResponse:
+      type: object
+    CountResponse:
+      properties:
+        count:
+          type: integer
+      type: object
+    CustomerDto:
+      properties:
+        accepts_marketing:
+          type: boolean
+          description: Whether the customer has consented to receive marketing material via email.
+          example: true
+        addresses:
+          items:
+            $ref: '#/components/schemas/CustomerAddressDetail'
+          type: array
+          description: A list of the ten most recently updated addresses for the customer.
+        average_spent:
+          type: number
+          description: The average amount of money that the customer has spent across their order history.
+          example: 37.96
+        created_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer was created.
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
+          example: USD
+        default_address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+          description: The default address for the customer.
+        email:
+          type: string
+          description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
+          example: test@shopbase.com
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
+          type: integer
+          description: A unique identifier for the customer.
+          example: 107333978
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: English
+        last_order_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer purchase a last order
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        last_order_id:
+          type: integer
+          description: The ID of the customer's last order.
+          example: 234132602919
+        last_order_name:
+          type: string
+          description: The name of the customer's last order. This is directly related to the name field on the Order resource.
+          example: '#1169'
+        last_sent_abandoned_email_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the last abandoned checkout email was sent to this customer
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        note:
+          type: string
+          description: A note about the customer.
+          example: Placed an order that had a fraud warning
+        orders_count:
+          type: integer
+          description: The number of orders associated with this customer.
+          example: 6
+        phone:
+          type: string
+          description: "The unique phone number ([E.164 format](https://en.wikipedia.org/wiki/E.164)) for this customer. Attempting to assign the same phone number to multiple customers returns an error. The property can be set using different formats, but each format must represent a number that can be dialed from anywhere in the world. The following formats are all valid:\n * 6135551212 \n * +16135551212 \n * (613)555-1212 \n * +1 613-555-1212"
+          example: '+16135551111'
+        state:
+          type: string
+          description: "The state of the customer's account with a shop. Default value: disabled. Valid values:\n\n * **disabled**: The customer doesn't have an active account. Customer acounts can be disabled from the ShopBase admin at any time.\n * **invited**: The customer has received an emailed invite to create an account.\n * **enabled**: The customer has created an account.\n * **declined**: The customer declined the email invite to create an account."
+          example: disabled
+        tags:
+          type: string
+          description: Tags that the shop owner has attached to the customer, formatted as a string of comma-separated values.
+          example: loyal
+        tax_exempt:
+          type: boolean
+          description: Whether the customer is exempt from paying taxes on their order. If ```true```, then taxes won't be applied to an order at checkout. If ```false```, then taxes will be applied at checkout.
+          example: true
+        total_spent:
+          type: number
+          description: The total amount of money that the customer has spent across their order history.
+          example: 37.96
+        updated_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer information was last updated.
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        verified_email:
+          type: boolean
+          description: Whether the customer has verified their email address.
+          example: true
+      type: object
+    CustomerInvite:
+      properties:
+        bcc:
+          items:
+            type: string
+          type: array
+        custom_message:
+          type: string
+        from:
+          type: string
+          example: steve@apple.com
+        subject:
+          type: string
+          example: Customer account activation
+        to:
+          type: string
+          example: bob.norman@hostmail.com
+      type: object
+    CustomerSwaggerResponse:
+      properties:
+        customer:
+          $ref: '#/components/schemas/CustomerDto'
+      type: object
+    SendInvitationRequest:
+      properties:
+        customer_invite:
+          $ref: '#/components/schemas/CustomerInvite'
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

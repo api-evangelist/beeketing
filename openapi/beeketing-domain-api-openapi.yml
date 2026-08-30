@@ -1,0 +1,120 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Domain API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+  description: You can use the domain resource to view
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- description: You can use the domain resource to view
+  name: Domain
+paths:
+  /admin/domains/connects.json:
+    get:
+      summary: Get domain by shop id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Res'
+      tags:
+      - Domain
+      operationId: get-list-domain-of-the-shop-by-shop-id.
+      security:
+      - APP_ACCESS_TOKEN: []
+components:
+  schemas:
+    ShopDomain:
+      properties:
+        id:
+          type: integer
+          description: A unique identifier for the domain.
+          example: 10733
+        public_domain:
+          type: string
+          description: Domain name connected
+          example: apple.com
+      type: object
+    Res:
+      properties:
+        shop_domains:
+          items:
+            $ref: '#/components/schemas/ShopDomain'
+          type: array
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

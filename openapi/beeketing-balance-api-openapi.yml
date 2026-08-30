@@ -1,0 +1,219 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Balance API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Balance
+paths:
+  /admin/balance/charge.json:
+    post:
+      summary: Capture charge balance.
+      description: Capture charge balance.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/swagggerCaptureSuccessResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/swagggerCaptureFailureResponse'
+      tags:
+      - Balance
+      operationId: charge-invoice
+      security:
+      - USER_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/swagggerCaptureChargeParams'
+              description: Charge params
+        description: Charge params
+        required: true
+  /admin/balance/refund.json:
+    post:
+      summary: Refund balance.
+      description: Refund balance.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FailureResponse'
+      tags:
+      - Balance
+      operationId: refund-balance
+      security:
+      - USER_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefundParamsDto'
+              description: Refund params
+        description: Refund params
+        required: true
+components:
+  schemas:
+    SuccessResponse:
+      properties:
+        success:
+          type: boolean
+          description: Is Refund successfully.
+          example: true
+      type: object
+    swagggerCaptureFailureResponse:
+      properties:
+        message:
+          type: string
+          description: If un-success, response error message.
+          example: invalid charge amount
+        success:
+          type: boolean
+          description: Is capture charge failure.
+          example: false
+      type: object
+    FailureResponse:
+      properties:
+        message:
+          type: string
+          description: If un-success, response error message.
+          example: invalid Refund amount
+        success:
+          type: boolean
+          description: Is Refund failure.
+          example: false
+      type: object
+    swagggerCaptureChargeParams:
+      properties:
+        amount:
+          type: number
+          description: Charge amount.
+          example: 10
+        order_id:
+          type: integer
+          description: OrderId to refund ( optional )
+          example: 123456
+        reason_title:
+          type: string
+          description: Charge reason.
+          example: Pay the subscription bill Feb 12,2019 - Mar 12.2019
+        transaction_type:
+          type: string
+          description: Transaction type.
+          example: PrintBase bill
+      type: object
+    RefundParamsDto:
+      properties:
+        amount:
+          type: number
+          description: Refund amount.
+          example: 10
+        order_id:
+          type: integer
+          description: OrderId to refund ( optional )
+          example: 123456
+        reason_title:
+          type: string
+          description: Refund reason.
+          example: 'Refunded for the order #1234567'
+        transaction_type:
+          type: string
+          description: Transaction type.
+          example: order_refund
+      type: object
+    swagggerCaptureSuccessResponse:
+      properties:
+        success:
+          type: boolean
+          description: Is capture charge successfully.
+          example: true
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

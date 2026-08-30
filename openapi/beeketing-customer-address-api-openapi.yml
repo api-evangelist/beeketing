@@ -1,0 +1,354 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Customer Address API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Customer Address
+paths:
+  /admin/customers/{customer_id:[0-9]+}/addresses.json:
+    get:
+      summary: Retrieve all of a customer’s addresses
+      description: Retrieves a list of addresses for a customer.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAddressesDetailResponse'
+      tags:
+      - Customer Address
+      operationId: get-customer-addresses-by-customer-id
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_customers
+    post:
+      summary: Create a new address for a customer
+      description: Creates a new address for a customer.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAddressDetailResponse'
+      tags:
+      - Customer Address
+      operationId: create-customer-address-for-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerAddressCreateForm'
+              description: Customer address post form
+        description: Customer address post form
+        required: true
+  /admin/customers/{customer_id:[0-9]+}/addresses/set.json:
+    put:
+      summary: Destroy multiple customer addresses
+      description: Performs bulk operations for multiple customer addresses.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.SwaggerDeleteResponse'
+      parameters:
+      - name: address_ids
+        description: List of customer address.
+        in: query
+        required: false
+        schema:
+          type: array
+      tags:
+      - Customer Address
+      operationId: delete-bulk-customer-addresses-by-customer-ids
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+  /admin/customers/{customer_id:[0-9]+}/addresses/{address_id:[0-9]+}.json:
+    get:
+      summary: Retrieve a single customer address
+      description: Retrieves details a single customer address.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAddressResponse'
+      parameters:
+      - name: customer_id
+        description: Customer ID
+        in: path
+        required: true
+        schema:
+          type: number
+      tags:
+      - Customer Address
+      operationId: get-customer-address-by-customer-id-and-address-id
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_customers
+    delete:
+      summary: Remove a customer address
+      description: Removes an address from a customer’s address list.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/models.SwaggerDeleteResponse'
+      tags:
+      - Customer Address
+      operationId: delete-customer-address-by-customer-id-and-address-id
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+    put:
+      summary: Update the postal code of a customer address
+      description: Updates an existing customer address.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAddressResponse'
+      tags:
+      - Customer Address
+      operationId: update-customer-address-for-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateCustomerAddressForm'
+              description: Customer address input form
+        description: Customer address input form
+        required: true
+  /admin/customers/{customer_id:[0-9]+}/addresses/{address_id:[0-9]+}/default.json:
+    put:
+      summary: Set a default address for a customer
+      description: Sets the default address for a customer.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerAddressResponse'
+      parameters:
+      - name: address_id
+        description: Address ID
+        in: path
+        required: true
+        schema:
+          type: number
+      tags:
+      - Customer Address
+      operationId: set-default-customer-address-for-a-customer
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_customers
+components:
+  schemas:
+    CustomerAddressCreateForm:
+      properties:
+        address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+      type: object
+    updateCustomerAddressForm:
+      properties:
+        customer_address:
+          type: object
+      type: object
+    CustomerAddressDetail:
+      properties:
+        address1:
+          type: string
+          description: The customer's mailing address.
+          example: 123 Fake Street
+        address2:
+          type: string
+          description: An additional field for the customer's mailing address.
+        city:
+          type: string
+          description: The customer's city, town, or village.
+          example: Fakecity
+        company:
+          type: string
+          description: The customer's company.
+        country:
+          type: string
+          description: The customer's country.
+          example: Vietnam
+        country_code:
+          type: string
+          description: The two-letter country code corresponding to the customer's country.
+          example: VN
+        country_id:
+          type: integer
+          description: A unique identifier for the customer.
+        country_name:
+          type: string
+          description: The customer's normalized country name.
+          example: Viet nam
+        cpf_number:
+          type: string
+          description: Brazil CPF Number
+        cpf_or_cnpj_number:
+          type: string
+          description: CPF/CNPJ number
+          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
+        created_at:
+          type: string
+          description: Created at time
+          format: date-time
+        default:
+          type: boolean
+          description: Whether this address is the default address for the customer.
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
+          type: integer
+          description: A unique identifier for the address.
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: Smith
+        latitude:
+          type: number
+          description: Latitude
+        longitude:
+          type: number
+          description: Longtitude
+        name:
+          type: string
+          description: Address name
+          example: example name
+        phone:
+          type: string
+          description: 'Phone number
+
+            Example 555-555-5555'
+        province:
+          type: string
+          description: Province
+          example: Ontario
+        province_code:
+          type: string
+          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
+        updated_at:
+          type: string
+          description: Updated at time
+          format: date-time
+        zip:
+          type: string
+          description: ZIP
+          example: K2P 1L4
+      type: object
+    models.SwaggerDeleteResponse:
+      type: object
+    CustomerAddressesDetailResponse:
+      properties:
+        addresses:
+          items:
+            $ref: '#/components/schemas/CustomerAddressDetail'
+          type: array
+      type: object
+    CustomerAddressResponse:
+      properties:
+        customer_address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+      type: object
+    CustomerAddressDetailResponse:
+      properties:
+        customer_address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

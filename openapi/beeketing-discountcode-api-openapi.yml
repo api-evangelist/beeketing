@@ -1,0 +1,512 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Discount Code API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: DiscountCode
+paths:
+  /admin/price_rules.json:
+    get:
+      summary: Retrieve a list of price rules
+      description: Retrieve a list of price rules
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PriceRulesResponse'
+      tags:
+      - DiscountCode
+      operationId: retrieves-price-rules
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PriceRulesRequest'
+              description: Price Rules Request
+        description: Price Rules Request
+        required: true
+  /admin/price_rules/{price_rule_id:(?:\\d+)}/discount_codes.json:
+    get:
+      summary: Retrieve a list of all discount codes
+      description: Retrieve a list of discount codes
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountCodeResponse'
+      parameters:
+      - name: price_rule_id
+        description: price rule id
+        in: path
+        required: true
+        schema:
+          type: number
+      tags:
+      - DiscountCode
+      operationId: get-a-list-discount-code
+      security:
+      - APP_ACCESS_TOKEN: []
+    post:
+      summary: Create a discount code
+      description: Creates a discount code
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountCodeResponse'
+      tags:
+      - DiscountCode
+      operationId: create-a-discount-code
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountCodeDto'
+              description: DiscountCode input
+        description: DiscountCode input
+        required: true
+  /admin/price_rules/{price_rule_id:(?:\\d+)}/discount_codes/{discount_code_id:(?:\\d+)}.json:
+    get:
+      summary: Retrieve a single discount code
+      description: Retrieves a single discount code
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountCodeResponse'
+      parameters:
+      - name: discount_code_id
+        description: Discount Code Id
+        in: path
+        required: true
+        schema:
+          type: number
+      tags:
+      - DiscountCode
+      operationId: get-a-discount-code
+      security:
+      - APP_ACCESS_TOKEN: []
+    delete:
+      summary: Deletes a discount code
+      description: Deletes a discount code
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteDiscountCodeResponse'
+      tags:
+      - DiscountCode
+      operationId: delete-a-discount-code
+      security:
+      - APP_ACCESS_TOKEN: []
+    put:
+      summary: Update the code for a discount
+      description: Updates an existing discount code
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DiscountCodeResponse'
+      tags:
+      - DiscountCode
+      operationId: update-a-discount-code
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscountCodeDto'
+              description: DiscountCode input
+        description: DiscountCode input
+        required: true
+components:
+  schemas:
+    DiscountCodeResponse:
+      properties:
+        discount_code:
+          $ref: '#/components/schemas/DiscountCodeDto'
+      type: object
+    PriceRuleDto:
+      properties:
+        allocation_limit:
+          type: integer
+        allocation_method:
+          type: string
+          description: "The allocation method of the price rule. Valid values: \n * **each**: The discount is applied to each of the entitled items. For example, for a price rule that takes $15 off, each entitled line item in a checkout will be discounted by $15.\n * **across**: The calculated discount amount will be applied across the entitled items. For example, for a price rule that takes $15 off, the discount will be applied across all the entitled items.\n When the value of `target_type` is `shipping_line`, then this value must be `each`."
+        created_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the price rule was created.
+          example: '2019-03-14T16:09:54-04:00'
+        customer_selection:
+          type: string
+          description: "The customer selection for the price rule. Valid values:\n * **all**: The price rule is valid for all customers.\n * **prerequisite**: The customer must either belong to one of the customer saved searches specified by `prerequisite_saved_search_ids` , or be one of the customers specified by ```prerequisite_customer_ids```."
+          example: prerequisite
+        ends_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the price rule ends. Must be after starts_at.
+          example: '2019-07-19T17:59:10Z'
+        entitled_collection_ids:
+          items:
+            type: integer
+          type: array
+          description: A list of IDs of collections whose products will be eligible to the discount. It can be used only with  target_type set to line_item and target_selection set to entitled. It can't be used in combination with entitled_product_ids or  entitled_variant_ids.
+          example:
+          - 4564654869
+          - 8979761006
+        entitled_country_ids:
+          items:
+            type: integer
+          type: array
+          description: A list of IDs of shipping countries that will be entitled to the discount. It can be used only with target_type set to shipping_line and target_selection set to entitled.
+          example:
+          - 6798798798
+          - 5675765905
+        entitled_product_ids:
+          items:
+            type: integer
+          type: array
+          description: A list of IDs of products that will be entitled to the discount. It can be used only with `target_type` set to `line_item` and `target_selection` set to `entitled`. ``` If a product variant is included in entitled_variant_ids, then entitled_product_ids can't include the ID of the product associated with that variant.```
+          example:
+          - 7897397755
+          - 42382368242
+        entitled_variant_ids:
+          items:
+            type: integer
+          type: array
+          description: A list of IDs of product variants that will be entitled to the discount. It can be used only with target_type set to line_item and target_selection set to entitled.
+        id:
+          type: integer
+          description: The ID for the price rule.
+          example: 9808080986
+        maximum_discount_amount:
+          type: number
+          description: maximum discount use
+        once_per_customer:
+          type: boolean
+          description: Whether the generated discount code will be valid only for a single use per customer. This is tracked using customer ID.
+          example: true
+        prerequisite_collection_ids:
+          items:
+            type: integer
+          type: array
+          description: "List of collection ids that will be a prerequisites for a Buy X Get Y discount. The entitled_collection_ids can be used only with: \n * target_type set to line_item, \n * target_selection set to entitled, \n * allocation_method set to each and \n * prerequisite_to_entitlement_quantity_ratio defined. \n Cannot be used in combination with prerequisite_product_ids or prerequisite_variant_ids."
+          example:
+          - 384028349005
+          - 3492039843
+        prerequisite_customer_ids:
+          items:
+            type: integer
+          type: array
+          description: "List of variant ids that will be a prerequisites for a Buy X Get Y type discount. The entitled_variant_ids can be used only with: \n * target_type set to line_item, \n * target_selection set to entitled, \n * allocation_method set to each and \n * prerequisite_to_entitlement_quantity_ratio defined."
+          example:
+          - 384028349005
+          - 3492039843
+        prerequisite_emails:
+          items:
+            type: string
+          type: array
+          description: List of emails that will be a prerequisite for a discount
+          example:
+          - hoaipiu@gmail.com
+          - tieumapmap@gmail.com
+          - traxanh@mtp.com
+        prerequisite_product_ids:
+          items:
+            type: integer
+          type: array
+          description: "List of product ids that will be a prerequisites for a Buy X Get Y type discount. The prerequisite_product_ids can be used only with: \n * target_type set to line_item, \n * target_selection set to entitled, \n * allocation_method set to each and \n * prerequisite_to_entitlement_quantity_ratio defined."
+        prerequisite_quantity_range:
+          $ref: '#/components/schemas/QuantityRange'
+          description: "The minimum number of items for the price rule to be applicable. It has the following property: \n * **greater_than_or_equal_to**: The quantity of an entitled cart item must be greater than or equal to this value.\n"
+        prerequisite_shipping_price_range:
+          $ref: '#/components/schemas/ShippingPriceRange'
+          description: 'The maximum shipping price for the price rule to be applicable. It has the following property: * **less_than_or_equal_to**: The shipping price must be less than or equal to this value.
+
+            '
+        prerequisite_subtotal_range:
+          $ref: '#/components/schemas/SubtotalRange'
+          description: "The minimum subtotal for the price rule to be applicable. It has the following property: \n * **greater_than_or_equal_to**: The subtotal of the entitled cart items must be greater than or equal to this value for the discount to apply."
+        prerequisite_to_entitlement_quantity_ratio:
+          $ref: '#/components/schemas/ToEntitlementQuantityRatio'
+          description: "Buy/Get ratio for a Buy X Get Y discount. prerequisite_quantity defines the necessary 'buy' quantity and entitled_quantity the offered 'get' quantity. The prerequisite_to_entitlement_quantity_ratio can be used only with:\n * value_type set to percentage,\n * target_type set to line_item, \n * target_selection set to entitled, \n * allocation_method set to each"
+        prerequisite_variant_ids:
+          items:
+            type: integer
+          type: array
+          description: "List of variant ids that will be a prerequisites for a Buy X Get Y type discount. The entitled_variant_ids can be used only with: \n * target_type set to line_item, \n * target_selection set to entitled, \n * allocation_method set to each and \n * prerequisite_to_entitlement_quantity_ratio defined."
+          example:
+          - 384028349005
+          - 3492039843
+        quota_per_customer:
+          type: integer
+          description: Limit use a customer
+        quota_per_store:
+          type: integer
+          description: Limit use a store
+        shop_id:
+          type: integer
+        starts_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the price rule starts.
+          example: '2019-04-19T17:59:10Z'
+        status:
+          type: string
+        target_selection:
+          type: string
+          description: "The target selection method of the price rule. Valid values: \n * **all**: The price rule applies the discount to all line items in the checkout. \n * **entitled**: The price rule applies the discount to selected entitlements only.\n"
+          example: entitled
+        target_type:
+          type: string
+          description: "The target type that the price rule applies to. Valid values: \n * **line_item**: The price rule applies to the cart's line items.\n * **shipping_line**: The price rule applies to the cart's shipping lines.\n"
+          example: line_item
+        title:
+          type: string
+          description: "The title of the price rule. This is used by the ShopBase admin search to retrieve discounts. It is also displayed on the **Discounts** page of the ShopBase admin for bulk discounts.\n For non-bulk discounts, the discount code is displayed on the admin.\n For a consistent search experience, use the same value for title as the code property of the associated discount code."
+          example: SUMMERSALE10OFF
+        total_redemption:
+          type: integer
+          description: Total amount used discount
+        total_sale_count:
+          type: number
+          description: Total discount sale count
+        type:
+          type: string
+        updated_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the price rule was updated.
+          example: '2019-03-14T16:09:54-04:00'
+        usage_count:
+          type: integer
+        usage_limit:
+          type: integer
+          description: The maximum number of times the price rule can be used, per discount code.
+          example: 10
+        value:
+          type: number
+          description: The value of the price rule. If if the value of target_type is shipping_line, then only -100 is accepted. The value must be negative.
+          example: -60
+        value_type:
+          type: string
+          description: "The value type of the price rule. Valid values: \n * **fixed_amount**:  Applies a discount of value as a unit of the store's currency. For example, if value is -30 and the store's currency is USD, then $30 USD is deducted when the discount is applied. \n * **percentage**: Applies a percentage discount of value. For example, if value is -30, then 30% will be deducted when the discount is applied. \n If target_type is shipping_line, then only percentage is accepted."
+          example: fixed_amount
+      type: object
+    QuantityRange:
+      properties:
+        greater_than_or_equal_to:
+          type: number
+          example: 50
+      type: object
+    SubtotalRange:
+      properties:
+        greater_than_or_equal_to:
+          type: number
+          example: 40
+      type: object
+    DeleteDiscountCodeResponse:
+      properties:
+        message:
+          type: string
+        success:
+          type: boolean
+      type: object
+    PriceRulesResponse:
+      properties:
+        price_rules:
+          items:
+            $ref: '#/components/schemas/PriceRuleDto'
+          type: array
+      type: object
+    ShippingPriceRange:
+      properties:
+        less_than_or_equal_to:
+          type: number
+          example: 10
+      type: object
+    DiscountCodeDto:
+      properties:
+        code:
+          type: string
+          description: "The case-insensitive discount code that customers use at checkout. (maximum: 255 characters)\n ```Use the same value for code as the title property of the associated price rule.```"
+          example: SUMMERSALE10OFF
+        created_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the discount code was created.
+          example: '2019-04-19T16:09:54-04:00'
+        id:
+          type: integer
+          description: The ID for the discount code.
+          example: 898668068
+        price_rule:
+          $ref: '#/components/schemas/PriceRuleDto'
+          description: PriceRule
+        price_rule_id:
+          type: integer
+          description: The ID for the price rule that this discount code belongs to.
+          example: 423748927342
+        scope:
+          type: string
+          description: scope shopbase, printbase
+        shop_id:
+          type: integer
+          description: shop id
+          example: 896781590
+        updated_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the discount code was updated.
+          example: '2019-04-19T16:09:54-04:00'
+        usage_count:
+          type: integer
+          description: The number of times that the discount code has been redeemed.
+          example: 6
+      type: object
+    PriceRulesRequest:
+      properties:
+        created_at_max:
+          type: integer
+        created_at_min:
+          type: integer
+        ends_at_max:
+          type: integer
+        ends_at_min:
+          type: integer
+        fields:
+          items:
+            type: string
+          type: array
+        filter:
+          type: string
+        ids:
+          items:
+            type: integer
+          type: array
+        ignore_id:
+          type: integer
+        limit:
+          type: integer
+        no_prerequisite:
+          type: boolean
+        page:
+          type: integer
+        shop_id:
+          type: integer
+        since_id:
+          type: integer
+        sort_by:
+          type: string
+        starts_at_max:
+          type: integer
+        starts_at_min:
+          type: integer
+        target_selection:
+          type: string
+        times_used:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        updated_at_max:
+          type: integer
+        updated_at_min:
+          type: integer
+      type: object
+    ToEntitlementQuantityRatio:
+      properties:
+        entitled_quantity:
+          type: number
+        prerequisite_quantity:
+          type: number
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

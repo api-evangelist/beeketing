@@ -1,0 +1,403 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Payment Simulator API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Payment Simulator
+paths:
+  /admin/payment-simulator.json:
+    post:
+      summary: Payment redirect handler
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Payment Simulator
+      operationId: post-redirect-handler
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                x_account_id:
+                  type: string
+                  description: Login id of merchant in payment settings
+                x_amount:
+                  type: integer
+                  description: Order's amount
+                x_currency:
+                  type: string
+                  description: Order's currency
+                x_reference:
+                  type: string
+                  description: Unique token for current checkout
+                x_shop_name:
+                  type: string
+                  description: Shop's name
+                x_signature:
+                  type: string
+                  description: Signed signature
+                x_test:
+                  type: boolean
+                  description: Indicates whether or not this request should be processed in test mode (if supported).
+                x_url_callback:
+                  type: string
+                  description: URL to which a callback notification should be sent asynchronously.
+                x_url_cancel:
+                  type: string
+                  description: URL to which customer must be redirected when they wish to quit payment flow and return to the merchant's site.
+                x_url_complete:
+                  type: string
+                  description: URL to which customer must be redirected upon successfully completing payment flow.
+                x_customer_billing_address_1:
+                  type: string
+                  description: Customer billing address 1
+                x_customer_billing_address_2:
+                  type: string
+                  description: Customer billing address 2
+                x_customer_billing_city:
+                  type: string
+                  description: Customer billing city
+                x_customer_billing_company:
+                  type: string
+                  description: Customer billing company
+                x_customer_billing_country:
+                  type: string
+                  description: Customer billing country
+                x_customer_billing_phone:
+                  type: string
+                  description: Customer billing phone
+                x_customer_billing_state:
+                  type: string
+                  description: Customer billing state
+                x_customer_billing_zip:
+                  type: string
+                  description: Customer billing zip code
+                x_customer_email:
+                  type: string
+                  description: Customer email
+                x_customer_first_name:
+                  type: string
+                  description: Customer first name
+                x_customer_last_name:
+                  type: string
+                  description: Customer last name
+                x_customer_phone:
+                  type: string
+                  description: Customer phone number
+                x_customer_shipping_address_1:
+                  type: string
+                  description: Customer shipping address 1
+                x_customer_shipping_address_2:
+                  type: string
+                  description: Customer shipping address 2
+                x_customer_shipping_city:
+                  type: string
+                  description: Customer shipping city
+                x_customer_shipping_company:
+                  type: string
+                  description: Customer shipping company
+                x_customer_shipping_country:
+                  type: string
+                  description: Customer shipping country
+                x_customer_shipping_first_name:
+                  type: string
+                  description: Customer shipping first name
+                x_customer_shipping_last_name:
+                  type: string
+                  description: Customer shipping last name
+                x_customer_shipping_phone:
+                  type: string
+                  description: Customer shipping phone number
+                x_customer_shipping_state:
+                  type: string
+                  description: Customer shipping state
+                x_customer_shipping_zip:
+                  type: string
+                  description: Customer shipping zip
+              required:
+              - x_account_id
+              - x_amount
+              - x_currency
+              - x_reference
+              - x_shop_name
+              - x_signature
+              - x_test
+              - x_url_callback
+              - x_url_cancel
+              - x_url_complete
+  /admin/payment-simulator/action.json:
+    post:
+      summary: Capture, refund or void handler
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponseDto'
+      tags:
+      - Payment Simulator
+      operationId: capture,-refund-or-void-handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CaptureRefundOrVoidHandlerSwaggerRequest'
+              description: Request structure
+        description: Request structure
+        required: true
+  /admin/payment-simulator/check-credential.json:
+    post:
+      summary: Credential check
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckCredentialSwaggerResponse'
+      tags:
+      - Payment Simulator
+      operationId: check-credential-handler
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckCredentialSwaggerRequest'
+              description: Request credential structure
+        description: Request credential structure
+        required: true
+  /admin/payment-simulator/transaction.json:
+    get:
+      summary: Get transaction
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponseDto'
+      parameters:
+      - name: x_account_id
+        description: Login id of merchant in payment settings
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: x_reference
+        description: Unique token for current checkout
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: x_signature
+        description: Signed signature
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: x_test
+        description: Indicates whether or not this request should be processed in test mode (if supported).
+        in: query
+        required: true
+        schema:
+          type: boolean
+      - name: x_transaction_type
+        description: 'The valid values are `capture`, `refund`, `void`, `get`. <ul><li>**capture**: Capture the payment.</li><li>**refund**: Refund the payment.</li><li>**void**: Cancel the payment.</li><li>**get**: Get the payment.</li></ul>'
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: x_gateway_reference
+        description: This will only be present in order management
+        in: query
+        required: true
+        schema:
+          type: string
+      tags:
+      - Payment Simulator
+      operationId: get-transaction-handler
+components:
+  schemas:
+    CheckCredentialSwaggerResponse:
+      properties:
+        x_result:
+          type: string
+          description: 'The valid values are valid, invalid, restricted.
+
+            * **valid**: Account is valid
+
+            * **invalid**: Account is invalid
+
+            * **restricted**: Account is restricted'
+      type: object
+    CaptureRefundOrVoidHandlerSwaggerRequest:
+      properties:
+        x_account_id:
+          type: string
+          description: Login id of merchant in payment settings
+        x_amount:
+          type: number
+          description: Order's amount
+        x_currency:
+          type: string
+          description: Order's currency
+        x_gateway_reference:
+          type: string
+          description: Unique reference for payment issued by the payment processor.
+        x_invoice:
+          type: string
+          description: Only available on request type = capture
+        x_reference:
+          type: string
+          description: Unique token for current checkout
+        x_signature:
+          type: string
+          description: See [Signing mechanism](https://docs.ocg.to/link/4417#bkmrk-2.3%C2%A0signing-mechanis)
+        x_transaction_type:
+          type: string
+          description: The valid values are `capture`, `refund`, `void`, `get`.
+        x_url_callback:
+          type: string
+          description: URL to which a callback notification should be sent asynchronously.
+      type: object
+    PaymentResponseDto:
+      properties:
+        x_account_id:
+          type: string
+          description: Login id of merchant in payment settings
+        x_amount:
+          type: number
+          description: Order's amount
+        x_currency:
+          type: string
+          description: Order's currency
+        x_error_code:
+          type: string
+          description: An error code to be log on Shopbase
+        x_gateway_reference:
+          type: string
+          description: Unique reference for payment issued by the payment processor.
+        x_intent:
+          type: string
+        x_message:
+          type: string
+          description: A custom error message displayed to the customer.
+        x_reference:
+          type: string
+          description: Unique token for current checkout
+        x_result:
+          type: string
+          description: Valid values are completed or failed
+        x_signature:
+          type: string
+          description: Signed signature
+        x_test:
+          type: boolean
+          description: Indicates whether or not this request should be processed in test mode (if supported).
+        x_timestamp:
+          type: string
+          description: 'Time of transaction completion. UTC Time: YYYY-MM-DDTHH:MM:SSZ'
+        x_transaction_type:
+          type: TransactionType
+          description: 'The valid values are `capture`, `refund`, `void`, `get`.
+
+            * **capture**: Capture the payment.
+
+            * **refund**: Refund the payment.
+
+            * **void**: Cancel the payment.
+
+            * **get**: Get the payment.'
+      type: object
+    CheckCredentialSwaggerRequest:
+      properties:
+        x_account_id:
+          type: string
+          description: '**Required**
+
+            <p>Login id of merchant in payment settings</p>'
+        x_account_password:
+          type: string
+          description: '**Required**
+
+            <p>Login password of merchant in payment settings</p>'
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

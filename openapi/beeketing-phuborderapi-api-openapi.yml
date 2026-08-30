@@ -1,0 +1,327 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Phub Order API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+  description: PhubOrderApi
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- description: PhubOrderApi
+  name: PhubOrderApi
+paths:
+  /admin/phub-order/import:
+    post:
+      summary: Import order phub by api
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportSingleOrderResponse'
+      tags:
+      - PhubOrderApi
+      operationId: import-order-via-api
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportSingleOrderRequest'
+        description: BODY import order by api
+  /admin/phub-order/import/{id:[0-9]+}:
+    get:
+      summary: Get phub order import detail by id
+      description: Get phub order import detail by id
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhubOrderImportRespDto'
+      parameters:
+      - name: id
+        description: PATH phub order import id
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - PhubOrderApi
+      operationId: get-phub-order-import-by-id
+      security:
+      - APP_ACCESS_TOKEN: []
+  /admin/phub-order/update-import-order/{id:[0-9]+}:
+    post:
+      summary: Update phub order import detail by id
+      description: Update phub order import detail by id
+      responses:
+        '200':
+          description: OK
+      parameters:
+      - name: id
+        description: PATH phub order import id
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - PhubOrderApi
+      operationId: update-import-order-via-api
+      security:
+      - APP_ACCESS_TOKEN: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportSingleOrderRequest'
+        description: BODY import order by api
+components:
+  schemas:
+    PhubLineItemImportRespDto:
+      properties:
+        id:
+          type: integer
+        line_item_import_id:
+          type: integer
+        product_name:
+          type: string
+        quantity:
+          type: integer
+        sku:
+          type: string
+        status:
+          type: string
+        tracking_carrier:
+          type: string
+        tracking_data:
+          $ref: '#/components/schemas/PhubLineItemImportTrackingDataRespDto'
+        variant_title:
+          type: string
+      type: object
+    ImportLineItem:
+      properties:
+        artwork_back_url:
+          type: string
+        artwork_front_url:
+          type: string
+        color:
+          type: string
+        lineitem_quantity:
+          type: integer
+          description: Line item quantity
+          example: 10
+        lineitem_sku:
+          type: string
+          description: Line item sky
+          example: example
+        mockup_back_url:
+          type: string
+        mockup_front_url:
+          type: string
+        name:
+          type: string
+          description: Line item name
+          example: example name
+        product_id:
+          type: string
+          description: Product id
+          example: example_id
+        product_name:
+          type: string
+          description: Product name
+          example: example name
+        reference_id:
+          type: string
+          description: Ref id
+          example: example
+        size:
+          type: string
+        supplier_id:
+          type: integer
+        supplier_name:
+          type: string
+        supplier_product_color:
+          type: string
+        supplier_product_size:
+          type: string
+      type: object
+    PhubLineItemImportTrackingDataRespDto:
+      properties:
+        tracking_number:
+          type: string
+        tracking_url:
+          type: string
+      type: object
+    ImportSingleOrderResponse:
+      properties:
+        order_id:
+          type: integer
+      type: object
+    ImportSingleOrderRequest:
+      properties:
+        line_items:
+          items:
+            $ref: '#/components/schemas/ImportLineItem'
+          type: array
+        name:
+          type: string
+          description: Order name
+          example: example name
+        shipping_address_1:
+          type: string
+          description: Shipping address
+          example: example address
+        shipping_address_2:
+          type: string
+          description: Shipping address
+          example: example address
+        shipping_city:
+          type: string
+          description: Shipping city
+          example: example city
+        shipping_country:
+          type: string
+          description: Shipping country
+          example: example country
+        shipping_name:
+          type: string
+          description: Shipping name
+          example: example name
+        shipping_phone:
+          type: string
+          description: Shipping phone
+          example: 012312302930
+        shipping_province:
+          type: string
+          description: Shipping province
+          example: example province
+        shipping_zip:
+          type: string
+          description: Shipping zip code
+          example: '12345'
+        shop_id:
+          type: integer
+          description: Shop id
+          example: 123456
+      type: object
+    OrderShippingAddressDto:
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        company:
+          type: string
+        country:
+          type: string
+        country_code:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        province:
+          type: string
+        zip:
+          type: string
+      type: object
+    PhubOrderImportRespDto:
+      properties:
+        id:
+          type: integer
+        line_items:
+          items:
+            $ref: '#/components/schemas/PhubLineItemImportRespDto'
+          type: array
+        order_name:
+          type: string
+        shipping_address:
+          $ref: '#/components/schemas/OrderShippingAddressDto'
+        shop_id:
+          type: integer
+        status:
+          type: string
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

@@ -1,0 +1,212 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Fulfillment Service API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: FulfillmentService
+paths:
+  /admin/fulfillment_services.json:
+    get:
+      summary: Receive a list of all FulfillmentServices
+      description: List your app's fulfillment services
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FulfillmentServicesListSwaggerResponse'
+      tags:
+      - FulfillmentService
+      operationId: receive-a-list-of-all-fulfillmentservices
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_fulfillments
+    post:
+      summary: Create a fulfillment service
+      description: Create a fulfillment service
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleFulfillmentServiceSwaggerResponse'
+      tags:
+      - FulfillmentService
+      operationId: create-a-new-fulfillmentservices
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_fulfillments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleFulfillmentServiceSwaggerResponse'
+              description: Request input
+        description: Request input
+        required: true
+  /admin/fulfillment_services/{id:\\d+}.json:
+    get:
+      summary: Receive a single FulfillmentServices
+      description: Receive a single FulfillmentServices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleFulfillmentServiceSwaggerResponse'
+      tags:
+      - FulfillmentService
+      operationId: receive-a-single-fulfillmentservices
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_fulfillments
+    delete:
+      summary: Remove a FulfillmentService from the database
+      description: Remove a FulfillmentService from the database
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gitlab.SwaggerDeleteResponse'
+      tags:
+      - FulfillmentService
+      operationId: remove-a-fulfillmentservice-from-the-database
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_fulfillments
+    put:
+      summary: Modify an existing FulfillmentService
+      description: Modify an existing FulfillmentService
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleFulfillmentServiceSwaggerResponse'
+      tags:
+      - FulfillmentService
+      operationId: modify-an-existing-fulfillmentservice
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_fulfillments
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleFulfillmentServiceSwaggerResponse'
+              description: input request
+        description: input request
+        required: true
+components:
+  schemas:
+    FulfillmentServicesListSwaggerResponse:
+      properties:
+        fulfillment_services:
+          items:
+            $ref: '#/components/schemas/FulfillmentService'
+          type: array
+      type: object
+    gitlab.SwaggerDeleteResponse:
+      type: object
+    SingleFulfillmentServiceSwaggerResponse:
+      properties:
+        fulfillment_service:
+          $ref: '#/components/schemas/FulfillmentService'
+      type: object
+    FulfillmentService:
+      properties:
+        can_remove_mapping:
+          type: boolean
+          description: Can remove mapping or not
+          example: true
+        is_mapped:
+          type: boolean
+          description: Whether is mapped or not
+          example: true
+        service_name:
+          type: string
+          description: Service name
+          example: Service name
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

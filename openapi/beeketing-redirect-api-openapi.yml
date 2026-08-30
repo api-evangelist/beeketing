@@ -1,0 +1,270 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Redirect API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Redirect
+paths:
+  /admin/redirects.json:
+    get:
+      summary: Retrieves a list of URL redirects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectsSwaggerResponse'
+      parameters:
+      - name: limit
+        description: The maximum number of results to show.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: since_id
+        description: Restrict results to after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: path
+        description: Show redirects with a given path.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: target
+        description: Show redirects with a given target.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Redirect
+      operationId: retrieves-a-list-redirects-of-a-shop-id
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_content
+    delete:
+      summary: Deletes redirects
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Redirect
+      operationId: delete-redirects-by-ids
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_content
+    post:
+      summary: Create a redirect
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectsSwaggerResponse'
+      tags:
+      - Redirect
+      operationId: create-a-redirect
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertRedirectRequestDto'
+              description: request input
+        description: request input
+        required: true
+  /admin/redirects/{redirect_id:(?:\\d+)}.json:
+    get:
+      summary: Retrieves a single redirect
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectSwaggerResponse'
+      parameters:
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Redirect
+      operationId: retrieves-a-specific-redirect
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_content
+    delete:
+      summary: Delete a redirect
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Redirect
+      operationId: delete-a-specific-redirect
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_content
+    put:
+      summary: Updates an existing redirect
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedirectsSwaggerResponse'
+      tags:
+      - Redirect
+      operationId: update-a-redirect
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertRedirectRequestDto'
+              description: request input
+        description: request input
+        required: true
+components:
+  schemas:
+    UpsertRedirectRequestDto:
+      properties:
+        redirect:
+          $ref: '#/components/schemas/RedirectRequestDto'
+      type: object
+    RedirectSwaggerResponse:
+      properties:
+        redirect:
+          $ref: '#/components/schemas/Redirect'
+      type: object
+    Redirect:
+      properties:
+        from_url:
+          type: string
+          description: The old path to be redirected. When the user visits this path, they will be redirected to the target.
+          example: /products.php
+        id:
+          type: integer
+          description: The ID for the redirect.
+          example: 304339089
+        to_url:
+          type: string
+          description: 'The target location where the user will be redirected. When the user visits the old path specified by the `from_url` property, they will be redirected to this location. This property can be set to any path on the shop''s site, or to an external URL. (maximum: 255 characters)'
+          example: /products
+      type: object
+    RedirectRequestDto:
+      properties:
+        from_url:
+          type: string
+          description: The old path to be redirected. When the user visits this path, they will be redirected to the target.
+          example: /products/all
+        id:
+          type: integer
+          description: The ID for the redirect.
+          example: 304339089
+        to_url:
+          type: string
+          description: 'The target location where the user will be redirected. When the user visits the old path specified by the `from_url` property, they will be redirected to this location. This property can be set to any path on the shop''s site, or to an external URL. (maximum: 255 characters)'
+          example: /products-all
+      type: object
+    RedirectsSwaggerResponse:
+      properties:
+        redirects:
+          items:
+            $ref: '#/components/schemas/Redirect'
+          type: array
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

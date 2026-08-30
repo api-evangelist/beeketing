@@ -1,0 +1,453 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Page API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- name: Page
+paths:
+  /admin/pages.json:
+    get:
+      summary: Retrieve a list of all pages
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPagesSwaggerResponse'
+      parameters:
+      - name: limit
+        description: The maximum number of results to show.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: since_id
+        description: Restrict results to after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: title
+        description: Retrieve pages with a given title.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: handle
+        description: Retrieve a page with a given handle.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_min
+        description: 'Show pages created after date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_max
+        description: 'Show pages created before date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_min
+        description: 'Show pages last updated after date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_max
+        description: 'Show pages last updated before date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_max
+        description: 'Show pages last updated before date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: published_at_min
+        description: 'Show pages published after date (format: 2014-04-25T16:15:47-04:00).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: published_status
+        description: 'Restrict results to pages with a given published status: <br> * published:  Show only published pages. <br> * unpublished: Show only unpublished pages. <br> * any: Show published and unpublished pages.'
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Page
+      operationId: retrieves-a-list-pages-of-a-shop-id
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_content
+    post:
+      summary: Creates a page
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SinglePageSwaggerResponse'
+      tags:
+      - Page
+      operationId: create-a-page
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SinglePageSwaggerResponse'
+              description: input request
+        description: input request
+        required: true
+  /admin/pages/plus-base.json:
+    get:
+      summary: Retrieve a list of all pages
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPagesSwaggerResponse'
+      parameters:
+      - name: limit
+        description: The maximum number of results to show.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: since_id
+        description: Restrict results to after the specified ID.
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: title
+        description: Retrieve pages with a given title.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: handle
+        description: Retrieve a page with a given handle.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_min
+        description: 'Show pages created after date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: created_at_max
+        description: 'Show pages created before date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_min
+        description: 'Show pages last updated after date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_max
+        description: 'Show pages last updated before date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: updated_at_max
+        description: 'Show pages last updated before date (format: 2008-12-31).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: published_at_min
+        description: 'Show pages published after date (format: 2014-04-25T16:15:47-04:00).'
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: published_status
+        description: 'Restrict results to pages with a given published status: <br> * published:  Show only published pages. <br> * unpublished: Show only unpublished pages. <br> * any: Show published and unpublished pages.'
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Page
+      operationId: retrieves-a-list-pages-of-a-shop-id-with-package-is-plusbase
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_content
+  /admin/pages/{page_id:(?:\\d+)}.json:
+    get:
+      summary: Retrieve a single page
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SinglePageSwaggerResponse'
+      parameters:
+      - name: fields
+        description: Show only certain fields, specified by a comma-separated list of field names.
+        in: query
+        required: false
+        schema:
+          type: string
+      tags:
+      - Page
+      operationId: retrieves-a-specific-page
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_content
+    delete:
+      summary: Delete a page
+      responses:
+        '200':
+          description: ''
+      tags:
+      - Page
+      operationId: delete-a-specific-page
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_content
+    put:
+      summary: Updates a page
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SinglePageSwaggerResponse'
+      tags:
+      - Page
+      operationId: update-a-page
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_content
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertPageRequestDto'
+              description: input request
+        description: input request
+        required: true
+components:
+  schemas:
+    SinglePageSwaggerResponse:
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+      type: object
+    Page:
+      properties:
+        body_html:
+          type: string
+          description: The text content of the page, complete with HTML markup.
+          example: Contact us at <a href=\&quot;mailto:contact@johns-apparel.com\&quot;>contact@johns-apparel.com</a>
+        handle:
+          type: string
+          description: A unique, human-friendly string for the page, generated automatically from its title. In online store themes, the Liquid templating language refers to a page by its handle.
+          example: contact-us
+        id:
+          type: integer
+          description: The unique numeric identifier for the page.
+          example: 131092082
+        is_show_in_search:
+          type: boolean
+        publish:
+          type: boolean
+          description: Tell whether this page is visible or hidden
+          example: true
+        search_engine_image:
+          type: string
+        search_engine_meta_description:
+          type: string
+          description: The description to display in Search Engine
+          example: Contact us at contact@johns-apparel.com
+        search_engine_title:
+          type: string
+          description: The title to display in Search Engine
+          example: Contact us
+        tags:
+          type: string
+        template:
+          type: string
+          description: Template name which will be used to display. If this field is empty, default template will be used instead
+          example: contact_us
+        title:
+          type: string
+          description: The page's title.
+          example: Contact us
+      type: object
+    ListPagesSwaggerResponse:
+      properties:
+        pages:
+          items:
+            $ref: '#/components/schemas/Page'
+          type: array
+      type: object
+    PageRequestDto:
+      properties:
+        body_html:
+          type: string
+          description: The text content of the page, complete with HTML markup.
+          example: Contact us at <a href=\&quot;mailto:contact@johns-apparel.com\&quot;>contact@johns-apparel.com</a>
+        handle:
+          type: string
+          description: A unique, human-friendly string for the page, generated automatically from its title. In online store themes, the Liquid templating language refers to a page by its handle.
+          example: contact-us
+        id:
+          type: integer
+          description: The unique numeric identifier for the page.
+          example: 131092082
+        is_show_in_search:
+          type: boolean
+        publish:
+          type: boolean
+          description: Tell whether this page is visible or hidden
+          example: true
+        search_engine_image:
+          type: string
+        search_engine_meta_description:
+          type: string
+          description: The description to display in Search Engine
+          example: Contact us at contact@johns-apparel.com
+        search_engine_title:
+          type: string
+          description: The title to display in Search Engine
+          example: Contact us
+        tags:
+          items:
+            type: string
+          type: array
+        template:
+          type: string
+          description: Template name which will be used to display. If this field is empty, default template will be used instead
+          example: contact
+        template_shop_id:
+          type: integer
+          description: The template shop id to check shop plusbase
+          example: 1
+        title:
+          type: string
+          description: The page's title.
+          example: Contact us
+      type: object
+    UpsertPageRequestDto:
+      properties:
+        is_create_redirect:
+          type: boolean
+          description: Option for create redirect from old page handle to new page handle or not
+          example: true
+        page:
+          $ref: '#/components/schemas/PageRequestDto'
+          description: Data update for page
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

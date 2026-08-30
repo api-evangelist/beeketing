@@ -1,0 +1,554 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Product Variant API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+  description: A variant can be added to a Product resource to represent one version of a product with several options. The Product resource will have a variant for every possible combination of its options. Each product can have a maximum of three options and a maximum of 250 variants.
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- description: A variant can be added to a Product resource to represent one version of a product with several options. The Product resource will have a variant for every possible combination of its options. Each product can have a maximum of three options and a maximum of 250 variants.
+  name: Product Variant
+paths:
+  /admin/products/{product_id}/variants.json:
+    get:
+      summary: Retrieves a list of product variants.
+      description: Retrieve all variants for a product.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllVariantResponse'
+      parameters:
+      - name: product_id
+        description: Product ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Product Variant
+      operationId: get-all-variants-of-a-product
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+    post:
+      summary: Create a new product variant.
+      description: Create a new product variant.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseCreateProductVariantDto'
+      parameters:
+      - name: product_id
+        description: Product ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Product Variant
+      operationId: create-a-variant-of-a-product
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIRequestCreateProductVariantDto'
+              description: Product variant request
+        description: Product variant request
+        required: true
+  /admin/products/{product_id}/variants/count.json:
+    get:
+      summary: Retrieves a count of product variants.
+      description: Retrieve a count all variants for a product.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariantCountResponse'
+      parameters:
+      - name: product_id
+        description: Product ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Product Variant
+      operationId: get-count-of-all-variants-of-a-product
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+  /admin/products/{product_id}/variants/{variant_id}.json:
+    delete:
+      summary: Delete a product variant
+      description: Delete a product variant
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProductVariantResponse'
+      parameters:
+      - name: product_id
+        description: Product ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      - name: variant_id
+        description: Variant ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Product Variant
+      operationId: delete-a-variant-of-product
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_products
+  /admin/variants/{variant_id}.json:
+    get:
+      summary: Retrieves a single product variant by ID.
+      description: Retrieve a product variant by ID.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VariantByIdSwagger'
+      tags:
+      - Product Variant
+      operationId: get-detail-of-a-variant
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+    put:
+      summary: Update the title and price of an existing variant.
+      description: Update the title and price of an existing variant.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponseUpdateProductVariantDto'
+      tags:
+      - Product Variant
+      operationId: update-a-variant-of-a-product
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductVariantDtoRequest'
+              description: Product variant struct
+        description: Product variant struct
+        required: true
+components:
+  schemas:
+    APIResponseCreateProductVariantDto:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantResponse'
+      type: object
+    ProductVariantDtoRequest:
+      properties:
+        duplicate_from_variant:
+          type: boolean
+        variant:
+          $ref: '#/components/schemas/ProductVariantRawRequest'
+      type: object
+    Price:
+      properties:
+        amount:
+          type: string
+          description: Amount
+          example: '199.00'
+        currency_code:
+          type: string
+          description: Currency code
+          example: USD
+      type: object
+    DeleteProductVariantResponse:
+      properties:
+        success:
+          type: boolean
+          description: This field is request api success
+          example: true
+      type: object
+    ProductVariantRawRequest:
+      properties:
+        barcode:
+          type: string
+          description: The barcode, UPC, or ISBN number for the product.
+          example: 1234_pink
+        fulfillment_service:
+          type: string
+          description: 'The fulfillment service associated with the product variant. Valid values: manual or the handle of a fulfillment service.'
+          example: manual
+        grams:
+          type: integer
+          description: The weight of the product variant in grams.
+          example: 567
+        image_id:
+          type: integer
+          description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
+          example: 434522
+        inventory_management:
+          type: string
+          description: 'The fulfillment service that tracks the number of items in stock for the product variant. If you track the inventory yourself using the admin, then set the value to shopify. Valid values: shopify or the handle of a fulfillment service that has inventory management enabled. Must be the same fulfillment service referenced by the fulfillment_service property.'
+          example: shopbase
+        inventory_policy:
+          type: string
+          description: Whether customers are allowed to place an order for the product variant when it's out of stock.
+          example: continue
+        inventory_quantity:
+          type: integer
+          description: An aggregate of inventory across all locations. To adjust inventory at a specific location, use the InventoryLevel resource.
+          example: 10
+        option1:
+          type: string
+          description: 'You can define three options for a product: option1, option2, option3. Default value: Default Title.'
+          example: Pink
+        option2:
+          type: string
+          description: 'You can define three options for a product: option1, option2, option3. Default value: Default Title.'
+          example: Blue
+        option3:
+          type: string
+          description: 'You can define three options for a product: option1, option2, option3. Default value: Default Title.'
+          example: Red
+        position:
+          type: integer
+          description: The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed.
+          example: 1
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product.
+          example: 632910392
+        requires_shipping:
+          type: boolean
+          description: Whether a customer needs to provide a shipping address when placing an order for the product variant.
+          example: true
+        sku:
+          type: string
+          description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService.
+          example: IPOD2008PINK
+        taxable:
+          type: boolean
+          description: Whether a tax is charged when the product variant is sold.
+          example: true
+        title:
+          type: string
+          description: The title of the product variant.
+          example: Pink
+        weight:
+          type: number
+          description: The weight of the product variant in the unit system specified with weight_unit
+          example: 100
+        weight_unit:
+          type: string
+          description: 'The unit of measurement that applies to the product variant''s weight. If you don''t specify a value for ''weight_unit'', then the shop''s default unit of measurement is applied. Valid values: g, kg, oz, and lb.'
+          example: oz
+      type: object
+    PresentmentPrice:
+      properties:
+        compare_at_price:
+          $ref: '#/components/schemas/Price'
+          description: Compare at price
+        price:
+          $ref: '#/components/schemas/Price'
+          description: Price
+      type: object
+    VariantByIdSwagger:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantResponse'
+      type: object
+    VariantCountResponse:
+      properties:
+        count:
+          type: integer
+          description: All variants for a product
+          example: 4
+      type: object
+    APIResponseUpdateProductVariantDto:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantResponse'
+      type: object
+    AllVariantResponse:
+      properties:
+        variants:
+          items:
+            $ref: '#/components/schemas/ProductVariantResponse'
+          type: array
+      type: object
+    APIRequestCreateProductVariantDto:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantRawRequestSwagger'
+      type: object
+    ProductVariantResponse:
+      properties:
+        barcode:
+          type: string
+          description: The barcode, UPC, or ISBN number for the product.
+          example: 1234_pink
+        compare_at_price:
+          type: string
+          description: The original price of the item before an adjustment or a sale.
+          example: '299.00'
+        created_at:
+          type: string
+          description: Retrieve all variants for a product.
+          example: '2012-08-24T14:01:47-04:00'
+        fulfillment_service:
+          type: string
+          description: 'The fulfillment service associated with the product variant. Valid values: manual or the handle of a fulfillment service.'
+          example: manual
+        grams:
+          type: integer
+          description: The weight of the product variant in grams.
+          example: 567
+        image_id:
+          type: integer
+          description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
+          example: 434522
+        inventory_management:
+          type: string
+          description: 'The fulfillment service that tracks the number of items in stock for the product variant. If you track the inventory yourself using the admin, then set the value to shopify. Valid values: shopify or the handle of a fulfillment service that has inventory management enabled. Must be the same fulfillment service referenced by the fulfillment_service property.'
+          example: shopbase
+        inventory_policy:
+          type: string
+          description: Whether customers are allowed to place an order for the product variant when it's out of stock.
+          example: continue
+        inventory_quantity:
+          type: integer
+          description: An aggregate of inventory across all locations. To adjust inventory at a specific location, use the InventoryLevel resource.
+          example: 10
+        option1:
+          type: string
+          description: The custom properties that a shop owner uses to define product variants.
+          example: Pink
+        option2:
+          type: string
+          description: The custom properties that a shop owner uses to define product variants.
+          example: Blue
+        option3:
+          type: string
+          description: The custom properties that a shop owner uses to define product variants.
+          example: Red
+        position:
+          type: integer
+          description: The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed.
+          example: 1
+        presentment_prices:
+          items:
+            $ref: '#/components/schemas/PresentmentPrice'
+          type: array
+        price:
+          type: string
+          description: The price of the product variant.
+          example: '199.00'
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product.
+          example: 632910392
+        requires_shipping:
+          type: boolean
+          description: Whether a customer needs to provide a shipping address when placing an order for the product variant.
+          example: true
+        sku:
+          type: string
+          description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService.
+          example: IPOD2008PINK
+        taxable:
+          type: boolean
+          description: Whether a tax is charged when the product variant is sold.
+          example: true
+        title:
+          type: string
+          description: The title of the product variant.
+          example: Pink
+        update_at:
+          type: string
+          description: The date and time when the product variant was last modified. Gets returned in ISO 8601 format.
+          example: '2012-08-24T14:01:47-04:00'
+        weight:
+          type: number
+          description: The weight of the product variant in the unit system specified with weight_unit
+          example: 100
+        weight_unit:
+          type: string
+          description: 'The unit of measurement that applies to the product variant''s weight. If you don''t specify a value for ''weight_unit'', then the shop''s default unit of measurement is applied. Valid values: g, kg, oz, and lb.'
+          example: oz
+      type: object
+    ProductVariantRawRequestSwagger:
+      properties:
+        barcode:
+          type: string
+          description: The barcode, UPC, or ISBN number for the product.
+          example: 1234_pink
+        fulfillment_service:
+          type: string
+          description: 'The fulfillment service associated with the product variant. Valid values: manual or the handle of a fulfillment service.'
+          example: manual
+        grams:
+          type: integer
+          description: The weight of the product variant in grams.
+          example: 567
+        image_id:
+          type: integer
+          description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
+          example: 434522
+        inventory_management:
+          type: string
+          description: 'The fulfillment service that tracks the number of items in stock for the product variant. If you track the inventory yourself using the admin, then set the value to shopify. Valid values: shopify or the handle of a fulfillment service that has inventory management enabled. Must be the same fulfillment service referenced by the fulfillment_service property.'
+          example: shopbase
+        inventory_policy:
+          type: string
+          description: Whether customers are allowed to place an order for the product variant when it's out of stock.
+          example: continue
+        inventory_quantity:
+          type: integer
+          description: An aggregate of inventory across all locations. To adjust inventory at a specific location, use the InventoryLevel resource.
+          example: 10
+        option1:
+          type: string
+          description: 'You can define three options for a product: option1, option2, option3. Default value: Default Title.'
+          example: Pink
+        option2:
+          type: string
+          description: 'You can define three options for a product: option1, option2, option3. Default value: Default Title.'
+          example: Blue
+        option3:
+          type: string
+          description: 'You can define three options for a product: option1, option2, option3. Default value: Default Title.'
+          example: Red
+        position:
+          type: integer
+          description: The order of the product variant in the list of product variants. The first position in the list is 1. The position of variants is indicated by the order in which they are listed.
+          example: 1
+        price:
+          type: string
+          description: The price of the product variant.
+          example: '199.00'
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product.
+          example: 632910392
+        requires_shipping:
+          type: boolean
+          description: Whether a customer needs to provide a shipping address when placing an order for the product variant.
+          example: true
+        sku:
+          type: string
+          description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService.
+          example: IPOD2008PINK
+        taxable:
+          type: boolean
+          description: Whether a tax is charged when the product variant is sold.
+          example: true
+        title:
+          type: string
+          description: The title of the product variant.
+          example: Pink
+        weight:
+          type: number
+          description: The weight of the product variant in the unit system specified with weight_unit
+          example: 100
+        weight_unit:
+          type: string
+          description: 'The unit of measurement that applies to the product variant''s weight. If you don''t specify a value for ''weight_unit'', then the shop''s default unit of measurement is applied. Valid values: g, kg, oz, and lb.'
+          example: oz
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain

@@ -1,0 +1,343 @@
+openapi: 3.2.0
+info:
+  title: ShopBase Internal Collect API
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+  contact:
+    url: /
+    email: support@shopbase.com
+  license:
+    name: ShopBase Dev 1.0
+    url: https://www.shopbase.net
+  x-logo:
+    url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
+  description: The Collect resource connects a product to a custom collection. </br></br>Collects are meant for managing the relationship between products and custom collections. For every product in a custom collection there is a collect that tracks the ID of both the product and the custom collection. A product can be in more than one collection, and will have a collect connecting it to each collection. Unlike many ShopBase resources, collects aren't apparent to store owners. </br></br>Collects are for placing products in custom collections only. Smart collections use rules to determine which products are their members
+servers:
+- url: https://shop-name.onshopbase.com
+tags:
+- description: The Collect resource connects a product to a custom collection. </br></br>Collects are meant for managing the relationship between products and custom collections. For every product in a custom collection there is a collect that tracks the ID of both the product and the custom collection. A product can be in more than one collection, and will have a collect connecting it to each collection. Unlike many ShopBase resources, collects aren't apparent to store owners. </br></br>Collects are for placing products in custom collections only. Smart collections use rules to determine which products are their members
+  name: Collect
+paths:
+  /admin/collects.json:
+    get:
+      summary: Retrieves a list of collects.
+      description: Retrieve all collects for the shop.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectListResponseSwagger'
+      parameters:
+      - name: collection_id
+        description: Filter list collect by collection
+        in: query
+        required: false
+        schema:
+          type: integer
+      tags:
+      - Collect
+      operationId: retrieve-a-list-of-collect
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+    post:
+      summary: Adds a product to a custom collection.
+      description: Create a new link between an existing product and an existing collection.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateCollectResponseSwagger'
+      tags:
+      - Collect
+      operationId: create-a-collect
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCollectRequestSwagger'
+              description: Collect request
+        description: Collect request
+        required: true
+  /admin/collects/count.json:
+    get:
+      summary: Retrieves a count of collects.
+      description: Retrieves a count of collects.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectCountResponseSwagger'
+      parameters:
+      - name: collection_id
+        description: Filter list collect by collection
+        in: query
+        required: false
+        schema:
+          type: integer
+      tags:
+      - Collect
+      operationId: retrieve-a-count-of-collect
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+  /admin/collects/{collect_id:\\d+}.json:
+    get:
+      summary: Retrieves a specific collect by its ID.
+      description: Retrieve a collect with a certain ID.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectByIdResponseSwagger'
+      tags:
+      - Collect
+      operationId: retrieve-a-single-collect
+      security:
+      - APP_ACCESS_TOKEN:
+        - read_products
+    delete:
+      summary: Removes a product from a collection.
+      description: Delete the link between a product an a collection.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteCollectResponseSwagger'
+      parameters:
+      - name: collect_id
+        description: Collect ID
+        in: path
+        required: true
+        schema:
+          type: integer
+      tags:
+      - Collect
+      operationId: delete-a-collect
+      security:
+      - APP_ACCESS_TOKEN:
+        - write_products
+components:
+  schemas:
+    CollectListResponseSwagger:
+      properties:
+        collects:
+          items:
+            $ref: '#/components/schemas/CollectListResponse'
+          type: array
+      type: object
+    CollectListResponse:
+      properties:
+        collection_id:
+          type: integer
+          description: The ID of the custom collection containing the product.
+          example: 86733558492
+        created_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the collect was created.
+          example: '2018-04-25T13:51:12-04:00'
+        featured:
+          type: boolean
+          description: Whether the collect is featured.
+          example: false
+        id:
+          type: integer
+          description: A unique numeric identifier for the collect.
+          example: 5435
+        position:
+          type: number
+          description: The position of this product in a manually sorted custom collection. The first position is 1. This value is applied only when the custom collection is sorted manually.
+          example: 2
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product in the custom collection.
+          example: 16011
+        sort_value:
+          type: string
+          description: This is the same value as position but padded with leading zeroes to make it alphanumeric-sortable. This value is applied only when the custom collection is sorted manually.
+          example: '0000000002'
+        updated_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the collect was last updated.
+          example: 'updated_at: 2018-04-25T13:51:12-04:00'
+      type: object
+    CreateCollectRequestSwagger:
+      properties:
+        collect:
+          $ref: '#/components/schemas/CreateCollectResponse'
+      type: object
+    CollectByIdResponseSwagger:
+      properties:
+        collect:
+          $ref: '#/components/schemas/CollectByIdResponse'
+      type: object
+    CreateCollectResponse:
+      properties:
+        collection_id:
+          type: integer
+          description: The ID of the custom collection containing the product.
+          example: 86733558492
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product in the custom collection.
+          example: 16011
+      type: object
+    DeleteCollectResponseSwagger:
+      properties:
+        success:
+          type: boolean
+          description: Api response success
+          example: true
+      type: object
+    CreateCollectResponseSwagger:
+      properties:
+        collect:
+          $ref: '#/components/schemas/Collect'
+      type: object
+    Collect:
+      properties:
+        collection_id:
+          type: integer
+          description: The ID of the custom collection containing the product.
+          example: 86733558492
+        featured:
+          type: boolean
+          description: Whether the collect is featured.
+          example: false
+        id:
+          type: integer
+          description: A unique numeric identifier for the collect.
+          example: 5435
+        position:
+          type: number
+          description: The position of this product in a manually sorted custom collection. The first position is 1. This value is applied only when the custom collection is sorted manually.
+          example: 2
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product in the custom collection.
+          example: 16011
+        sort_value:
+          type: string
+          description: This is the same value as position but padded with leading zeroes to make it alphanumeric-sortable. This value is applied only when the custom collection is sorted manually.
+          example: '0000000002'
+      type: object
+    CollectByIdResponse:
+      properties:
+        collection_id:
+          type: integer
+          description: The ID of the custom collection containing the product.
+          example: 86733558492
+        created_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the collect was created.
+          example: '2018-04-25T13:51:12-04:00'
+        featured:
+          type: boolean
+          description: Whether the collect is featured.
+          example: false
+        id:
+          type: integer
+          description: A unique numeric identifier for the collect.
+          example: 5435
+        position:
+          type: number
+          description: The position of this product in a manually sorted custom collection. The first position is 1. This value is applied only when the custom collection is sorted manually.
+          example: 2
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product in the custom collection.
+          example: 16011
+        sort_value:
+          type: string
+          description: This is the same value as position but padded with leading zeroes to make it alphanumeric-sortable. This value is applied only when the custom collection is sorted manually.
+          example: '0000000002'
+        updated_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the collect was last updated.
+          example: 'updated_at: 2018-04-25T13:51:12-04:00'
+      type: object
+    CollectCountResponseSwagger:
+      properties:
+        count:
+          type: integer
+          description: Get count of collects.
+          example: 3
+      type: object
+  securitySchemes:
+    APP_ACCESS_TOKEN:
+      type: apiKey
+      name: APP_ACCESS_TOKEN
+      in: header
+    SHOP_ACCESS_TOKEN:
+      type: apiKey
+      name: SHOP_ACCESS_TOKEN
+      in: header
+    USER_ACCESS_TOKEN:
+      type: apiKey
+      name: USER_ACCESS_TOKEN
+      in: header
+x-tagGroups:
+- name: PhubOrderApi
+  tags:
+  - PhubOrderApi
+- name: Customer
+  tags:
+  - Customer
+  - Customer Address
+- name: Product
+  tags:
+  - Custom Collection
+  - Collect
+  - Product
+  - Product Image
+  - Product Variant
+  - SmartCollection
+- name: Discount
+  tags:
+  - DiscountCode
+  - PriceRule
+- name: Events
+  tags:
+  - Webhook
+- name: Orders
+  tags:
+  - Order
+  - DraftOrder
+  - Transaction
+  - Refund
+  - Abandoned Checkout
+- name: Fulfillment
+  tags:
+  - Fulfillment
+  - FulfillmentService
+- name: Metafield
+  tags:
+  - Metafield
+- name: OnlineStore
+  tags:
+  - Page
+  - Redirect
+  - ScriptTag
+- name: Payment
+  tags:
+  - PaymentMethod
+  - Payment Simulator
+- name: Shop
+  tags:
+  - Shop
+- name: Domain
+  tags:
+  - Domain
