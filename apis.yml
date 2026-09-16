@@ -25,20 +25,16 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/beeketing.png
 name: Beeketing
-description: >-
-  Beeketing began as a Vietnam-founded e-commerce marketing startup (backed by
-  500 Global) that built conversion-optimization apps for Shopify and other
-  online stores, and evolved into OpenCommerce Group — the operator of ShopBase,
-  a cross-border commerce platform serving 100,000+ merchants across 195
-  countries alongside PrintBase and PlusBase. The developer surface is the
-  ShopBase Developer Platform: a Shopify-style REST Admin API (plus a GraphQL
-  Admin API) for building public and private apps, themes, and payment gateways.
-  It is secured with OAuth 2.0 authorization-code flow (public apps) or HTTP
-  Basic auth (private apps), scoped with granular access scopes, and supports
-  webhooks, leaky-bucket rate limiting, an app/theme store, and a Storefront SDK.
-  A machine-readable contract is published: a Swagger 2.0 document of 97 paths,
-  153 operations and 268 definitions, served at
-  https://api-doc.shopbase.com/public-swagger.json and rendered with ReDoc.
+description: 'Beeketing began as a Vietnam-founded e-commerce marketing startup (backed by 500 Global)
+  that built conversion-optimization apps for Shopify and other online stores, and evolved into OpenCommerce
+  Group — the operator of ShopBase, a cross-border commerce platform serving 100,000+ merchants across
+  195 countries alongside PrintBase and PlusBase. The developer surface is the ShopBase Developer Platform:
+  a Shopify-style REST Admin API (plus a GraphQL Admin API) for building public and private apps, themes,
+  and payment gateways. It is secured with OAuth 2.0 authorization-code flow (public apps) or HTTP Basic
+  auth (private apps), scoped with granular access scopes, and supports webhooks, leaky-bucket rate limiting,
+  an app/theme store, and a Storefront SDK. A machine-readable contract is published: a Swagger 2.0 document
+  of 97 paths, 153 operations and 268 definitions, served at https://api-doc.shopbase.com/public-swagger.json
+  and rendered with ReDoc.'
 url: https://raw.githubusercontent.com/api-evangelist/beeketing/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -48,7 +44,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-08-13'
+modified: '2026-09-16'
 tags:
 - Company
 - E-Commerce
@@ -74,9 +70,8 @@ tags_raw:
 apis:
 - aid: beeketing:beeketing-abandoned-checkout-api
   name: Beeketing Abandoned Checkout API
-  description: >-
-    You can query the Checkout resource to return abandoned checkouts. A checkout is considered abandoned
-    when a customer leaves the checkout after the first page without completing their purchase
+  description: You can query the Checkout resource to return abandoned checkouts. A checkout is considered
+    abandoned when a customer leaves the checkout after the first page without completing their purchase
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -130,13 +125,13 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-collect-api
   name: Beeketing Collect API
-  description: >-
-    The Collect resource connects a product to a custom collection. </br></br>Collects are meant for managing
-    the relationship between products and custom collections. For every product in a custom collection
-    there is a collect that tracks the ID of both the product and the custom collection. A product can
-    be in more than one collection, and will have a collect connecting it to each collection. Unlike many
-    ShopBase resources, collects aren't apparent to store owners. </br></br>Collects are for placing products
-    in custom collections only. Smart collections use rules to determine which products are their members
+  description: The Collect resource connects a product to a custom collection. </br></br>Collects are
+    meant for managing the relationship between products and custom collections. For every product in
+    a custom collection there is a collect that tracks the ID of both the product and the custom collection.
+    A product can be in more than one collection, and will have a collect connecting it to each collection.
+    Unlike many ShopBase resources, collects aren't apparent to store owners. </br></br>Collects are for
+    placing products in custom collections only. Smart collections use rules to determine which products
+    are their members
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -322,9 +317,8 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-fulfillment-api
   name: Beeketing Fulfillment API
-  description: >-
-    You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment. </br></br>A
-    fulfillment represents a group of one or more items in an order
+  description: You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment.
+    </br></br>A fulfillment represents a group of one or more items in an order
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -402,12 +396,11 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-order-api
   name: Beeketing Order API
-  description: >-
-    An order is a customer's completed request to purchase one or more products from a shop. An order
-    is created when a customer completes the checkout process, during which time they provide an email
-    address or phone number, billing address and payment information. </br></br>Orders can be created
-    through the API, but no payment information will be collected, and no transaction performed. You can
-    mark the order with any payment status
+  description: An order is a customer's completed request to purchase one or more products from a shop.
+    An order is created when a customer completes the checkout process, during which time they provide
+    an email address or phone number, billing address and payment information. </br></br>Orders can be
+    created through the API, but no payment information will be collected, and no transaction performed.
+    You can mark the order with any payment status
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -537,11 +530,10 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-product-api
   name: Beeketing Product API
-  description: >-
-    The Product resource lets you update and create products in a merchant's store. You can use product
-    variants with the Product resource to create or update different versions of the same product. You
-    can also add or update product images. </br></br>You can add products to collections with the CustomCollection
-    resource and the SmartCollection resource
+  description: The Product resource lets you update and create products in a merchant's store. You can
+    use product variants with the Product resource to create or update different versions of the same
+    product. You can also add or update product images. </br></br>You can add products to collections
+    with the CustomCollection resource and the SmartCollection resource
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -593,10 +585,9 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-product-variant-api
   name: Beeketing Product Variant API
-  description: >-
-    A variant can be added to a Product resource to represent one version of a product with several options.
-    The Product resource will have a variant for every possible combination of its options. Each product
-    can have a maximum of three options and a maximum of 250 variants.
+  description: A variant can be added to a Product resource to represent one version of a product with
+    several options. The Product resource will have a variant for every possible combination of its options.
+    Each product can have a maximum of three options and a maximum of 250 variants.
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -648,10 +639,9 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-refund-api
   name: Beeketing Refund API
-  description: >-
-    There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The
-    line items included in the refund, along with restocking instructions</br></br>Before you create a
-    refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
+  description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>-
+    The line items included in the refund, along with restocking instructions</br></br>Before you create
+    a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
     that are being refunded, their quantity and restock instructions, and whether you're refunding shipping
     costs. You can then use the response in the body of the request to create the actual refund.</br></br>When
     you create a refund using the response from the calculate endpoint, you can set additional options,
@@ -763,10 +753,9 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-transaction-api
   name: Beeketing Transaction API
-  description: >-
-    There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The
-    line items included in the refund, along with restocking instructions</br></br>Before you create a
-    refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
+  description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>-
+    The line items included in the refund, along with restocking instructions</br></br>Before you create
+    a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
     that are being refunded, their quantity and restock instructions, and whether you're refunding shipping
     costs. You can then use the response in the body of the request to create the actual refund.</br></br>When
     you create a refund using the response from the calculate endpoint, you can set additional options,
@@ -886,7 +875,7 @@ common:
 - type: LLMsTxt
   url: llms/beeketing-llms.txt
 - type: OpenAPI
-  url: openapi/beeketing-shopbase-admin-openapi.json
+  url: openapi/_original/beeketing-shopbase-admin-openapi.json
 - type: Overlay
   url: overlays/beeketing-shopbase-admin-overlay.yaml
 - type: DataModel
@@ -912,29 +901,22 @@ x-partner-surfaces:
   first_party_github_org: https://github.com/ShopBaseCom
 x-well-known-probe:
   file: well-known/beeketing-well-known.yml
-  note: >-
-    Probe recorded, NO WellKnown pointer emitted. Every /.well-known/ path on
-    every ShopBase / OpenCommerce Group host returned 404, 500, or an SPA
-    catch-all HTML shell on 2026-08-13. The previous round carried a WellKnown
-    pointer at a file whose own contents record zero documents; it has been
-    removed rather than credited.
+  note: Probe recorded, NO WellKnown pointer emitted. Every /.well-known/ path on every ShopBase / OpenCommerce
+    Group host returned 404, 500, or an SPA catch-all HTML shell on 2026-08-13. The previous round carried
+    a WellKnown pointer at a file whose own contents record zero documents; it has been removed rather
+    than credited.
 x-ownership:
   verified: '2026-08-13'
-  note: >-
-    Beeketing is the former brand of OpenCommerce Group, whose product is
-    ShopBase. beeketing.com 301s to https://www.shopbase.com/. The harvested
-    contract is served from ShopBase's own reference host and says so about
-    itself: info.contact.email support@shopbase.com, licence url
-    https://www.shopbase.net, host shop-name.onshopbase.com — all ShopBase, none
-    of them a sibling or third-party product.
+  note: 'Beeketing is the former brand of OpenCommerce Group, whose product is ShopBase. beeketing.com
+    301s to https://www.shopbase.com/. The harvested contract is served from ShopBase''s own reference
+    host and says so about itself: info.contact.email support@shopbase.com, licence url https://www.shopbase.net,
+    host shop-name.onshopbase.com — all ShopBase, none of them a sibling or third-party product.'
 x-enrichment:
   date: '2026-08-13'
   status: enriched
   artifacts_added: 15
   artifacts_updated: 9
   pass: local-v1
-  note: >-
-    Round 2. Contract discovery found the previously missed machine-readable
-    spec: the ReDoc page at api-doc.shopbase.com loads
-    /public-swagger.json — a real 560KB Swagger 2.0 document, 153 operations.
-    Everything derived this round is grounded in it.
+  note: 'Round 2. Contract discovery found the previously missed machine-readable spec: the ReDoc page
+    at api-doc.shopbase.com loads /public-swagger.json — a real 560KB Swagger 2.0 document, 153 operations.
+    Everything derived this round is grounded in it.'
