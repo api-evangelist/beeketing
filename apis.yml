@@ -70,8 +70,9 @@ tags_raw:
 apis:
 - aid: beeketing:beeketing-abandoned-checkout-api
   name: Beeketing Abandoned Checkout API
-  description: You can query the Checkout resource to return abandoned checkouts. A checkout is considered
-    abandoned when a customer leaves the checkout after the first page without completing their purchase
+  description: >-
+    You can query the Checkout resource to return abandoned checkouts. A checkout is considered abandoned
+    when a customer leaves the checkout after the first page without completing their purchase
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -125,13 +126,13 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-collect-api
   name: Beeketing Collect API
-  description: The Collect resource connects a product to a custom collection. </br></br>Collects are
-    meant for managing the relationship between products and custom collections. For every product in
-    a custom collection there is a collect that tracks the ID of both the product and the custom collection.
-    A product can be in more than one collection, and will have a collect connecting it to each collection.
-    Unlike many ShopBase resources, collects aren't apparent to store owners. </br></br>Collects are for
-    placing products in custom collections only. Smart collections use rules to determine which products
-    are their members
+  description: >-
+    The Collect resource connects a product to a custom collection. </br></br>Collects are meant for managing
+    the relationship between products and custom collections. For every product in a custom collection
+    there is a collect that tracks the ID of both the product and the custom collection. A product can
+    be in more than one collection, and will have a collect connecting it to each collection. Unlike many
+    ShopBase resources, collects aren't apparent to store owners. </br></br>Collects are for placing products
+    in custom collections only. Smart collections use rules to determine which products are their members
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -235,34 +236,6 @@ apis:
     url: errors/beeketing-problem-types.yml
   - type: DataModel
     url: data-model/beeketing-data-model.yml
-- aid: beeketing:beeketing-discountcode-api
-  name: Beeketing Discount Code API
-  description: The DiscountCode API from Beeketing — 3 operation(s) for discountcode.
-  humanURL: https://developers.shopbase.com
-  baseURL: https://{shop}.onshopbase.com/admin
-  tags:
-  - Discount Code
-  tags_raw:
-  - DiscountCode
-  properties:
-  - type: OpenAPI
-    url: openapi/beeketing-discountcode-api-openapi.yml
-  - type: Documentation
-    url: https://developers.shopbase.com
-  - type: APIReference
-    url: https://api-doc.shopbase.com
-  - type: Authentication
-    url: authentication/beeketing-authentication.yml
-  - type: OAuthScopes
-    url: scopes/beeketing-scopes.yml
-  - type: Webhooks
-    url: asyncapi/beeketing-webhooks.yml
-  - type: RateLimits
-    url: rate-limits/beeketing-rate-limits.yml
-  - type: ErrorCatalog
-    url: errors/beeketing-problem-types.yml
-  - type: DataModel
-    url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-domain-api
   name: Beeketing Domain API
   description: You can use the domain resource to view
@@ -317,8 +290,9 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-fulfillment-api
   name: Beeketing Fulfillment API
-  description: You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment.
-    </br></br>A fulfillment represents a group of one or more items in an order
+  description: >-
+    You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment. </br></br>A
+    fulfillment represents a group of one or more items in an order
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -396,11 +370,12 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-order-api
   name: Beeketing Order API
-  description: An order is a customer's completed request to purchase one or more products from a shop.
-    An order is created when a customer completes the checkout process, during which time they provide
-    an email address or phone number, billing address and payment information. </br></br>Orders can be
-    created through the API, but no payment information will be collected, and no transaction performed.
-    You can mark the order with any payment status
+  description: >-
+    An order is a customer's completed request to purchase one or more products from a shop. An order
+    is created when a customer completes the checkout process, during which time they provide an email
+    address or phone number, billing address and payment information. </br></br>Orders can be created
+    through the API, but no payment information will be collected, and no transaction performed. You can
+    mark the order with any payment status
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -530,10 +505,11 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-product-api
   name: Beeketing Product API
-  description: The Product resource lets you update and create products in a merchant's store. You can
-    use product variants with the Product resource to create or update different versions of the same
-    product. You can also add or update product images. </br></br>You can add products to collections
-    with the CustomCollection resource and the SmartCollection resource
+  description: >-
+    The Product resource lets you update and create products in a merchant's store. You can use product
+    variants with the Product resource to create or update different versions of the same product. You
+    can also add or update product images. </br></br>You can add products to collections with the CustomCollection
+    resource and the SmartCollection resource
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -585,9 +561,10 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-product-variant-api
   name: Beeketing Product Variant API
-  description: A variant can be added to a Product resource to represent one version of a product with
-    several options. The Product resource will have a variant for every possible combination of its options.
-    Each product can have a maximum of three options and a maximum of 250 variants.
+  description: >-
+    A variant can be added to a Product resource to represent one version of a product with several options.
+    The Product resource will have a variant for every possible combination of its options. Each product
+    can have a maximum of three options and a maximum of 250 variants.
   humanURL: https://developers.shopbase.com
   baseURL: https://{shop}.onshopbase.com/admin
   tags:
@@ -639,9 +616,10 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-refund-api
   name: Beeketing Refund API
-  description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>-
-    The line items included in the refund, along with restocking instructions</br></br>Before you create
-    a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
+  description: >-
+    There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The
+    line items included in the refund, along with restocking instructions</br></br>Before you create a
+    refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
     that are being refunded, their quantity and restock instructions, and whether you're refunding shipping
     costs. You can then use the response in the body of the request to create the actual refund.</br></br>When
     you create a refund using the response from the calculate endpoint, you can set additional options,
@@ -753,9 +731,10 @@ apis:
     url: data-model/beeketing-data-model.yml
 - aid: beeketing:beeketing-transaction-api
   name: Beeketing Transaction API
-  description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>-
-    The line items included in the refund, along with restocking instructions</br></br>Before you create
-    a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
+  description: >-
+    There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The
+    line items included in the refund, along with restocking instructions</br></br>Before you create a
+    refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items
     that are being refunded, their quantity and restock instructions, and whether you're refunding shipping
     costs. You can then use the response in the body of the request to create the actual refund.</br></br>When
     you create a refund using the response from the calculate endpoint, you can set additional options,
@@ -797,6 +776,32 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/beeketing-webhook-api-openapi.yml
+  - type: Documentation
+    url: https://developers.shopbase.com
+  - type: APIReference
+    url: https://api-doc.shopbase.com
+  - type: Authentication
+    url: authentication/beeketing-authentication.yml
+  - type: OAuthScopes
+    url: scopes/beeketing-scopes.yml
+  - type: Webhooks
+    url: asyncapi/beeketing-webhooks.yml
+  - type: RateLimits
+    url: rate-limits/beeketing-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/beeketing-problem-types.yml
+  - type: DataModel
+    url: data-model/beeketing-data-model.yml
+- aid: beeketing:beeketing-discount-code-api
+  name: Beeketing Discount Code API
+  description: The Discount Code API from Beeketing — 3 operation(s) for discount code.
+  humanURL: https://developers.shopbase.com
+  baseURL: https://{shop}.onshopbase.com/admin
+  tags:
+  - Discount Code
+  properties:
+  - type: OpenAPI
+    url: openapi/beeketing-discount-code-api-openapi.yml
   - type: Documentation
     url: https://developers.shopbase.com
   - type: APIReference
