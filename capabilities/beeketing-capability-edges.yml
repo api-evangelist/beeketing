@@ -1,0 +1,75 @@
+slug: beeketing
+provider: Beeketing
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: Customer
+  spec_file: beeketing-customer-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.88
+  evidence: '"Creates a customer." / "Retrieves a single customer." / "Updates a customer." with schema
+    CustomerDto'
+  reason: Plain CRUD plus count over customer master records in the commerce platform — customer data
+    management. The invite operation is a minor adjunct.
+- tag: DiscountCode
+  spec_file: beeketing-discount-code-api-openapi.yml
+  reanchored_from: beeketing-discountcode-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.87
+  evidence: '"Create a discount code" ; "Retrieve a list of price rules" ; schemas PriceRuleDto, DiscountCodeDto'
+  reason: Operations create and manage discount codes governed by price rules (quantity/subtotal ranges)
+    — discount and promotion administration for the storefront.
+- tag: Fulfillment
+  spec_file: beeketing-fulfillment-api-openapi.yml
+  capability_id: BC-520.40
+  capability_id_l1: BC-520
+  capability_name: Order Fulfilment Management
+  confidence: 0.85
+  evidence: '"A fulfillment represents a group of one or more items in an order" ; "Create a fulfillment."
+    / "Complete a fulfillment" / "Cancel a fulfillment"'
+  reason: Lifecycle operations over order fulfilments (create, complete, cancel, reopen) with line-item
+    shipping rates — order fulfilment execution for the commerce platform.
+- tag: Customer Address
+  spec_file: beeketing-customer-address-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.82
+  evidence: '"Retrieve all of a customer’s addresses" ; "Set a default address for a customer" ; schema
+    CustomerAddressDetail'
+  reason: Maintenance of address attributes attached to customer records — an extension of the customer
+    master/golden record rather than logistics or billing.
+- tag: PriceRule
+  spec_file: beeketing-pricerule-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.75
+  evidence: '''Creates a price rule'' with schemas QuantityRange, SubtotalRange, ShippingPriceRange, ToEntitlementQuantityRatio'
+  reason: Price rules with prerequisite quantity/subtotal ranges and entitlement ratios are the discount/promotion
+    rule engine of the storefront, matching discount and promotion management.
+- tag: Webhook
+  spec_file: beeketing-webhook-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.75
+  evidence: POST /admin/webhooks.json  create-webhook; GET /admin/webhooks.json  retrieves-a-list-of-webhooks;
+    DELETE /admin/webhooks/{webhook_id}  delete-webhook-by-id
+  reason: Full CRUD lifecycle over outbound webhook subscriptions exposed to app developers on the ShopBase
+    developer platform, which is exactly what BC-4270.80 Webhook & Event Subscription Management names.
+    Some risk that this is treated as pure integration plumbing rather than a business capability.
