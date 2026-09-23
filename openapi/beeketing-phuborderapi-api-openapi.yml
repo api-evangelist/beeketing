@@ -42,7 +42,6 @@ paths:
   /admin/phub-order/import/{id:[0-9]+}:
     get:
       summary: Get phub order import detail by id
-      description: Get phub order import detail by id
       responses:
         '200':
           description: OK
@@ -65,7 +64,6 @@ paths:
   /admin/phub-order/update-import-order/{id:[0-9]+}:
     post:
       summary: Update phub order import detail by id
-      description: Update phub order import detail by id
       responses:
         '200':
           description: OK
@@ -108,60 +106,6 @@ components:
         tracking_data:
           $ref: '#/components/schemas/PhubLineItemImportTrackingDataRespDto'
         variant_title:
-          type: string
-      type: object
-    ImportLineItem:
-      properties:
-        artwork_back_url:
-          type: string
-        artwork_front_url:
-          type: string
-        color:
-          type: string
-        lineitem_quantity:
-          type: integer
-          description: Line item quantity
-          example: 10
-        lineitem_sku:
-          type: string
-          description: Line item sky
-          example: example
-        mockup_back_url:
-          type: string
-        mockup_front_url:
-          type: string
-        name:
-          type: string
-          description: Line item name
-          example: example name
-        product_id:
-          type: string
-          description: Product id
-          example: example_id
-        product_name:
-          type: string
-          description: Product name
-          example: example name
-        reference_id:
-          type: string
-          description: Ref id
-          example: example
-        size:
-          type: string
-        supplier_id:
-          type: integer
-        supplier_name:
-          type: string
-        supplier_product_color:
-          type: string
-        supplier_product_size:
-          type: string
-      type: object
-    PhubLineItemImportTrackingDataRespDto:
-      properties:
-        tracking_number:
-          type: string
-        tracking_url:
           type: string
       type: object
     ImportSingleOrderResponse:
@@ -216,6 +160,53 @@ components:
           description: Shop id
           example: 123456
       type: object
+    ImportLineItem:
+      properties:
+        artwork_back_url:
+          type: string
+        artwork_front_url:
+          type: string
+        color:
+          type: string
+        lineitem_quantity:
+          type: integer
+          description: Line item quantity
+          example: 10
+        lineitem_sku:
+          type: string
+          description: Line item sky
+          example: example
+        mockup_back_url:
+          type: string
+        mockup_front_url:
+          type: string
+        name:
+          type: string
+          description: Line item name
+          example: example name
+        product_id:
+          type: string
+          description: Product id
+          example: example_id
+        product_name:
+          type: string
+          description: Product name
+          example: example name
+        reference_id:
+          type: string
+          description: Ref id
+          example: example
+        size:
+          type: string
+        supplier_id:
+          type: integer
+        supplier_name:
+          type: string
+        supplier_product_color:
+          type: string
+        supplier_product_size:
+          type: string
+      type: object
     OrderShippingAddressDto:
       properties:
         address1:
@@ -241,6 +232,13 @@ components:
         province:
           type: string
         zip:
+          type: string
+      type: object
+    PhubLineItemImportTrackingDataRespDto:
+      properties:
+        tracking_number:
+          type: string
+        tracking_url:
           type: string
       type: object
     PhubOrderImportRespDto:

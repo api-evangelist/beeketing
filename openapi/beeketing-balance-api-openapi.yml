@@ -18,7 +18,7 @@ tags:
 paths:
   /admin/balance/charge.json:
     post:
-      summary: Capture charge balance.
+      summary: Capture charge balance
       description: Capture charge balance.
       responses:
         '200':
@@ -48,7 +48,7 @@ paths:
         required: true
   /admin/balance/refund.json:
     post:
-      summary: Refund balance.
+      summary: Refund balance
       description: Refund balance.
       responses:
         '200':
@@ -78,23 +78,31 @@ paths:
         required: true
 components:
   schemas:
+    RefundParamsDto:
+      properties:
+        amount:
+          type: number
+          description: Refund amount.
+          example: 10
+        order_id:
+          type: integer
+          description: OrderId to refund ( optional )
+          example: 123456
+        reason_title:
+          type: string
+          description: Refund reason.
+          example: 'Refunded for the order #1234567'
+        transaction_type:
+          type: string
+          description: Transaction type.
+          example: order_refund
+      type: object
     SuccessResponse:
       properties:
         success:
           type: boolean
           description: Is Refund successfully.
           example: true
-      type: object
-    swagggerCaptureFailureResponse:
-      properties:
-        message:
-          type: string
-          description: If un-success, response error message.
-          example: invalid charge amount
-        success:
-          type: boolean
-          description: Is capture charge failure.
-          example: false
       type: object
     FailureResponse:
       properties:
@@ -126,31 +134,23 @@ components:
           description: Transaction type.
           example: PrintBase bill
       type: object
-    RefundParamsDto:
-      properties:
-        amount:
-          type: number
-          description: Refund amount.
-          example: 10
-        order_id:
-          type: integer
-          description: OrderId to refund ( optional )
-          example: 123456
-        reason_title:
-          type: string
-          description: Refund reason.
-          example: 'Refunded for the order #1234567'
-        transaction_type:
-          type: string
-          description: Transaction type.
-          example: order_refund
-      type: object
     swagggerCaptureSuccessResponse:
       properties:
         success:
           type: boolean
           description: Is capture charge successfully.
           example: true
+      type: object
+    swagggerCaptureFailureResponse:
+      properties:
+        message:
+          type: string
+          description: If un-success, response error message.
+          example: invalid charge amount
+        success:
+          type: boolean
+          description: Is capture charge failure.
+          example: false
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

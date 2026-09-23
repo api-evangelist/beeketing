@@ -232,6 +232,19 @@ paths:
       operationId: get-transaction-handler
 components:
   schemas:
+    CheckCredentialSwaggerRequest:
+      properties:
+        x_account_id:
+          type: string
+          description: '**Required**
+
+            <p>Login id of merchant in payment settings</p>'
+        x_account_password:
+          type: string
+          description: '**Required**
+
+            <p>Login password of merchant in payment settings</p>'
+      type: object
     CheckCredentialSwaggerResponse:
       properties:
         x_result:
@@ -322,19 +335,6 @@ components:
             * **void**: Cancel the payment.
 
             * **get**: Get the payment.'
-      type: object
-    CheckCredentialSwaggerRequest:
-      properties:
-        x_account_id:
-          type: string
-          description: '**Required**
-
-            <p>Login id of merchant in payment settings</p>'
-        x_account_password:
-          type: string
-          description: '**Required**
-
-            <p>Login password of merchant in payment settings</p>'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

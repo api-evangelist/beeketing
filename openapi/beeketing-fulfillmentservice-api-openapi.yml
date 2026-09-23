@@ -35,7 +35,6 @@ paths:
         - read_fulfillments
     post:
       summary: Create a fulfillment service
-      description: Create a fulfillment service
       responses:
         '200':
           description: OK
@@ -60,7 +59,6 @@ paths:
   /admin/fulfillment_services/{id:\\d+}.json:
     get:
       summary: Receive a single FulfillmentServices
-      description: Receive a single FulfillmentServices
       responses:
         '200':
           description: OK
@@ -76,7 +74,6 @@ paths:
         - read_fulfillments
     delete:
       summary: Remove a FulfillmentService from the database
-      description: Remove a FulfillmentService from the database
       responses:
         '200':
           description: OK
@@ -92,7 +89,6 @@ paths:
         - write_fulfillments
     put:
       summary: Modify an existing FulfillmentService
-      description: Modify an existing FulfillmentService
       responses:
         '200':
           description: OK
@@ -116,19 +112,19 @@ paths:
         required: true
 components:
   schemas:
-    FulfillmentServicesListSwaggerResponse:
-      properties:
-        fulfillment_services:
-          items:
-            $ref: '#/components/schemas/FulfillmentService'
-          type: array
-      type: object
     gitlab.SwaggerDeleteResponse:
       type: object
     SingleFulfillmentServiceSwaggerResponse:
       properties:
         fulfillment_service:
           $ref: '#/components/schemas/FulfillmentService'
+      type: object
+    FulfillmentServicesListSwaggerResponse:
+      properties:
+        fulfillment_services:
+          items:
+            $ref: '#/components/schemas/FulfillmentService'
+          type: array
       type: object
     FulfillmentService:
       properties:

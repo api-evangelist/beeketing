@@ -18,7 +18,7 @@ tags:
 paths:
   /admin/metafields.json:
     get:
-      summary: Retrieves meta fields belong to an resource with options.
+      summary: Retrieves meta fields belong to an resource with options
       responses:
         '200':
           description: OK
@@ -93,7 +93,7 @@ paths:
       security:
       - APP_ACCESS_TOKEN: []
     post:
-      summary: Creates new metafield.
+      summary: Creates new metafield
       responses:
         '200':
           description: OK
@@ -116,7 +116,7 @@ paths:
         required: true
   /admin/metafields/count.json:
     get:
-      summary: Retrieves count meta fields belong to an resource with options.
+      summary: Retrieves count meta fields belong to an resource with options
       responses:
         '200':
           description: OK
@@ -186,7 +186,7 @@ paths:
       - APP_ACCESS_TOKEN: []
   /admin/metafields/{metafield_id:[0-9]+}.json:
     get:
-      summary: Retrieves a single metafield by id.
+      summary: Retrieves a single metafield by id
       responses:
         '200':
           description: OK
@@ -207,7 +207,7 @@ paths:
       security:
       - APP_ACCESS_TOKEN: []
     delete:
-      summary: Deletes a metafield.
+      summary: Deletes a metafield
       responses:
         '200':
           description: ''
@@ -224,7 +224,7 @@ paths:
       security:
       - APP_ACCESS_TOKEN: []
     put:
-      summary: Updates new metafield.
+      summary: Updates new metafield
       responses:
         '200':
           description: OK
@@ -260,7 +260,14 @@ paths:
         required: true
 components:
   schemas:
-    APIResponseMetafieldDto:
+    APIResponseMetafieldsDto:
+      properties:
+        metafields:
+          items:
+            $ref: '#/components/schemas/MetafieldDto'
+          type: array
+      type: object
+    APIRequestMetafield:
       properties:
         metafield:
           $ref: '#/components/schemas/MetafieldDto'
@@ -269,6 +276,11 @@ components:
       properties:
         count:
           type: integer
+      type: object
+    APIResponseMetafieldDto:
+      properties:
+        metafield:
+          $ref: '#/components/schemas/MetafieldDto'
       type: object
     MetafieldDto:
       properties:
@@ -292,18 +304,6 @@ components:
           type: object
         value_type:
           type: string
-      type: object
-    APIResponseMetafieldsDto:
-      properties:
-        metafields:
-          items:
-            $ref: '#/components/schemas/MetafieldDto'
-          type: array
-      type: object
-    APIRequestMetafield:
-      properties:
-        metafield:
-          $ref: '#/components/schemas/MetafieldDto'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

@@ -11,16 +11,30 @@ info:
     url: https://www.shopbase.net
   x-logo:
     url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
-  description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The line items included in the refund, along with restocking instructions</br></br>Before you create a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items that are being refunded, their quantity and restock instructions, and whether you're refunding shipping costs. You can then use the response in the body of the request to create the actual refund.</br></br>When you create a refund using the response from the calculate endpoint, you can set additional options, such as whether to notify the customer of the refund. You can refund less than the calculated amount for either shipping or the line items by setting a custom value for the amount property.</br></br>If a refund includes shipping costs, or if you choose to refund line items for less than their calculated amount, then an order adjustment is created automatically to account for the discrepancy in the store's financial reports.
+  description: 'There are two major parts to a refund:
+
+    - A record of money returned to the customer
+
+    - The line items included in the refund, along with restocking instructions
+
+
+    Before you create a refund, use the calculate endpoint to generate accurate refund transactions.'
 servers:
 - url: https://shop-name.onshopbase.com
 tags:
-- description: There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The line items included in the refund, along with restocking instructions</br></br>Before you create a refund, use the calculate endpoint to generate accurate refund transactions. Specify the line items that are being refunded, their quantity and restock instructions, and whether you're refunding shipping costs. You can then use the response in the body of the request to create the actual refund.</br></br>When you create a refund using the response from the calculate endpoint, you can set additional options, such as whether to notify the customer of the refund. You can refund less than the calculated amount for either shipping or the line items by setting a custom value for the amount property.</br></br>If a refund includes shipping costs, or if you choose to refund line items for less than their calculated amount, then an order adjustment is created automatically to account for the discrepancy in the store's financial reports.
+- description: 'There are two major parts to a refund:
+
+    - A record of money returned to the customer
+
+    - The line items included in the refund, along with restocking instructions
+
+
+    Before you create a refund, use the calculate endpoint to generate accurate refund transactions.'
   name: Transaction
 paths:
   /admin/orders/{order_id:(?:\\d+)}/transactions.json:
     get:
-      summary: Retrieves a list of transactions.
+      summary: Retrieves a list of transactions
       description: Transactions attached to multi-currency orders are in the presentment currency by default. To retrieve transactions in the shop currency, include the URL parameter in_shop_currency=true.
       responses:
         '200':
@@ -55,7 +69,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - read_orders
     post:
-      summary: Creates a transaction for an order.
+      summary: Creates a transaction for an order
       description: Creates a transaction for an order.
       responses:
         '200':
@@ -79,7 +93,7 @@ paths:
         description: Request input
   /admin/orders/{order_id:(?:\\d+)}/transactions/count.json:
     get:
-      summary: Retrieves a count of an order's transactions.
+      summary: Retrieves a count of an order's transactions
       description: Count an order's transactions
       responses:
         '200':
@@ -96,7 +110,7 @@ paths:
         - read_orders
   /admin/orders/{order_id:(?:\\d+)}/transactions/{transaction_id:(?:\\d+)}.json:
     get:
-      summary: Retrieves a specific transaction.
+      summary: Retrieves a specific transaction
       description: Retrieve a specific transaction for an order. Transactions attached to multi-currency orders are in the presentment currency by default. To retrieve transactions in the shop currency, include the URL parameter in_shop_currency=true.
       responses:
         '200':
@@ -126,40 +140,6 @@ paths:
         - read_orders
 components:
   schemas:
-    OrderTransactionsSwaggerResponse:
-      properties:
-        transactions:
-          items:
-            $ref: '#/components/schemas/TransactionDto'
-          type: array
-      type: object
-    PaymentDetailsDto:
-      properties:
-        avs_result_code:
-          type: string
-          description: The response code from the [address verification system](https://en.wikipedia.org/wiki/Address_Verification_System). The code is a single letter; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
-          example: '123456'
-        credit_card_bin:
-          type: string
-          description: The [issuer identification number](https://en.wikipedia.org/wiki/ISO/IEC_7812) (IIN), formerly known as bank identification number (BIN) of the customer's credit card. This is made up of the first few digits of the credit card number.
-          example: M
-        credit_card_company:
-          type: string
-          description: The name of the company that issued the customer's credit card.
-          example: Visa
-        credit_card_number:
-          type: string
-          description: The customer's credit card number, with most of the leading digits redacted.
-        cvv_result_code:
-          type: string
-          description: The response code from the credit card company indicating whether the customer entered the [card security code](https://en.wikipedia.org/wiki/Card_security_code), or card verification value, correctly. The code is a single letter or empty string; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
-          example: M
-      type: object
-    CountResponse:
-      properties:
-        count:
-          type: integer
-      type: object
     TransactionDto:
       properties:
         amount:
@@ -261,15 +241,39 @@ components:
           description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the transaction was updated.
           example: '2019-03-13T16:09:54-04:00'
       type: object
-    OrderTransactionSwaggerResponse:
+    CountResponse:
       properties:
-        transaction:
-          $ref: '#/components/schemas/TransactionDto'
+        count:
+          type: integer
       type: object
-    SingleOrderTransactionSwaggerResponse:
+    PaymentDetailsDto:
       properties:
-        transaction:
-          $ref: '#/components/schemas/TransactionDto'
+        avs_result_code:
+          type: string
+          description: The response code from the [address verification system](https://en.wikipedia.org/wiki/Address_Verification_System). The code is a single letter; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
+          example: '123456'
+        credit_card_bin:
+          type: string
+          description: The [issuer identification number](https://en.wikipedia.org/wiki/ISO/IEC_7812) (IIN), formerly known as bank identification number (BIN) of the customer's credit card. This is made up of the first few digits of the credit card number.
+          example: M
+        credit_card_company:
+          type: string
+          description: The name of the company that issued the customer's credit card.
+          example: Visa
+        credit_card_number:
+          type: string
+          description: The customer's credit card number, with most of the leading digits redacted.
+        cvv_result_code:
+          type: string
+          description: The response code from the credit card company indicating whether the customer entered the [card security code](https://en.wikipedia.org/wiki/Card_security_code), or card verification value, correctly. The code is a single letter or empty string; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
+          example: M
+      type: object
+    OrderTransactionsSwaggerResponse:
+      properties:
+        transactions:
+          items:
+            $ref: '#/components/schemas/TransactionDto'
+          type: array
       type: object
     CurrencyExchangeAdjustmentDto:
       properties:
@@ -293,6 +297,16 @@ components:
           type: number
           description: The amount of the parent transaction in the shop currency.
           example: -53.62
+      type: object
+    OrderTransactionSwaggerResponse:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionDto'
+      type: object
+    SingleOrderTransactionSwaggerResponse:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionDto'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

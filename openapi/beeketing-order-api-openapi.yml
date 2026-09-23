@@ -11,11 +11,17 @@ info:
     url: https://www.shopbase.net
   x-logo:
     url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
-  description: An order is a customer's completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provide an email address or phone number, billing address and payment information. </br></br>Orders can be created through the API, but no payment information will be collected, and no transaction performed. You can mark the order with any payment status
+  description: 'An order is a customer''s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provide an email address or phone number, billing address and payment information.
+
+
+    Orders can be created through the API, but no payment information will be collected, and no transaction performed. You can mark the order with any payment status'
 servers:
 - url: https://shop-name.onshopbase.com
 tags:
-- description: An order is a customer's completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provide an email address or phone number, billing address and payment information. </br></br>Orders can be created through the API, but no payment information will be collected, and no transaction performed. You can mark the order with any payment status
+- description: 'An order is a customer''s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provide an email address or phone number, billing address and payment information.
+
+
+    Orders can be created through the API, but no payment information will be collected, and no transaction performed. You can mark the order with any payment status'
   name: Order
 paths:
   /admin/orders.json:
@@ -45,7 +51,6 @@ paths:
         required: true
     post:
       summary: Creates an order
-      description: Creates an order
       responses:
         '200':
           description: OK
@@ -70,7 +75,6 @@ paths:
   /admin/orders/count.json:
     get:
       summary: Retrieves an order count
-      description: Retrieves an order count
       responses:
         '200':
           description: OK
@@ -119,7 +123,6 @@ paths:
         required: true
     delete:
       summary: Deletes an order
-      description: Deletes an order
       responses:
         '200':
           description: OK
@@ -142,7 +145,6 @@ paths:
         - write_orders
     put:
       summary: Updates an order
-      description: Updates an order
       responses:
         '200':
           description: OK
@@ -173,8 +175,7 @@ paths:
         required: true
   /admin/orders/{order_id:[0-9]+}/adjust.json:
     put:
-      summary: Adjust quantity or add new custom line item to order.
-      description: Adjust quantity or add new custom line item to order
+      summary: Adjust quantity or add new custom line item to order
       responses:
         '200':
           description: OK
@@ -231,7 +232,6 @@ paths:
   /admin/orders/{order_id:[0-9]+}/open.json:
     post:
       summary: Open-Close a closed order
-      description: Open-Close a closed order
       responses:
         '200':
           description: OK
@@ -254,48 +254,217 @@ paths:
         - write_orders
 components:
   schemas:
-    OrdersSwaggerResponse:
+    OrderLineItemDto:
       properties:
-        orders:
+        discount_allocations:
           items:
-            $ref: '#/components/schemas/OrderDto'
+            $ref: '#/components/schemas/OrderLineItemDiscountApplicationDto'
           type: array
-      type: object
-    ShippingLinesDto:
-      properties:
-        carrier_identifier:
-          type: string
-          description: A reference to the carrier service that provided the rate. Present when the rate was computed by a third-party carrier service.
-          example: third_party_carrier_identifier
-        code:
-          type: string
-          description: A reference to the combined shipping method.
-          example: weight_based_47925+weight_based_47926+weight_based_47928
-        discounted_price:
+          description: An ordered list of amounts allocated by discount applications.
+        discount_amount:
           type: number
-          description: The price of the shipping method after discounts.
-          example: 4
+          description: Discount amount
+          example: 1
+        fulfillable_quantity:
+          type: integer
+          description: "The amount available to fulfill, calculated as follows: \n `quantity - max(refunded_quantity, fulfilled_quantity) - pending_fulfilled_quantity - open_fulfilled_quantity`"
+          example: 1
         fulfillment_service:
           type: string
-          description: A reference to the fulfillment service that is being requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service; null otherwise.
-          example: third_party_fulfillment_service_id
+          description: 'The service provider that''s fulfilling the item. Valid values: manual, or the name of the provider, such as `amazon` or `shipwire`.'
+          example: amazon
+        fulfillment_status:
+          type: string
+          description: 'How far along an order is in terms line items fulfilled. Valid values: null, processing, partial-processing, fulfilled, partial, and not_eligible.'
+          example: fulfilled
+        gift_card:
+          type: boolean
+          description: Whether the item is a gift card. If `true`, then the item is not taxed or considered for shipping charges.
+        image_src:
+          type: string
+          description: Image source
+          example: https://example.com/img.jpg
+        is_post_purchase_item:
+          type: boolean
+          description: Is post purchase item
+        item_discount_price:
+          type: number
+          description: Item discount price
+          example: 20
+        line_item_discount_amount:
+          type: number
+          description: Line item discount amount
+          example: 20
+        line_item_discount_price:
+          type: number
+          description: Line item discount price
+          example: 100
+        line_item_price:
+          type: number
+          description: Line item price
+          example: 100
+        line_item_price_after_discount:
+          type: number
+          description: Line item price after discount
+          example: 20
+        line_item_price_before_discount:
+          type: number
+          description: Line item price before discount
+          example: 20
+        line_item_price_with_explicit_discount:
+          type: number
+          description: Line item price with explicit discount
+          example: 10
+        line_item_weight:
+          type: number
+          description: Line item weight
+          example: 10
+        name:
+          type: string
+          description: The name of the product variant.
+        not_explicit_discount_price:
+          type: number
+          description: Not explitcit discount price
+          example: 2
+        order_id:
+          type: integer
+          description: Order ID
+          example: 1
         price:
           type: number
-          description: The price of this shipping method in the shop currency. Can't be negative. (sum of all shipping rates price)
-          example: 4
-        source:
+          description: The price of the item before discounts have been applied in the shop currency.
+          example: 225
+        product_id:
+          type: integer
+          description: Product ID
+          example: 1
+        product_is_deleted:
+          type: boolean
+          description: The status of product of this line item
+        product_type:
           type: string
-          description: The source of the shipping method.
-          example: canada_post
+          description: Product type
+          example: '1'
+        properties:
+          items:
+            type: '&{%!s(token.Pos=3634) string string}'
+          type: array
+          description: An array of custom information for the item that has been added to the cart. Often used to provide product customization options.
+        quantity:
+          type: number
+          description: Quantity items
+          example: 1000
+        raw_price:
+          type: number
+          description: Raw price
+          example: 20
+        raw_weight:
+          type: number
+          description: Raw weight
+          example: 10
+        requires_shipping:
+          type: boolean
+          description: Whether the item requires shipping.
+          example: true
+        shipping_rate:
+          $ref: '#/components/schemas/LineItemShippingRate'
+          description: Line item shipping rate
+        sku:
+          type: string
+          description: The item's SKU (stock keeping unit).
+          example: IPOD2008GREEN
+        tags:
+          type: string
+          description: A string of comma-separated product tags
+          example: Emotive, Flash Memory, MP3, Music
+        tax_amount:
+          type: number
+          description: Tax amount
+          example: 20
         tax_lines:
           items:
             $ref: '#/components/schemas/TaxLineDto'
           type: array
-          description: A list of tax line objects, each of which details a tax applicable to this shipping line.
+          description: An array of tax line objects, each of which details a tax applicable to the order.
+        tax_rate:
+          type: number
+          description: Tax rate
+          example: 1
+        taxable:
+          type: boolean
+          description: Whether the item was taxable.
+        tip_payment_gateway:
+          type: string
+          description: The payment gateway used to tender the tip, such as shopbase_payments. Present only on tips.
+        tip_payment_method:
+          type: string
+          description: The payment method used to tender the tip, such as Visa. Present only on tips.
         title:
           type: string
-          description: The title of the shipping method.
-          example: Small Packet International Air
+          description: The title of the product.
+          example: IPOD2008GREEN
+        total_discount:
+          type: number
+          description: The total discount amount applied to this line item in the shop currency. This value is not subtracted in the line item price.
+        total_item_discount_price:
+          type: number
+          description: Total item discount price
+          example: 10
+        total_line_with_discount_price:
+          type: number
+          description: Total line with discount price
+          example: 10
+        total_tax_amount:
+          type: number
+          description: Total tax amount
+          example: 10
+        variant_id:
+          type: integer
+          description: Variant ID
+          example: 1
+        variant_title:
+          type: string
+          description: The title of the product variant.
+          example: IPOD2008GREEN
+        vendor:
+          type: string
+          description: The name of the item's supplier.
+        weight:
+          type: number
+          description: The weight of the item
+          example: 1.5
+        weight_unit:
+          type: string
+          description: The weight unit of the item
+          example: kg
+      type: object
+    RefundOrderAdjustmentDto:
+      properties:
+        amount:
+          type: number
+          description: The value of the discrepancy between the calculated refund and the actual refund. If the kind property's value is shipping_refund, then amount returns the value of shipping charges refunded to the customer.
+          example: -8
+        kind:
+          type: string
+          description: 'The order adjustment type. Valid values: `shipping_refund` and `refund_discrepancy`.'
+          example: shipping_refund
+        order_id:
+          type: integer
+          description: The unique identifier for the order that the order adjustment is associated with.
+          example: 171016912932
+        reason:
+          type: string
+          description: The reason for the order adjustment. To set this value, include `discrepancy_reason` when you create a refund.
+          example: Shipping refund
+        tax_amount:
+          type: number
+          description: The taxes that are added to amount, such as applicable shipping taxes added to a shipping refund.
+          example: 0
+      type: object
+    CountResponse:
+      properties:
+        count:
+          type: integer
       type: object
     AdjustLineItemDto:
       properties:
@@ -317,6 +486,70 @@ components:
           type: boolean
         variant_id:
           type: integer
+      type: object
+    RefundLineItemDto:
+      properties:
+        discount_amount:
+          type: number
+          description: The discount of the refund line item.
+          example: 10.99
+        line_item:
+          $ref: '#/components/schemas/OrderLineItemDto'
+        line_item_id:
+          type: integer
+          description: The ID of the related line item in the order.
+          example: 128323456
+        quantity:
+          type: integer
+          description: The quantity of the associated line item that was returned.
+          example: 2
+        restock_type:
+          type: string
+          description: 'How this refund line item affects inventory levels. Valid values
+
+            </br>**no_restock**: Refunding these items won''t affect inventory. The number of fulfillable units for this line item will remain unchanged. For example, a refund payment can be issued but no items will be returned or made available for sale again.
+
+            </br>**cancel**: The items have not yet been fulfilled. The canceled quantity will be added back to the available count. The number of fulfillable units for this line item will decrease.
+
+            </br>**return**: The items were already delivered, and will be returned to the merchant. The returned quantity will be added back to the available count. The number of fulfillable units for this line item will remain unchanged.
+
+            </br>**legacy_restock**: The deprecated `restock` property was used for this refund. These items were made available for sale again. This value is not accepted when creating new refunds.'
+          example: return
+        subtotal:
+          type: number
+          description: The subtotal of the refund line item.
+          example: 10.99
+        title:
+          type: string
+          description: The title of the refund line item.
+          example: Title
+        total_refund:
+          type: number
+          description: The total refund on the refund line item.
+          example: 2.67
+        total_tax:
+          type: number
+          description: The total tax on the refund line item.
+          example: 2.67
+        variant_title:
+          type: string
+          description: The variant title of the refund line item.
+          example: Variant title
+      type: object
+    TaxLineDto:
+      properties:
+        price:
+          type: number
+          description: The amount added to the order for this tax in the shop currency.
+          example: 25.81
+        rate:
+          type: number
+          description: The tax rate applied to the order to calculate the tax price.
+          example: 0.13
+        title:
+          type: string
+          description: The name of the tax.
+          example: HST
       type: object
     AdditionalInformation:
       properties:
@@ -359,6 +592,246 @@ components:
           type: string
           description: Time zone
           example: '7'
+      type: object
+    OrdersSwaggerResponse:
+      properties:
+        orders:
+          items:
+            $ref: '#/components/schemas/OrderDto'
+          type: array
+      type: object
+    OrderDiscountCodeDto:
+      properties:
+        amount:
+          type: number
+          description: The value of the discount to be deducted from the order total. The type field determines how this value is calculated. After an order is created, this field returns the calculated amount.
+          example: 30
+        code:
+          type: string
+          description: The discount code.
+          example: SPRING30
+        discount_type:
+          type: string
+          description: Discount type
+        price_rule_id:
+          type: integer
+          description: Price rule id
+        price_rule_type:
+          type: string
+          description: Price rule type
+        scope:
+          type: string
+        type:
+          type: string
+          description: 'The type of discount. Default value: `fixed_amount`'
+          example: fixed_amount
+      type: object
+    OrderLineItemDiscountApplicationDto:
+      properties:
+        amount:
+          type: number
+          description: The discount amount allocated to the line in the shop currency.
+        discount_application_index:
+          type: integer
+          description: The index of the associated discount application in the order's discount_applications list.
+      type: object
+    cancelOrderData:
+      properties:
+        amount:
+          type: string
+          description: The amount of money to refund
+          example: '20'
+        currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency used for the payment.
+          example: USD
+        email:
+          type: boolean
+          description: The email notification is going to be sent to customer or not
+          example: true
+        reason:
+          type: string
+          description: The reason to cancel order
+          example: customer
+        refund:
+          type: object
+          description: The refund object. See Refund/Create the refund for more information
+        restock:
+          type: boolean
+          description: The order is going to be restocked or not
+          example: true
+      type: object
+    models.SwaggerDeleteResponse:
+      type: object
+    AdjustOrderDto:
+      properties:
+        is_send_email:
+          type: boolean
+        line_items:
+          items:
+            $ref: '#/components/schemas/AdjustLineItemDto'
+          type: array
+        reason:
+          type: string
+      type: object
+    RefundTransactionDto:
+      properties:
+        amount:
+          type: number
+          description: The amount of money included in the transaction. If you don't provide a value for amount, then it defaults to the total cost of the order (even if a previous transaction has been made towards it).
+          example: 10
+        authorization:
+          type: string
+          description: The authorization code associated with the transaction.
+          example: ch_1AtJu6CktlpKSclI4zjeQb2t
+        conversion_rate:
+          type: number
+          description: the conversion rate used in the transaction in case amount need to be converted
+        created_at:
+          type: integer
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the transaction was created.
+        currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency used for the payment.
+          example: USD
+        currency_exchange_adjustment:
+          type: string
+          description: 'An adjustment on the transaction showing the amount lost or gained due to fluctuations in the currency exchange rate. It has the following properties
+
+            </br>**ID**:  The ID of the adjustment.
+
+            </br>**adjustment**: The difference between the amounts on the associated transaction and the parent transaction.
+
+            </br>**original_amount**: The amount of the parent transaction in the shop currency.
+
+            </br>**final_amount**:  The amount of the associated transaction in the shop currency.
+
+            </br>**currency**: The shop currency.'
+        error_code:
+          type: string
+          description: 'A standardized error code, independent of the payment provider. Valid values
+
+            </br>**incorrect_number**
+
+            </br>**invalid_number**
+
+            </br>**invalid_expiry_date**
+
+            </br>**invalid_cvc**
+
+            </br>**expired_card**
+
+            </br>**incorrect_cvc**
+
+            </br>**incorrect_zip**
+
+            </br>**incorrect_address**
+
+            </br>**card_declined**
+
+            </br>**processing_error**
+
+            </br>**call_issuer**
+
+            </br>**pick_up_card**'
+          example: invalid_cvc
+        gateway:
+          type: string
+          description: The name of the gateway the transaction was issued through. A list of gateways can be found on ShopBase's payment gateways page.
+          example: shopbase_payments
+        id:
+          type: integer
+          description: The ID for the transaction.
+          example: 999225661
+        kind:
+          type: string
+          description: 'The transaction''s type. Valid values
+
+            </br>**authorization**: Money that the customer has agreed to pay. The authorization period can be between 7 and 30 days (depending on your payment service) while a store waits for a payment to be captured.
+
+            </br>**capture**: A transfer of money that was reserved during the authorization of a shop.
+
+            </br>**sale**: The authorization and capture of a payment performed in one single step.
+
+            </br>**void**: The cancellation of a pending authorization or capture.
+
+            </br>**refund**: The partial or full return of captured money to the customer.'
+          example: capture
+        message:
+          type: string
+          description: A string generated by the payment provider with additional information about why the transaction succeeded or failed.
+          example: Marked the Cash on Delivery (COD) payment as received
+        order_id:
+          type: integer
+          description: The ID for the order that the transaction is associated with.
+          example: 450789469
+        parent_id:
+          type: integer
+          description: "The ID of an associated transaction. \n * For ```capture``` transactions, the parent needs to be an ```authorization``` transaction.\n * For ```void``` transactions, the parent needs to be an ```authorization``` transaction. \n For ```refund``` transactions, the parent needs to be a ```capture``` or ```sale``` transaction."
+        payment_details:
+          type: string
+          description: 'Information about the credit card used for this transaction. It has the following properties
+
+            </br>**avs_result_code**: The response code from the address verification system. The code is a single letter; see this chart for the codes and their definitions.
+
+            </br>**credit_card_bin**: The issuer identification number (IIN), formerly known as bank identification number (BIN) of the customer''s credit card. This is made up of the first few digits of the credit card number.
+
+            </br>**credit_card_company**: The name of the company that issued the customer''s credit card.
+
+            </br>**credit_card_number**: The customer''s credit card number, with most of the leading digits redacted.
+
+            </br>**cvv_result_code**: The response code from the credit card company indicating whether the customer entered the card security code, or card verification value, correctly. The code is a single letter or empty string; see this chart for the codes and their definitions.'
+        processed_at:
+          type: integer
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when a transaction was processed. This value is the date that's used in the analytic reports. By default, it matches the created_at value. If you're importing transactions from an app or another platform, then you can set processed_at to a date and time in the past to match when the original transaction was processed.
+        receipt:
+          type: string
+          description: Receipt
+        source_name:
+          type: string
+          description: 'The origin of the transaction. This is set by ShopBase and can''t be overridden. Example values: web, pos, iphone, and android.'
+          example: web
+        status:
+          type: string
+          description: 'The status of the transaction. Valid values: ```pending```, ```failure```, ```success```, and ```error```.'
+          example: success
+        test:
+          type: boolean
+          description: Whether the transaction is a test transaction.
+          example: true
+        transaction_amount:
+          type: number
+          description: The amount of money included in the payment gateway's transaction.
+        transaction_currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the payment provider's transaction currency used for the payment.
+      type: object
+    ClientDetailsDto:
+      properties:
+        accept_language:
+          type: string
+          description: The languages and locales that the browser understands.
+          example: en-US,en;q=0.9
+        browser_height:
+          type: integer
+          description: The browser screen height in pixels, if available
+          example: 1320
+        browser_ip:
+          type: string
+          description: The IP address of the browser used by the customer when they placed the order.
+          example: 216.191.105.146
+        browser_width:
+          type: integer
+          description: The browser screen width in pixels, if available.
+          example: 1280
+        session_hash:
+          type: string
+          description: A hash of the session.
+          example: 9ad4d1f4e6a8977b9dd98eed1e477643
+        user_agent:
+          type: string
+          description: Details of the browsing client, including software and operating versions.
+          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
       type: object
     OrderDto:
       properties:
@@ -719,48 +1192,569 @@ components:
           description: weight_unit
           example: Kg
       type: object
-    TaxLineDto:
+    AppliedDiscount:
       properties:
-        price:
-          type: number
-          description: The amount added to the order for this tax in the shop currency.
-          example: 25.81
-        rate:
-          type: number
-          description: The tax rate applied to the order to calculate the tax price.
-          example: 0.13
+        amount:
+          type: string
+          description: Discount amount
+          example: '10'
+        description:
+          type: string
+          description: Discount description
+          example: example desc
         title:
           type: string
-          description: The name of the tax.
-          example: HST
+          description: Discount title
+          example: Super discount
+        value:
+          type: string
+          description: Discount value
+          example: example value
+        value_type:
+          type: string
+          description: Discount value type
       type: object
-    OrderDiscountCodeDto:
+    OrderDiscountApplicationDto:
+      properties:
+        allocation_method:
+          type: string
+          description: 'The method by which the discount application value has been allocated to entitled lines. Valid values
+
+            * across: The value is spread across all entitled lines.
+
+            * each: The value is applied onto every entitled line.
+
+            * one: The value is applied onto a single line.'
+          example: across
+        code:
+          type: string
+          description: The discount code that was used to apply the discount. Available only for discount code applications.
+          example: SUMMERSALE
+        description:
+          type: string
+          description: The description of the discount application, as defined by the merchant or the ShopBase Script. Available only for manual and script discount applications.
+          example: my scripted discount
+        discount_type:
+          type: string
+          description: 'The type of the discount. Valid values
+
+            * fixed_amount: A fixed amount discount value in the currency of the order.
+
+            * percentage: A percentage discount value.
+
+            * buy_x_get_y: Buy X get Y.
+
+            * free_shipping: Free shipping for order.'
+          example: fixed_amount
+        is_applied_entire_order:
+          type: boolean
+          description: 'Determine discount applied for items separately or entire order. Valid values
+
+            * true: applied entire order.
+
+            * false: only applied for specific items.'
+          example: true
+        target_selection:
+          type: string
+          description: 'The lines on the order, of the type defined by target_type, that the discount is allocated over. Valid values
+
+            * all: The discount is allocated onto all lines.
+
+            * entitled:  The discount is allocated only onto lines it is entitled for.
+
+            * explicit:  The discount is allocated onto explicitly selected lines.'
+          example: all
+        target_type:
+          type: string
+          description: 'The type of line on the order that the discount is applicable on. Valid values
+
+            * line_item: The discount applies to line items.
+
+            * shipping_line: The discount applies to shipping lines.'
+          example: line_item
+        title:
+          type: string
+          description: The title of the discount application, as defined by the merchant. Available only for manual discount applications.
+          example: custom discount
+        type:
+          type: string
+          description: 'The discount application type. Valid values
+
+            * manual: The discount was manually applied by the merchant (for example, by using an app or creating a draft order).
+
+            * script: The discount was applied by a ShopBase Script.
+
+            * discount_code: The discount was applied by a discount code.'
+          example: script
+        value:
+          type: number
+          description: The value of the discount application as a decimal. This represents the intention of the discount application. For example, if the intent was to apply a 20% discount, then the value will be 20.0. If the intent was to apply a $15 discount, then the value will be 15.0.
+          example: 10
+        value_type:
+          type: string
+          description: 'The type of the value. Valid values
+
+            * fixed_amount: A fixed amount discount value in the currency of the order.
+
+            * percentage: A percentage discount value.'
+          example: fixed_amount
+      type: object
+    CustomerAddressDetail:
+      properties:
+        address1:
+          type: string
+          description: The customer's mailing address.
+          example: 123 Fake Street
+        address2:
+          type: string
+          description: An additional field for the customer's mailing address.
+        city:
+          type: string
+          description: The customer's city, town, or village.
+          example: Fakecity
+        company:
+          type: string
+          description: The customer's company.
+        country:
+          type: string
+          description: The customer's country.
+          example: Vietnam
+        country_code:
+          type: string
+          description: The two-letter country code corresponding to the customer's country.
+          example: VN
+        country_id:
+          type: integer
+          description: A unique identifier for the customer.
+        country_name:
+          type: string
+          description: The customer's normalized country name.
+          example: Viet nam
+        cpf_number:
+          type: string
+          description: Brazil CPF Number
+        cpf_or_cnpj_number:
+          type: string
+          description: CPF/CNPJ number
+          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
+        created_at:
+          type: string
+          description: Created at time
+          format: date-time
+        default:
+          type: boolean
+          description: Whether this address is the default address for the customer.
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
+          type: integer
+          description: A unique identifier for the address.
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: Smith
+        latitude:
+          type: number
+          description: Latitude
+        longitude:
+          type: number
+          description: Longtitude
+        name:
+          type: string
+          description: Address name
+          example: example name
+        phone:
+          type: string
+          description: 'Phone number
+
+            Example 555-555-5555'
+        province:
+          type: string
+          description: Province
+          example: Ontario
+        province_code:
+          type: string
+          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
+        updated_at:
+          type: string
+          description: Updated at time
+          format: date-time
+        zip:
+          type: string
+          description: ZIP
+          example: K2P 1L4
+      type: object
+    LineItemShippingRate:
+      properties:
+        code:
+          type: string
+          description: A reference to the combined shipping method.
+          example: weight_based_47925+weight_based_47926+weight_based_47928
+        id:
+          type: integer
+          description: The Shipping Rate Id
+          example: 43531
+        is_post_purchase:
+          type: boolean
+          description: Is post purchase
+        price:
+          type: number
+          description: The total price of this shipping rate for a variant in the order
+          example: 8
+        title:
+          type: string
+          description: The title of the shipping method.
+          example: Small Packet International Air
+        type:
+          type: string
+          description: The Shipping Rate Type
+          example: weight_based, price_based, item_based
+        variant_id:
+          type: integer
+          description: The variant in which this shipping rate is applied for
+          example: 123213213123
+      type: object
+    RefundDto:
+      properties:
+        created_at:
+          type: integer
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the refund was created.
+        id:
+          type: integer
+          description: The unique identifier for the refund.
+          example: 92738740
+        is_dont_withdraw_from_balance_of_seller:
+          type: boolean
+        note:
+          type: string
+          description: An optional note attached to a refund.
+          example: Item was damaged during shipping
+        order_adjustments:
+          items:
+            $ref: '#/components/schemas/RefundOrderAdjustmentDto'
+          type: array
+        order_dto:
+          $ref: '#/components/schemas/OrderDto'
+        order_id:
+          type: integer
+          description: The unique identifier for the order that the order adjustment is associated with.
+          example: 171016912932
+        payment_fee:
+          type: number
+        processed_at:
+          type: integer
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the refund was imported. This value can be set to a date in the past when importing from other systems. If no value is provided, then it will be auto-generated as the current time in ShopBase.
+        refund_line_items:
+          items:
+            $ref: '#/components/schemas/RefundLineItemDto'
+          type: array
+        restock:
+          type: boolean
+          description: 'Whether to add the line items back to the store''s inventory.
+
+
+            ```
+
+            Provide a restock_type to influence how this refund affects inventory instead
+
+            ```'
+          example: true
+        shipping:
+          $ref: '#/components/schemas/Shipping'
+        transactions:
+          items:
+            $ref: '#/components/schemas/RefundTransactionDto'
+          type: array
+        user_id:
+          type: integer
+          description: The unique identifier of the user who performed the refund.
+          example: 238478920
+      type: object
+    OrderSwaggerResponse:
+      properties:
+        order:
+          $ref: '#/components/schemas/OrderDto'
+      type: object
+    Shipping:
       properties:
         amount:
           type: number
-          description: The value of the discount to be deducted from the order total. The type field determines how this value is calculated. After an order is created, this field returns the calculated amount.
-          example: 30
-        code:
-          type: string
-          description: The discount code.
-          example: SPRING30
-        discount_type:
-          type: string
-          description: Discount type
-        price_rule_id:
-          type: integer
-          description: Price rule id
-        price_rule_type:
-          type: string
-          description: Price rule type
-        scope:
-          type: string
-        type:
-          type: string
-          description: 'The type of discount. Default value: `fixed_amount`'
-          example: fixed_amount
+          description: Shipping amount
+          example: 10
+        full_refund:
+          type: boolean
+          description: Whether full refund or not
+          example: true
       type: object
-    models.SwaggerDeleteResponse:
+    FulfillmentDto:
+      properties:
+        claim_id:
+          type: integer
+          description: the claim id of fulfillment
+        created_at:
+          type: integer
+          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
+        date_done:
+          type: integer
+          description: The date and time (ISO 8601 format) when the fulfillment was fulfilled.
+        detected_tracking_company:
+          type: string
+          description: Detected tracking company
+        first_tracking_step_at:
+          type: integer
+          description: The date and time when the first tracking step created
+        id:
+          type: integer
+          description: The ID for the fulfillment.
+          example: 255858046
+        last_crawled_at:
+          type: integer
+          description: The date and time when the fulfillment was last crawled
+        last_mile_tracking_company:
+          type: string
+          description: The tracking company when the package arrived at destination country
+        last_mile_tracking_number:
+          type: string
+          description: The tracking number of packages when arrived at destination country
+        last_tracking_step_at:
+          type: integer
+          description: The date and time when the last tracking step created
+        name:
+          type: string
+          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
+
+            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
+          example: '255858046'
+        notify_customer:
+          type: boolean
+          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated.\nFor orders that were initially created using the API, the default value is false.\nFor all other orders, the default value is true."
+          example: true
+        order_id:
+          type: integer
+          description: The unique numeric identifier for the order.
+          example: 450789469
+        send_delay_mail:
+          type: boolean
+          description: check send email delay shipping
+        service:
+          type: string
+          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
+
+            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
+          example: '255858046'
+        shipment_status:
+          type: string
+          description: 'The current shipment status of the fulfillment. Valid values
+
+            </br>**label_printed**: A label for the shipment was purchased and printed.
+
+            </br>**label_purchased**: A label for the shipment was purchased, but not printed.
+
+            </br>**attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.
+
+            </br>**ready_for_pickup**: The shipment is ready for pickup at a shipping depot.
+
+            </br>**confirmed**: The carrier is aware of the shipment, but hasn''t received it yet.
+
+            </br>**in_transit**: The shipment is being transported between shipping facilities on the way to its destination.
+
+            </br>**out_for_delivery**: The shipment is being delivered to its final destination.
+
+            </br>**delivered**: The shipment was succesfully delivered.
+
+            </br>**failure**:  Something went wrong when pulling tracking information for the shipment, such as an invalid tracking number or the shipment was cancelled.'
+          example: confirmed
+        status:
+          type: string
+          description: 'The status of the fulfillment. Valid values
+
+            </br>**pending**: The fulfillment is pending.
+
+            </br>**open**: The fulfillment has been acknowledged by the service and is in processing.
+
+            </br>**success**: The fulfillment was successful.
+
+            </br>**cancelled**: The fulfillment was cancelled.
+
+            </br>**error**: There was an error with the fulfillment request.
+
+            </br>**failure**: the fulfillment request failed.
+
+            </br>**processing**: the fulfillment request is in processing.'
+          example: '255858046'
+        tracking_company:
+          type: string
+          description: The name of the tracking company.
+          example: 4PX
+        tracking_number:
+          type: string
+          description: A trackping number, provided by the shipping company
+          example: 1Z2345
+        tracking_numbers:
+          items:
+            type: string
+          type: array
+          description: A list of tracking numbers, provided by the shipping company.
+          example:
+          - 112345Z2345
+        tracking_steps:
+          type: object
+          description: Tracking steps object
+        tracking_url:
+          type: string
+          description: Link to tracking pag
+          example: http://example.com/etracking/tracking.cgi?InquiryNumber1=1Z2345&TypeOfInquiryNumber=T&AcceptUPSLicenseAgreement=yes&submit=Track
+        tracking_urls:
+          items:
+            type: string
+          type: array
+          description: The URLs of tracking pages for the fulfillment.
+          example:
+          - http://track-example.com/startairmail.php?code=112345Z2345
+        updated_at:
+          type: integer
+          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
+        variant_inventory_management:
+          type: string
+          description: The name of the inventory management service.
+          example: shopbase
+      type: object
+    OrderRequest:
+      properties:
+        cart_token:
+          type: string
+          description: The ID of the cart that's associated with the order.
+          example: 68778783ad298f1c80c3bafcddeea02f
+        chargeback_deadline_at_max:
+          type: integer
+          description: 'Show orders last updated at or before date (format: 2019-04-22T16:15:47-04:00).'
+        chargeback_deadline_at_min:
+          type: integer
+          description: 'Show orders chargeback deadline at or after date (format: 2019-04-22T16:15:47-04:00).'
+        chargeback_status:
+          type: string
+          description: 'Filter orders by their chargeback status.
+
+            </br>**open**: Show orders that have chargeback status is open.
+
+            </br>**partial**:  Show orders that their merchants submitted evidence to banks.
+
+            </br>**lost**: Show orders that their merchants lost
+
+            </br>**won**: Show orders their merchants won.'
+          example: open
+        checkout_token:
+          type: string
+          example: bd5a8aa1ecd019dd3520ff791ee3a24c
+        created_at_max:
+          type: integer
+          description: 'Show orders created at or before date (format: 2019-04-22T16:15:47-04:00).'
+        created_at_min:
+          type: integer
+          description: 'Show orders created at or after date (format: 2019-04-22T16:15:47-04:00).'
+        customer_id:
+          type: integer
+          example: 207119551
+        delay_type:
+          type: string
+          description: Filter orders by delay type.
+        enabled_fs_pbase_profit:
+          type: boolean
+        fields:
+          items:
+            type: string
+          type: array
+          description: Retrieve only certain fields, specified by a comma-separated list of fields names.
+        filter_order_risk:
+          type: boolean
+        financial_status:
+          type: string
+          description: 'Filter orders by their financial status.
+
+            </br>**shipped**: Show orders that have been shipped.
+
+            </br>**partial**:  Show partially shipped orders.
+
+            </br>**unshipped**: Show orders that have not yet been shipped
+
+            </br>**any**: Show orders of any financial status.'
+          example: any
+        fulfillment_service:
+          type: string
+          description: Filter orders by their fulfillment service handle.
+        fulfillment_status:
+          type: string
+          description: 'Filter orders by their fulfillment status.
+
+            </br>**shipped**: Show orders that have been shipped.
+
+            </br>**partial**:  Show partially shipped orders.
+
+            </br>**unshipped**: Show orders that have not yet been shipped.
+
+            </br>**any**: Show orders of any fulfillment status.'
+          example: any
+        ids:
+          items:
+            type: integer
+          type: array
+          description: List of order ID
+        ignore_shop_ids:
+          items:
+            type: integer
+          type: array
+        is_in_post_purchase:
+          type: boolean
+        limit:
+          type: integer
+          description: "The maximum number of results to show on a page. \n (default: 50, maximum: 250)"
+          example: 50
+        min_after_hours_auto_approve:
+          type: integer
+        min_amount_auto_approve:
+          type: integer
+        not_product_mapping:
+          type: boolean
+          description: Filter order by line item's product not mapped.
+        offset:
+          type: integer
+        payment_gateway:
+          type: string
+        post_purchase_timeout_at_max:
+          type: integer
+        product_mapping:
+          type: boolean
+          description: Filter order by line item's product mapped.
+        shop_type:
+          type: string
+        since_id:
+          type: integer
+          description: Show orders after the specified ID.
+        tag:
+          type: string
+          description: Filter order by tag.
+        time_delay:
+          type: integer
+        time_zone_prod:
+          type: string
+          description: offset time zone of production sbase
+        time_zone_stripe:
+          type: string
+          description: offset time zone of stripe
+        token:
+          type: string
+          example: 68778783ad298f1c80c3bafcddeea02f
+        tracking_number:
+          type: string
+          description: Filter order by transaction number.
+        updated_at_max:
+          type: integer
+          description: 'Show orders last updated at or before date (format: 2019-04-22T16:15:47-04:00).'
+        updated_at_min:
+          type: integer
+          description: 'Show orders last updated at or after date (format: 2019-04-22T16:15:47-04:00).'
       type: object
     OrdersSwaggerRequest:
       properties:
@@ -942,1035 +1936,41 @@ components:
           description: 'Show orders last updated at or after date (format: 2019-04-22T16:15:47-04:00).'
           example: '2019-04-22T16:15:47-04:00'
       type: object
-    RefundLineItemDto:
+    ShippingLinesDto:
       properties:
-        discount_amount:
-          type: number
-          description: The discount of the refund line item.
-          example: 10.99
-        line_item:
-          $ref: '#/components/schemas/OrderLineItemDto'
-        line_item_id:
-          type: integer
-          description: The ID of the related line item in the order.
-          example: 128323456
-        quantity:
-          type: integer
-          description: The quantity of the associated line item that was returned.
-          example: 2
-        restock_type:
+        carrier_identifier:
           type: string
-          description: 'How this refund line item affects inventory levels. Valid values
-
-            </br>**no_restock**: Refunding these items won''t affect inventory. The number of fulfillable units for this line item will remain unchanged. For example, a refund payment can be issued but no items will be returned or made available for sale again.
-
-            </br>**cancel**: The items have not yet been fulfilled. The canceled quantity will be added back to the available count. The number of fulfillable units for this line item will decrease.
-
-            </br>**return**: The items were already delivered, and will be returned to the merchant. The returned quantity will be added back to the available count. The number of fulfillable units for this line item will remain unchanged.
-
-            </br>**legacy_restock**: The deprecated `restock` property was used for this refund. These items were made available for sale again. This value is not accepted when creating new refunds.'
-          example: return
-        subtotal:
-          type: number
-          description: The subtotal of the refund line item.
-          example: 10.99
-        title:
-          type: string
-          description: The title of the refund line item.
-          example: Title
-        total_refund:
-          type: number
-          description: The total refund on the refund line item.
-          example: 2.67
-        total_tax:
-          type: number
-          description: The total tax on the refund line item.
-          example: 2.67
-        variant_title:
-          type: string
-          description: The variant title of the refund line item.
-          example: Variant title
-      type: object
-    OrderSwaggerResponse:
-      properties:
-        order:
-          $ref: '#/components/schemas/OrderDto'
-      type: object
-    ClientDetailsDto:
-      properties:
-        accept_language:
-          type: string
-          description: The languages and locales that the browser understands.
-          example: en-US,en;q=0.9
-        browser_height:
-          type: integer
-          description: The browser screen height in pixels, if available
-          example: 1320
-        browser_ip:
-          type: string
-          description: The IP address of the browser used by the customer when they placed the order.
-          example: 216.191.105.146
-        browser_width:
-          type: integer
-          description: The browser screen width in pixels, if available.
-          example: 1280
-        session_hash:
-          type: string
-          description: A hash of the session.
-          example: 9ad4d1f4e6a8977b9dd98eed1e477643
-        user_agent:
-          type: string
-          description: Details of the browsing client, including software and operating versions.
-          example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36
-      type: object
-    FulfillmentDto:
-      properties:
-        claim_id:
-          type: integer
-          description: the claim id of fulfillment
-        created_at:
-          type: integer
-          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
-        date_done:
-          type: integer
-          description: The date and time (ISO 8601 format) when the fulfillment was fulfilled.
-        detected_tracking_company:
-          type: string
-          description: Detected tracking company
-        first_tracking_step_at:
-          type: integer
-          description: The date and time when the first tracking step created
-        id:
-          type: integer
-          description: The ID for the fulfillment.
-          example: 255858046
-        last_crawled_at:
-          type: integer
-          description: The date and time when the fulfillment was last crawled
-        last_mile_tracking_company:
-          type: string
-          description: The tracking company when the package arrived at destination country
-        last_mile_tracking_number:
-          type: string
-          description: The tracking number of packages when arrived at destination country
-        last_tracking_step_at:
-          type: integer
-          description: The date and time when the last tracking step created
-        name:
-          type: string
-          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
-
-            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
-          example: '255858046'
-        notify_customer:
-          type: boolean
-          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated.\nFor orders that were initially created using the API, the default value is false.\nFor all other orders, the default value is true."
-          example: true
-        order_id:
-          type: integer
-          description: The unique numeric identifier for the order.
-          example: 450789469
-        send_delay_mail:
-          type: boolean
-          description: check send email delay shipping
-        service:
-          type: string
-          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
-
-            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
-          example: '255858046'
-        shipment_status:
-          type: string
-          description: 'The current shipment status of the fulfillment. Valid values
-
-            </br>**label_printed**: A label for the shipment was purchased and printed.
-
-            </br>**label_purchased**: A label for the shipment was purchased, but not printed.
-
-            </br>**attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.
-
-            </br>**ready_for_pickup**: The shipment is ready for pickup at a shipping depot.
-
-            </br>**confirmed**: The carrier is aware of the shipment, but hasn''t received it yet.
-
-            </br>**in_transit**: The shipment is being transported between shipping facilities on the way to its destination.
-
-            </br>**out_for_delivery**: The shipment is being delivered to its final destination.
-
-            </br>**delivered**: The shipment was succesfully delivered.
-
-            </br>**failure**:  Something went wrong when pulling tracking information for the shipment, such as an invalid tracking number or the shipment was cancelled.'
-          example: confirmed
-        status:
-          type: string
-          description: 'The status of the fulfillment. Valid values
-
-            </br>**pending**: The fulfillment is pending.
-
-            </br>**open**: The fulfillment has been acknowledged by the service and is in processing.
-
-            </br>**success**: The fulfillment was successful.
-
-            </br>**cancelled**: The fulfillment was cancelled.
-
-            </br>**error**: There was an error with the fulfillment request.
-
-            </br>**failure**: the fulfillment request failed.
-
-            </br>**processing**: the fulfillment request is in processing.'
-          example: '255858046'
-        tracking_company:
-          type: string
-          description: The name of the tracking company.
-          example: 4PX
-        tracking_number:
-          type: string
-          description: A trackping number, provided by the shipping company
-          example: 1Z2345
-        tracking_numbers:
-          items:
-            type: string
-          type: array
-          description: A list of tracking numbers, provided by the shipping company.
-          example:
-          - 112345Z2345
-        tracking_steps:
-          type: object
-          description: Tracking steps object
-        tracking_url:
-          type: string
-          description: Link to tracking pag
-          example: http://example.com/etracking/tracking.cgi?InquiryNumber1=1Z2345&TypeOfInquiryNumber=T&AcceptUPSLicenseAgreement=yes&submit=Track
-        tracking_urls:
-          items:
-            type: string
-          type: array
-          description: The URLs of tracking pages for the fulfillment.
-          example:
-          - http://track-example.com/startairmail.php?code=112345Z2345
-        updated_at:
-          type: integer
-          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
-        variant_inventory_management:
-          type: string
-          description: The name of the inventory management service.
-          example: shopbase
-      type: object
-    CustomerAddressDetail:
-      properties:
-        address1:
-          type: string
-          description: The customer's mailing address.
-          example: 123 Fake Street
-        address2:
-          type: string
-          description: An additional field for the customer's mailing address.
-        city:
-          type: string
-          description: The customer's city, town, or village.
-          example: Fakecity
-        company:
-          type: string
-          description: The customer's company.
-        country:
-          type: string
-          description: The customer's country.
-          example: Vietnam
-        country_code:
-          type: string
-          description: The two-letter country code corresponding to the customer's country.
-          example: VN
-        country_id:
-          type: integer
-          description: A unique identifier for the customer.
-        country_name:
-          type: string
-          description: The customer's normalized country name.
-          example: Viet nam
-        cpf_number:
-          type: string
-          description: Brazil CPF Number
-        cpf_or_cnpj_number:
-          type: string
-          description: CPF/CNPJ number
-          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
-        created_at:
-          type: string
-          description: Created at time
-          format: date-time
-        default:
-          type: boolean
-          description: Whether this address is the default address for the customer.
-        first_name:
-          type: string
-          description: The customer's first name.
-          example: John
-        id:
-          type: integer
-          description: A unique identifier for the address.
-        last_name:
-          type: string
-          description: The customer's last name.
-          example: Smith
-        latitude:
-          type: number
-          description: Latitude
-        longitude:
-          type: number
-          description: Longtitude
-        name:
-          type: string
-          description: Address name
-          example: example name
-        phone:
-          type: string
-          description: 'Phone number
-
-            Example 555-555-5555'
-        province:
-          type: string
-          description: Province
-          example: Ontario
-        province_code:
-          type: string
-          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
-        updated_at:
-          type: string
-          description: Updated at time
-          format: date-time
-        zip:
-          type: string
-          description: ZIP
-          example: K2P 1L4
-      type: object
-    OrderDiscountApplicationDto:
-      properties:
-        allocation_method:
-          type: string
-          description: 'The method by which the discount application value has been allocated to entitled lines. Valid values
-
-            * across: The value is spread across all entitled lines.
-
-            * each: The value is applied onto every entitled line.
-
-            * one: The value is applied onto a single line.'
-          example: across
-        code:
-          type: string
-          description: The discount code that was used to apply the discount. Available only for discount code applications.
-          example: SUMMERSALE
-        description:
-          type: string
-          description: The description of the discount application, as defined by the merchant or the ShopBase Script. Available only for manual and script discount applications.
-          example: my scripted discount
-        discount_type:
-          type: string
-          description: 'The type of the discount. Valid values
-
-            * fixed_amount: A fixed amount discount value in the currency of the order.
-
-            * percentage: A percentage discount value.
-
-            * buy_x_get_y: Buy X get Y.
-
-            * free_shipping: Free shipping for order.'
-          example: fixed_amount
-        is_applied_entire_order:
-          type: boolean
-          description: 'Determine discount applied for items separately or entire order. Valid values
-
-            * true: applied entire order.
-
-            * false: only applied for specific items.'
-          example: true
-        target_selection:
-          type: string
-          description: 'The lines on the order, of the type defined by target_type, that the discount is allocated over. Valid values
-
-            * all: The discount is allocated onto all lines.
-
-            * entitled:  The discount is allocated only onto lines it is entitled for.
-
-            * explicit:  The discount is allocated onto explicitly selected lines.'
-          example: all
-        target_type:
-          type: string
-          description: 'The type of line on the order that the discount is applicable on. Valid values
-
-            * line_item: The discount applies to line items.
-
-            * shipping_line: The discount applies to shipping lines.'
-          example: line_item
-        title:
-          type: string
-          description: The title of the discount application, as defined by the merchant. Available only for manual discount applications.
-          example: custom discount
-        type:
-          type: string
-          description: 'The discount application type. Valid values
-
-            * manual: The discount was manually applied by the merchant (for example, by using an app or creating a draft order).
-
-            * script: The discount was applied by a ShopBase Script.
-
-            * discount_code: The discount was applied by a discount code.'
-          example: script
-        value:
-          type: number
-          description: The value of the discount application as a decimal. This represents the intention of the discount application. For example, if the intent was to apply a 20% discount, then the value will be 20.0. If the intent was to apply a $15 discount, then the value will be 15.0.
-          example: 10
-        value_type:
-          type: string
-          description: 'The type of the value. Valid values
-
-            * fixed_amount: A fixed amount discount value in the currency of the order.
-
-            * percentage: A percentage discount value.'
-          example: fixed_amount
-      type: object
-    AppliedDiscount:
-      properties:
-        amount:
-          type: string
-          description: Discount amount
-          example: '10'
-        description:
-          type: string
-          description: Discount description
-          example: example desc
-        title:
-          type: string
-          description: Discount title
-          example: Super discount
-        value:
-          type: string
-          description: Discount value
-          example: example value
-        value_type:
-          type: string
-          description: Discount value type
-      type: object
-    OrderLineItemDiscountApplicationDto:
-      properties:
-        amount:
-          type: number
-          description: The discount amount allocated to the line in the shop currency.
-        discount_application_index:
-          type: integer
-          description: The index of the associated discount application in the order's discount_applications list.
-      type: object
-    cancelOrderData:
-      properties:
-        amount:
-          type: string
-          description: The amount of money to refund
-          example: '20'
-        currency:
-          type: string
-          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency used for the payment.
-          example: USD
-        email:
-          type: boolean
-          description: The email notification is going to be sent to customer or not
-          example: true
-        reason:
-          type: string
-          description: The reason to cancel order
-          example: customer
-        refund:
-          type: object
-          description: The refund object. See Refund/Create the refund for more information
-        restock:
-          type: boolean
-          description: The order is going to be restocked or not
-          example: true
-      type: object
-    OrderRequest:
-      properties:
-        cart_token:
-          type: string
-          description: The ID of the cart that's associated with the order.
-          example: 68778783ad298f1c80c3bafcddeea02f
-        chargeback_deadline_at_max:
-          type: integer
-          description: 'Show orders last updated at or before date (format: 2019-04-22T16:15:47-04:00).'
-        chargeback_deadline_at_min:
-          type: integer
-          description: 'Show orders chargeback deadline at or after date (format: 2019-04-22T16:15:47-04:00).'
-        chargeback_status:
-          type: string
-          description: 'Filter orders by their chargeback status.
-
-            </br>**open**: Show orders that have chargeback status is open.
-
-            </br>**partial**:  Show orders that their merchants submitted evidence to banks.
-
-            </br>**lost**: Show orders that their merchants lost
-
-            </br>**won**: Show orders their merchants won.'
-          example: open
-        checkout_token:
-          type: string
-          example: bd5a8aa1ecd019dd3520ff791ee3a24c
-        created_at_max:
-          type: integer
-          description: 'Show orders created at or before date (format: 2019-04-22T16:15:47-04:00).'
-        created_at_min:
-          type: integer
-          description: 'Show orders created at or after date (format: 2019-04-22T16:15:47-04:00).'
-        customer_id:
-          type: integer
-          example: 207119551
-        delay_type:
-          type: string
-          description: Filter orders by delay type.
-        enabled_fs_pbase_profit:
-          type: boolean
-        fields:
-          items:
-            type: string
-          type: array
-          description: Retrieve only certain fields, specified by a comma-separated list of fields names.
-        filter_order_risk:
-          type: boolean
-        financial_status:
-          type: string
-          description: 'Filter orders by their financial status.
-
-            </br>**shipped**: Show orders that have been shipped.
-
-            </br>**partial**:  Show partially shipped orders.
-
-            </br>**unshipped**: Show orders that have not yet been shipped
-
-            </br>**any**: Show orders of any financial status.'
-          example: any
-        fulfillment_service:
-          type: string
-          description: Filter orders by their fulfillment service handle.
-        fulfillment_status:
-          type: string
-          description: 'Filter orders by their fulfillment status.
-
-            </br>**shipped**: Show orders that have been shipped.
-
-            </br>**partial**:  Show partially shipped orders.
-
-            </br>**unshipped**: Show orders that have not yet been shipped.
-
-            </br>**any**: Show orders of any fulfillment status.'
-          example: any
-        ids:
-          items:
-            type: integer
-          type: array
-          description: List of order ID
-        ignore_shop_ids:
-          items:
-            type: integer
-          type: array
-        is_in_post_purchase:
-          type: boolean
-        limit:
-          type: integer
-          description: "The maximum number of results to show on a page. \n (default: 50, maximum: 250)"
-          example: 50
-        min_after_hours_auto_approve:
-          type: integer
-        min_amount_auto_approve:
-          type: integer
-        not_product_mapping:
-          type: boolean
-          description: Filter order by line item's product not mapped.
-        offset:
-          type: integer
-        payment_gateway:
-          type: string
-        post_purchase_timeout_at_max:
-          type: integer
-        product_mapping:
-          type: boolean
-          description: Filter order by line item's product mapped.
-        shop_type:
-          type: string
-        since_id:
-          type: integer
-          description: Show orders after the specified ID.
-        tag:
-          type: string
-          description: Filter order by tag.
-        time_delay:
-          type: integer
-        time_zone_prod:
-          type: string
-          description: offset time zone of production sbase
-        time_zone_stripe:
-          type: string
-          description: offset time zone of stripe
-        token:
-          type: string
-          example: 68778783ad298f1c80c3bafcddeea02f
-        tracking_number:
-          type: string
-          description: Filter order by transaction number.
-        updated_at_max:
-          type: integer
-          description: 'Show orders last updated at or before date (format: 2019-04-22T16:15:47-04:00).'
-        updated_at_min:
-          type: integer
-          description: 'Show orders last updated at or after date (format: 2019-04-22T16:15:47-04:00).'
-      type: object
-    RefundDto:
-      properties:
-        created_at:
-          type: integer
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the refund was created.
-        id:
-          type: integer
-          description: The unique identifier for the refund.
-          example: 92738740
-        is_dont_withdraw_from_balance_of_seller:
-          type: boolean
-        note:
-          type: string
-          description: An optional note attached to a refund.
-          example: Item was damaged during shipping
-        order_adjustments:
-          items:
-            $ref: '#/components/schemas/RefundOrderAdjustmentDto'
-          type: array
-        order_dto:
-          $ref: '#/components/schemas/OrderDto'
-        order_id:
-          type: integer
-          description: The unique identifier for the order that the order adjustment is associated with.
-          example: 171016912932
-        payment_fee:
-          type: number
-        processed_at:
-          type: integer
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the refund was imported. This value can be set to a date in the past when importing from other systems. If no value is provided, then it will be auto-generated as the current time in ShopBase.
-        refund_line_items:
-          items:
-            $ref: '#/components/schemas/RefundLineItemDto'
-          type: array
-        restock:
-          type: boolean
-          description: 'Whether to add the line items back to the store''s inventory.
-
-
-            ```
-
-            Provide a restock_type to influence how this refund affects inventory instead
-
-            ```'
-          example: true
-        shipping:
-          $ref: '#/components/schemas/Shipping'
-        transactions:
-          items:
-            $ref: '#/components/schemas/RefundTransactionDto'
-          type: array
-        user_id:
-          type: integer
-          description: The unique identifier of the user who performed the refund.
-          example: 238478920
-      type: object
-    RefundTransactionDto:
-      properties:
-        amount:
-          type: number
-          description: The amount of money included in the transaction. If you don't provide a value for amount, then it defaults to the total cost of the order (even if a previous transaction has been made towards it).
-          example: 10
-        authorization:
-          type: string
-          description: The authorization code associated with the transaction.
-          example: ch_1AtJu6CktlpKSclI4zjeQb2t
-        conversion_rate:
-          type: number
-          description: the conversion rate used in the transaction in case amount need to be converted
-        created_at:
-          type: integer
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the transaction was created.
-        currency:
-          type: string
-          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency used for the payment.
-          example: USD
-        currency_exchange_adjustment:
-          type: string
-          description: 'An adjustment on the transaction showing the amount lost or gained due to fluctuations in the currency exchange rate. It has the following properties
-
-            </br>**ID**:  The ID of the adjustment.
-
-            </br>**adjustment**: The difference between the amounts on the associated transaction and the parent transaction.
-
-            </br>**original_amount**: The amount of the parent transaction in the shop currency.
-
-            </br>**final_amount**:  The amount of the associated transaction in the shop currency.
-
-            </br>**currency**: The shop currency.'
-        error_code:
-          type: string
-          description: 'A standardized error code, independent of the payment provider. Valid values
-
-            </br>**incorrect_number**
-
-            </br>**invalid_number**
-
-            </br>**invalid_expiry_date**
-
-            </br>**invalid_cvc**
-
-            </br>**expired_card**
-
-            </br>**incorrect_cvc**
-
-            </br>**incorrect_zip**
-
-            </br>**incorrect_address**
-
-            </br>**card_declined**
-
-            </br>**processing_error**
-
-            </br>**call_issuer**
-
-            </br>**pick_up_card**'
-          example: invalid_cvc
-        gateway:
-          type: string
-          description: The name of the gateway the transaction was issued through. A list of gateways can be found on ShopBase's payment gateways page.
-          example: shopbase_payments
-        id:
-          type: integer
-          description: The ID for the transaction.
-          example: 999225661
-        kind:
-          type: string
-          description: 'The transaction''s type. Valid values
-
-            </br>**authorization**: Money that the customer has agreed to pay. The authorization period can be between 7 and 30 days (depending on your payment service) while a store waits for a payment to be captured.
-
-            </br>**capture**: A transfer of money that was reserved during the authorization of a shop.
-
-            </br>**sale**: The authorization and capture of a payment performed in one single step.
-
-            </br>**void**: The cancellation of a pending authorization or capture.
-
-            </br>**refund**: The partial or full return of captured money to the customer.'
-          example: capture
-        message:
-          type: string
-          description: A string generated by the payment provider with additional information about why the transaction succeeded or failed.
-          example: Marked the Cash on Delivery (COD) payment as received
-        order_id:
-          type: integer
-          description: The ID for the order that the transaction is associated with.
-          example: 450789469
-        parent_id:
-          type: integer
-          description: "The ID of an associated transaction. \n * For ```capture``` transactions, the parent needs to be an ```authorization``` transaction.\n * For ```void``` transactions, the parent needs to be an ```authorization``` transaction. \n For ```refund``` transactions, the parent needs to be a ```capture``` or ```sale``` transaction."
-        payment_details:
-          type: string
-          description: 'Information about the credit card used for this transaction. It has the following properties
-
-            </br>**avs_result_code**: The response code from the address verification system. The code is a single letter; see this chart for the codes and their definitions.
-
-            </br>**credit_card_bin**: The issuer identification number (IIN), formerly known as bank identification number (BIN) of the customer''s credit card. This is made up of the first few digits of the credit card number.
-
-            </br>**credit_card_company**: The name of the company that issued the customer''s credit card.
-
-            </br>**credit_card_number**: The customer''s credit card number, with most of the leading digits redacted.
-
-            </br>**cvv_result_code**: The response code from the credit card company indicating whether the customer entered the card security code, or card verification value, correctly. The code is a single letter or empty string; see this chart for the codes and their definitions.'
-        processed_at:
-          type: integer
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when a transaction was processed. This value is the date that's used in the analytic reports. By default, it matches the created_at value. If you're importing transactions from an app or another platform, then you can set processed_at to a date and time in the past to match when the original transaction was processed.
-        receipt:
-          type: string
-          description: Receipt
-        source_name:
-          type: string
-          description: 'The origin of the transaction. This is set by ShopBase and can''t be overridden. Example values: web, pos, iphone, and android.'
-          example: web
-        status:
-          type: string
-          description: 'The status of the transaction. Valid values: ```pending```, ```failure```, ```success```, and ```error```.'
-          example: success
-        test:
-          type: boolean
-          description: Whether the transaction is a test transaction.
-          example: true
-        transaction_amount:
-          type: number
-          description: The amount of money included in the payment gateway's transaction.
-        transaction_currency:
-          type: string
-          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the payment provider's transaction currency used for the payment.
-      type: object
-    CountResponse:
-      properties:
-        count:
-          type: integer
-      type: object
-    OrderLineItemDto:
-      properties:
-        discount_allocations:
-          items:
-            $ref: '#/components/schemas/OrderLineItemDiscountApplicationDto'
-          type: array
-          description: An ordered list of amounts allocated by discount applications.
-        discount_amount:
-          type: number
-          description: Discount amount
-          example: 1
-        fulfillable_quantity:
-          type: integer
-          description: "The amount available to fulfill, calculated as follows: \n `quantity - max(refunded_quantity, fulfilled_quantity) - pending_fulfilled_quantity - open_fulfilled_quantity`"
-          example: 1
-        fulfillment_service:
-          type: string
-          description: 'The service provider that''s fulfilling the item. Valid values: manual, or the name of the provider, such as `amazon` or `shipwire`.'
-          example: amazon
-        fulfillment_status:
-          type: string
-          description: 'How far along an order is in terms line items fulfilled. Valid values: null, processing, partial-processing, fulfilled, partial, and not_eligible.'
-          example: fulfilled
-        gift_card:
-          type: boolean
-          description: Whether the item is a gift card. If `true`, then the item is not taxed or considered for shipping charges.
-        image_src:
-          type: string
-          description: Image source
-          example: https://example.com/img.jpg
-        is_post_purchase_item:
-          type: boolean
-          description: Is post purchase item
-        item_discount_price:
-          type: number
-          description: Item discount price
-          example: 20
-        line_item_discount_amount:
-          type: number
-          description: Line item discount amount
-          example: 20
-        line_item_discount_price:
-          type: number
-          description: Line item discount price
-          example: 100
-        line_item_price:
-          type: number
-          description: Line item price
-          example: 100
-        line_item_price_after_discount:
-          type: number
-          description: Line item price after discount
-          example: 20
-        line_item_price_before_discount:
-          type: number
-          description: Line item price before discount
-          example: 20
-        line_item_price_with_explicit_discount:
-          type: number
-          description: Line item price with explicit discount
-          example: 10
-        line_item_weight:
-          type: number
-          description: Line item weight
-          example: 10
-        name:
-          type: string
-          description: The name of the product variant.
-        not_explicit_discount_price:
-          type: number
-          description: Not explitcit discount price
-          example: 2
-        order_id:
-          type: integer
-          description: Order ID
-          example: 1
-        price:
-          type: number
-          description: The price of the item before discounts have been applied in the shop currency.
-          example: 225
-        product_id:
-          type: integer
-          description: Product ID
-          example: 1
-        product_is_deleted:
-          type: boolean
-          description: The status of product of this line item
-        product_type:
-          type: string
-          description: Product type
-          example: '1'
-        properties:
-          items:
-            type: '&{%!s(token.Pos=3634) string string}'
-          type: array
-          description: An array of custom information for the item that has been added to the cart. Often used to provide product customization options.
-        quantity:
-          type: number
-          description: Quantity items
-          example: 1000
-        raw_price:
-          type: number
-          description: Raw price
-          example: 20
-        raw_weight:
-          type: number
-          description: Raw weight
-          example: 10
-        requires_shipping:
-          type: boolean
-          description: Whether the item requires shipping.
-          example: true
-        shipping_rate:
-          $ref: '#/components/schemas/LineItemShippingRate'
-          description: Line item shipping rate
-        sku:
-          type: string
-          description: The item's SKU (stock keeping unit).
-          example: IPOD2008GREEN
-        tags:
-          type: string
-          description: A string of comma-separated product tags
-          example: Emotive, Flash Memory, MP3, Music
-        tax_amount:
-          type: number
-          description: Tax amount
-          example: 20
-        tax_lines:
-          items:
-            $ref: '#/components/schemas/TaxLineDto'
-          type: array
-          description: An array of tax line objects, each of which details a tax applicable to the order.
-        tax_rate:
-          type: number
-          description: Tax rate
-          example: 1
-        taxable:
-          type: boolean
-          description: Whether the item was taxable.
-        tip_payment_gateway:
-          type: string
-          description: The payment gateway used to tender the tip, such as shopbase_payments. Present only on tips.
-        tip_payment_method:
-          type: string
-          description: The payment method used to tender the tip, such as Visa. Present only on tips.
-        title:
-          type: string
-          description: The title of the product.
-          example: IPOD2008GREEN
-        total_discount:
-          type: number
-          description: The total discount amount applied to this line item in the shop currency. This value is not subtracted in the line item price.
-        total_item_discount_price:
-          type: number
-          description: Total item discount price
-          example: 10
-        total_line_with_discount_price:
-          type: number
-          description: Total line with discount price
-          example: 10
-        total_tax_amount:
-          type: number
-          description: Total tax amount
-          example: 10
-        variant_id:
-          type: integer
-          description: Variant ID
-          example: 1
-        variant_title:
-          type: string
-          description: The title of the product variant.
-          example: IPOD2008GREEN
-        vendor:
-          type: string
-          description: The name of the item's supplier.
-        weight:
-          type: number
-          description: The weight of the item
-          example: 1.5
-        weight_unit:
-          type: string
-          description: The weight unit of the item
-          example: kg
-      type: object
-    RefundOrderAdjustmentDto:
-      properties:
-        amount:
-          type: number
-          description: The value of the discrepancy between the calculated refund and the actual refund. If the kind property's value is shipping_refund, then amount returns the value of shipping charges refunded to the customer.
-          example: -8
-        kind:
-          type: string
-          description: 'The order adjustment type. Valid values: `shipping_refund` and `refund_discrepancy`.'
-          example: shipping_refund
-        order_id:
-          type: integer
-          description: The unique identifier for the order that the order adjustment is associated with.
-          example: 171016912932
-        reason:
-          type: string
-          description: The reason for the order adjustment. To set this value, include `discrepancy_reason` when you create a refund.
-          example: Shipping refund
-        tax_amount:
-          type: number
-          description: The taxes that are added to amount, such as applicable shipping taxes added to a shipping refund.
-          example: 0
-      type: object
-    LineItemShippingRate:
-      properties:
+          description: A reference to the carrier service that provided the rate. Present when the rate was computed by a third-party carrier service.
+          example: third_party_carrier_identifier
         code:
           type: string
           description: A reference to the combined shipping method.
           example: weight_based_47925+weight_based_47926+weight_based_47928
-        id:
-          type: integer
-          description: The Shipping Rate Id
-          example: 43531
-        is_post_purchase:
-          type: boolean
-          description: Is post purchase
+        discounted_price:
+          type: number
+          description: The price of the shipping method after discounts.
+          example: 4
+        fulfillment_service:
+          type: string
+          description: A reference to the fulfillment service that is being requested for the shipping method. Present if the shipping method requires processing by a third party fulfillment service; null otherwise.
+          example: third_party_fulfillment_service_id
         price:
           type: number
-          description: The total price of this shipping rate for a variant in the order
-          example: 8
+          description: The price of this shipping method in the shop currency. Can't be negative. (sum of all shipping rates price)
+          example: 4
+        source:
+          type: string
+          description: The source of the shipping method.
+          example: canada_post
+        tax_lines:
+          items:
+            $ref: '#/components/schemas/TaxLineDto'
+          type: array
+          description: A list of tax line objects, each of which details a tax applicable to this shipping line.
         title:
           type: string
           description: The title of the shipping method.
           example: Small Packet International Air
-        type:
-          type: string
-          description: The Shipping Rate Type
-          example: weight_based, price_based, item_based
-        variant_id:
-          type: integer
-          description: The variant in which this shipping rate is applied for
-          example: 123213213123
-      type: object
-    AdjustOrderDto:
-      properties:
-        is_send_email:
-          type: boolean
-        line_items:
-          items:
-            $ref: '#/components/schemas/AdjustLineItemDto'
-          type: array
-        reason:
-          type: string
-      type: object
-    Shipping:
-      properties:
-        amount:
-          type: number
-          description: Shipping amount
-          example: 10
-        full_refund:
-          type: boolean
-          description: Whether full refund or not
-          example: true
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

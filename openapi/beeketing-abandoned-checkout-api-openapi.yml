@@ -21,7 +21,6 @@ paths:
   /admin/checkouts.json:
     get:
       summary: Retrieve a list of abandoned checkouts
-      description: Retrieve a list of abandoned checkouts
       responses:
         '200':
           description: OK
@@ -75,7 +74,6 @@ paths:
   /admin/checkouts/count.json:
     get:
       summary: Retrieve count of abandoned checkouts
-      description: Retrieve count of abandoned checkouts
       responses:
         '200':
           description: OK
@@ -125,7 +123,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}.json:
     get:
       summary: Retrieve a single abandoned checkout
-      description: Retrieve a single abandoned checkout
       responses: {}
       parameters:
       - name: checkout_id
@@ -143,7 +140,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/cancel-send-recovery-email.json:
     post:
       summary: Cancel scheduled email of an abandoned checkout
-      description: Cancel scheduled email of an abandoned checkout
       responses:
         '200':
           description: OK
@@ -167,7 +163,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/cancel-send-recovery-sms.json:
     post:
       summary: Cancel scheduled sms of an abandoned checkout
-      description: Cancel scheduled sms of an abandoned checkout
       responses:
         '200':
           description: OK
@@ -191,7 +186,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/send-recovery-email.json:
     post:
       summary: Manually send abandoned checkout email
-      description: Manually send abandoned checkout email
       responses:
         '200':
           description: OK
@@ -215,7 +209,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/send-recovery-email/get-review.json:
     get:
       summary: Retrieve an abandoned checkout email notification with preview content
-      description: Retrieve an abandoned checkout email notification with preview content
       responses:
         '200':
           description: OK
@@ -251,7 +244,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/send-recovery-sms.json:
     post:
       summary: Manually send abandoned checkout sms
-      description: Manually send abandoned checkout sms
       responses:
         '200':
           description: OK
@@ -275,7 +267,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/send-recovery-sms/get-review.json:
     get:
       summary: Retrieve an abandoned checkout sms notification with preview content
-      description: Retrieve an abandoned checkout sms notification with preview content
       responses:
         '200':
           description: OK
@@ -311,7 +302,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/timeline.json:
     get:
       summary: Retrieve a list of timelines of an abandoned checkout
-      description: Retrieve a list of timelines of an abandoned checkout
       responses:
         '200':
           description: OK
@@ -335,7 +325,6 @@ paths:
   /admin/checkouts/{checkout_id:\\d+}/update-note.json:
     put:
       summary: Update abandoned checkout note
-      description: Update abandoned checkout note
       responses:
         '200':
           description: OK
@@ -366,32 +355,194 @@ paths:
         required: true
 components:
   schemas:
-    DiscountApplication:
+    OrderLineItemDto:
       properties:
-        allocation_method:
-          type: string
-        amount:
+        discount_allocations:
+          items:
+            $ref: '#/components/schemas/OrderLineItemDiscountApplicationDto'
+          type: array
+          description: An ordered list of amounts allocated by discount applications.
+        discount_amount:
           type: number
-        code:
-          type: string
-        discount_type:
-          type: string
-        is_valid:
-          type: boolean
-        price_rule_id:
+          description: Discount amount
+          example: 1
+        fulfillable_quantity:
           type: integer
-        price_rule_title:
+          description: "The amount available to fulfill, calculated as follows: \n `quantity - max(refunded_quantity, fulfilled_quantity) - pending_fulfilled_quantity - open_fulfilled_quantity`"
+          example: 1
+        fulfillment_service:
           type: string
-        price_rule_type:
+          description: 'The service provider that''s fulfilling the item. Valid values: manual, or the name of the provider, such as `amazon` or `shipwire`.'
+          example: amazon
+        fulfillment_status:
           type: string
-        scope:
+          description: 'How far along an order is in terms line items fulfilled. Valid values: null, processing, partial-processing, fulfilled, partial, and not_eligible.'
+          example: fulfilled
+        gift_card:
+          type: boolean
+          description: Whether the item is a gift card. If `true`, then the item is not taxed or considered for shipping charges.
+        image_src:
           type: string
-        type:
-          type: string
-        value:
+          description: Image source
+          example: https://example.com/img.jpg
+        is_post_purchase_item:
+          type: boolean
+          description: Is post purchase item
+        item_discount_price:
           type: number
-        value_type:
+          description: Item discount price
+          example: 20
+        line_item_discount_amount:
+          type: number
+          description: Line item discount amount
+          example: 20
+        line_item_discount_price:
+          type: number
+          description: Line item discount price
+          example: 100
+        line_item_price:
+          type: number
+          description: Line item price
+          example: 100
+        line_item_price_after_discount:
+          type: number
+          description: Line item price after discount
+          example: 20
+        line_item_price_before_discount:
+          type: number
+          description: Line item price before discount
+          example: 20
+        line_item_price_with_explicit_discount:
+          type: number
+          description: Line item price with explicit discount
+          example: 10
+        line_item_weight:
+          type: number
+          description: Line item weight
+          example: 10
+        name:
           type: string
+          description: The name of the product variant.
+        not_explicit_discount_price:
+          type: number
+          description: Not explitcit discount price
+          example: 2
+        order_id:
+          type: integer
+          description: Order ID
+          example: 1
+        price:
+          type: number
+          description: The price of the item before discounts have been applied in the shop currency.
+          example: 225
+        product_id:
+          type: integer
+          description: Product ID
+          example: 1
+        product_is_deleted:
+          type: boolean
+          description: The status of product of this line item
+        product_type:
+          type: string
+          description: Product type
+          example: '1'
+        properties:
+          items:
+            type: '&{%!s(token.Pos=3634) string string}'
+          type: array
+          description: An array of custom information for the item that has been added to the cart. Often used to provide product customization options.
+        quantity:
+          type: number
+          description: Quantity items
+          example: 1000
+        raw_price:
+          type: number
+          description: Raw price
+          example: 20
+        raw_weight:
+          type: number
+          description: Raw weight
+          example: 10
+        requires_shipping:
+          type: boolean
+          description: Whether the item requires shipping.
+          example: true
+        shipping_rate:
+          $ref: '#/components/schemas/LineItemShippingRate'
+          description: Line item shipping rate
+        sku:
+          type: string
+          description: The item's SKU (stock keeping unit).
+          example: IPOD2008GREEN
+        tags:
+          type: string
+          description: A string of comma-separated product tags
+          example: Emotive, Flash Memory, MP3, Music
+        tax_amount:
+          type: number
+          description: Tax amount
+          example: 20
+        tax_lines:
+          items:
+            $ref: '#/components/schemas/TaxLineDto'
+          type: array
+          description: An array of tax line objects, each of which details a tax applicable to the order.
+        tax_rate:
+          type: number
+          description: Tax rate
+          example: 1
+        taxable:
+          type: boolean
+          description: Whether the item was taxable.
+        tip_payment_gateway:
+          type: string
+          description: The payment gateway used to tender the tip, such as shopbase_payments. Present only on tips.
+        tip_payment_method:
+          type: string
+          description: The payment method used to tender the tip, such as Visa. Present only on tips.
+        title:
+          type: string
+          description: The title of the product.
+          example: IPOD2008GREEN
+        total_discount:
+          type: number
+          description: The total discount amount applied to this line item in the shop currency. This value is not subtracted in the line item price.
+        total_item_discount_price:
+          type: number
+          description: Total item discount price
+          example: 10
+        total_line_with_discount_price:
+          type: number
+          description: Total line with discount price
+          example: 10
+        total_tax_amount:
+          type: number
+          description: Total tax amount
+          example: 10
+        variant_id:
+          type: integer
+          description: Variant ID
+          example: 1
+        variant_title:
+          type: string
+          description: The title of the product variant.
+          example: IPOD2008GREEN
+        vendor:
+          type: string
+          description: The name of the item's supplier.
+        weight:
+          type: number
+          description: The weight of the item
+          example: 1.5
+        weight_unit:
+          type: string
+          description: The weight unit of the item
+          example: kg
+      type: object
+    CountResponse:
+      properties:
+        count:
+          type: integer
       type: object
     TaxLineDto:
       properties:
@@ -407,170 +558,6 @@ components:
           type: string
           description: The name of the tax.
           example: HST
-      type: object
-    ShippingRateDto:
-      properties:
-        item_based:
-          $ref: '#/components/schemas/ItemBasedShippingRateDto'
-        price_based:
-          $ref: '#/components/schemas/PriceBasedShippingRateDto'
-        profile_id:
-          type: integer
-        weight_based:
-          $ref: '#/components/schemas/WeightBasedShippingRateDto'
-      type: object
-    CheckoutDetailPaidInfo:
-      properties:
-        discount_code:
-          type: string
-        discount_total:
-          type: number
-        shipping_fee:
-          type: number
-        shipping_name:
-          type: string
-        subtotal_price:
-          type: number
-        tax_total:
-          type: number
-        total_price:
-          type: number
-      type: object
-    WeightBasedShippingRateDto:
-      properties:
-        created_at:
-          type: integer
-        id:
-          type: integer
-        name:
-          type: string
-        price:
-          type: number
-        price_unit:
-          type: string
-        shipping_zone_id:
-          type: integer
-        shop_id:
-          type: integer
-        updated_at:
-          type: integer
-        weight_high:
-          type: number
-        weight_low:
-          type: number
-        weight_unit:
-          type: string
-      type: object
-    AbandonedCheckoutsNoteUpdateSwaggerRequest:
-      properties:
-        checkout:
-          $ref: '#/components/schemas/AbandonedCheckoutNoteSwaggerRequest'
-      type: object
-    AbandonedCheckoutNoteSwaggerRequest:
-      properties:
-        note:
-          type: string
-      type: object
-    AbandonedCheckoutsUpdateSwaggerResponse:
-      properties:
-        success:
-          type: boolean
-      type: object
-    CustomerAddressDetail:
-      properties:
-        address1:
-          type: string
-          description: The customer's mailing address.
-          example: 123 Fake Street
-        address2:
-          type: string
-          description: An additional field for the customer's mailing address.
-        city:
-          type: string
-          description: The customer's city, town, or village.
-          example: Fakecity
-        company:
-          type: string
-          description: The customer's company.
-        country:
-          type: string
-          description: The customer's country.
-          example: Vietnam
-        country_code:
-          type: string
-          description: The two-letter country code corresponding to the customer's country.
-          example: VN
-        country_id:
-          type: integer
-          description: A unique identifier for the customer.
-        country_name:
-          type: string
-          description: The customer's normalized country name.
-          example: Viet nam
-        cpf_number:
-          type: string
-          description: Brazil CPF Number
-        cpf_or_cnpj_number:
-          type: string
-          description: CPF/CNPJ number
-          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
-        created_at:
-          type: string
-          description: Created at time
-          format: date-time
-        default:
-          type: boolean
-          description: Whether this address is the default address for the customer.
-        first_name:
-          type: string
-          description: The customer's first name.
-          example: John
-        id:
-          type: integer
-          description: A unique identifier for the address.
-        last_name:
-          type: string
-          description: The customer's last name.
-          example: Smith
-        latitude:
-          type: number
-          description: Latitude
-        longitude:
-          type: number
-          description: Longtitude
-        name:
-          type: string
-          description: Address name
-          example: example name
-        phone:
-          type: string
-          description: 'Phone number
-
-            Example 555-555-5555'
-        province:
-          type: string
-          description: Province
-          example: Ontario
-        province_code:
-          type: string
-          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
-        updated_at:
-          type: string
-          description: Updated at time
-          format: date-time
-        zip:
-          type: string
-          description: ZIP
-          example: K2P 1L4
-      type: object
-    OrderLineItemDiscountApplicationDto:
-      properties:
-        amount:
-          type: number
-          description: The discount amount allocated to the line in the shop currency.
-        discount_application_index:
-          type: integer
-          description: The index of the associated discount application in the order's discount_applications list.
       type: object
     Timeline:
       properties:
@@ -593,111 +580,10 @@ components:
         type:
           type: string
       type: object
-    CustomerDto:
+    AbandonedCheckoutsNoteUpdateSwaggerRequest:
       properties:
-        accepts_marketing:
-          type: boolean
-          description: Whether the customer has consented to receive marketing material via email.
-          example: true
-        addresses:
-          items:
-            $ref: '#/components/schemas/CustomerAddressDetail'
-          type: array
-          description: A list of the ten most recently updated addresses for the customer.
-        average_spent:
-          type: number
-          description: The average amount of money that the customer has spent across their order history.
-          example: 37.96
-        created_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer was created.
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        currency:
-          type: string
-          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
-          example: USD
-        default_address:
-          $ref: '#/components/schemas/CustomerAddressDetail'
-          description: The default address for the customer.
-        email:
-          type: string
-          description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
-          example: test@shopbase.com
-        first_name:
-          type: string
-          description: The customer's first name.
-          example: John
-        id:
-          type: integer
-          description: A unique identifier for the customer.
-          example: 107333978
-        last_name:
-          type: string
-          description: The customer's last name.
-          example: English
-        last_order_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer purchase a last order
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        last_order_id:
-          type: integer
-          description: The ID of the customer's last order.
-          example: 234132602919
-        last_order_name:
-          type: string
-          description: The name of the customer's last order. This is directly related to the name field on the Order resource.
-          example: '#1169'
-        last_sent_abandoned_email_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the last abandoned checkout email was sent to this customer
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        note:
-          type: string
-          description: A note about the customer.
-          example: Placed an order that had a fraud warning
-        orders_count:
-          type: integer
-          description: The number of orders associated with this customer.
-          example: 6
-        phone:
-          type: string
-          description: "The unique phone number ([E.164 format](https://en.wikipedia.org/wiki/E.164)) for this customer. Attempting to assign the same phone number to multiple customers returns an error. The property can be set using different formats, but each format must represent a number that can be dialed from anywhere in the world. The following formats are all valid:\n * 6135551212 \n * +16135551212 \n * (613)555-1212 \n * +1 613-555-1212"
-          example: '+16135551111'
-        state:
-          type: string
-          description: "The state of the customer's account with a shop. Default value: disabled. Valid values:\n\n * **disabled**: The customer doesn't have an active account. Customer acounts can be disabled from the ShopBase admin at any time.\n * **invited**: The customer has received an emailed invite to create an account.\n * **enabled**: The customer has created an account.\n * **declined**: The customer declined the email invite to create an account."
-          example: disabled
-        tags:
-          type: string
-          description: Tags that the shop owner has attached to the customer, formatted as a string of comma-separated values.
-          example: loyal
-        tax_exempt:
-          type: boolean
-          description: Whether the customer is exempt from paying taxes on their order. If ```true```, then taxes won't be applied to an order at checkout. If ```false```, then taxes will be applied at checkout.
-          example: true
-        total_spent:
-          type: number
-          description: The total amount of money that the customer has spent across their order history.
-          example: 37.96
-        updated_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer information was last updated.
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        verified_email:
-          type: boolean
-          description: Whether the customer has verified their email address.
-          example: true
-      type: object
-    AbandonedCheckoutsSwaggerResponse:
-      properties:
-        checkouts:
-          items:
-            $ref: '#/components/schemas/AbandonedCheckoutDto'
-          type: array
+        checkout:
+          $ref: '#/components/schemas/AbandonedCheckoutNoteSwaggerRequest'
       type: object
     ShippingRate:
       properties:
@@ -884,12 +770,45 @@ components:
           type: string
           example: '2019-04-22T11:00:00-05:00'
       type: object
+    OrderLineItemDiscountApplicationDto:
+      properties:
+        amount:
+          type: number
+          description: The discount amount allocated to the line in the shop currency.
+        discount_application_index:
+          type: integer
+          description: The index of the associated discount application in the order's discount_applications list.
+      type: object
+    NotificationSublingResponseDto:
+      properties:
+        category:
+          type: string
+        type:
+          type: string
+      type: object
     AbandonedCheckoutActivitiesSwaggerResponse:
       properties:
         timeline_items:
           items:
             $ref: '#/components/schemas/Timeline'
           type: array
+      type: object
+    CheckoutDetailPaidInfo:
+      properties:
+        discount_code:
+          type: string
+        discount_total:
+          type: number
+        shipping_fee:
+          type: number
+        shipping_name:
+          type: string
+        subtotal_price:
+          type: number
+        tax_total:
+          type: number
+        total_price:
+          type: number
       type: object
     FilterRule:
       properties:
@@ -900,217 +819,103 @@ components:
         relation:
           type: string
       type: object
-    CountResponse:
+    ShippingRateDto:
       properties:
-        count:
+        item_based:
+          $ref: '#/components/schemas/ItemBasedShippingRateDto'
+        price_based:
+          $ref: '#/components/schemas/PriceBasedShippingRateDto'
+        profile_id:
           type: integer
+        weight_based:
+          $ref: '#/components/schemas/WeightBasedShippingRateDto'
       type: object
-    ShippingMethod:
+    CustomerAddressDetail:
       properties:
-        carrier_code:
+        address1:
           type: string
-        discount_amount:
-          type: number
-        discounted_price:
-          type: number
-        method_code:
+          description: The customer's mailing address.
+          example: 123 Fake Street
+        address2:
           type: string
-        method_title:
+          description: An additional field for the customer's mailing address.
+        city:
           type: string
-        price:
-          type: number
-        shipping_rates:
-          items:
-            $ref: '#/components/schemas/ShippingRate'
-          type: array
-        shipping_rule_id:
+          description: The customer's city, town, or village.
+          example: Fakecity
+        company:
+          type: string
+          description: The customer's company.
+        country:
+          type: string
+          description: The customer's country.
+          example: Vietnam
+        country_code:
+          type: string
+          description: The two-letter country code corresponding to the customer's country.
+          example: VN
+        country_id:
           type: integer
-        shipping_rule_type:
+          description: A unique identifier for the customer.
+        country_name:
           type: string
-      type: object
-    OrderLineItemDto:
-      properties:
-        discount_allocations:
-          items:
-            $ref: '#/components/schemas/OrderLineItemDiscountApplicationDto'
-          type: array
-          description: An ordered list of amounts allocated by discount applications.
-        discount_amount:
-          type: number
-          description: Discount amount
-          example: 1
-        fulfillable_quantity:
+          description: The customer's normalized country name.
+          example: Viet nam
+        cpf_number:
+          type: string
+          description: Brazil CPF Number
+        cpf_or_cnpj_number:
+          type: string
+          description: CPF/CNPJ number
+          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
+        created_at:
+          type: string
+          description: Created at time
+          format: date-time
+        default:
+          type: boolean
+          description: Whether this address is the default address for the customer.
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
           type: integer
-          description: "The amount available to fulfill, calculated as follows: \n `quantity - max(refunded_quantity, fulfilled_quantity) - pending_fulfilled_quantity - open_fulfilled_quantity`"
-          example: 1
-        fulfillment_service:
+          description: A unique identifier for the address.
+        last_name:
           type: string
-          description: 'The service provider that''s fulfilling the item. Valid values: manual, or the name of the provider, such as `amazon` or `shipwire`.'
-          example: amazon
-        fulfillment_status:
-          type: string
-          description: 'How far along an order is in terms line items fulfilled. Valid values: null, processing, partial-processing, fulfilled, partial, and not_eligible.'
-          example: fulfilled
-        gift_card:
-          type: boolean
-          description: Whether the item is a gift card. If `true`, then the item is not taxed or considered for shipping charges.
-        image_src:
-          type: string
-          description: Image source
-          example: https://example.com/img.jpg
-        is_post_purchase_item:
-          type: boolean
-          description: Is post purchase item
-        item_discount_price:
+          description: The customer's last name.
+          example: Smith
+        latitude:
           type: number
-          description: Item discount price
-          example: 20
-        line_item_discount_amount:
+          description: Latitude
+        longitude:
           type: number
-          description: Line item discount amount
-          example: 20
-        line_item_discount_price:
-          type: number
-          description: Line item discount price
-          example: 100
-        line_item_price:
-          type: number
-          description: Line item price
-          example: 100
-        line_item_price_after_discount:
-          type: number
-          description: Line item price after discount
-          example: 20
-        line_item_price_before_discount:
-          type: number
-          description: Line item price before discount
-          example: 20
-        line_item_price_with_explicit_discount:
-          type: number
-          description: Line item price with explicit discount
-          example: 10
-        line_item_weight:
-          type: number
-          description: Line item weight
-          example: 10
+          description: Longtitude
         name:
           type: string
-          description: The name of the product variant.
-        not_explicit_discount_price:
-          type: number
-          description: Not explitcit discount price
-          example: 2
-        order_id:
-          type: integer
-          description: Order ID
-          example: 1
-        price:
-          type: number
-          description: The price of the item before discounts have been applied in the shop currency.
-          example: 225
-        product_id:
-          type: integer
-          description: Product ID
-          example: 1
-        product_is_deleted:
-          type: boolean
-          description: The status of product of this line item
-        product_type:
+          description: Address name
+          example: example name
+        phone:
           type: string
-          description: Product type
-          example: '1'
-        properties:
-          items:
-            type: '&{%!s(token.Pos=3634) string string}'
-          type: array
-          description: An array of custom information for the item that has been added to the cart. Often used to provide product customization options.
-        quantity:
-          type: number
-          description: Quantity items
-          example: 1000
-        raw_price:
-          type: number
-          description: Raw price
-          example: 20
-        raw_weight:
-          type: number
-          description: Raw weight
-          example: 10
-        requires_shipping:
-          type: boolean
-          description: Whether the item requires shipping.
-          example: true
-        shipping_rate:
-          $ref: '#/components/schemas/LineItemShippingRate'
-          description: Line item shipping rate
-        sku:
+          description: 'Phone number
+
+            Example 555-555-5555'
+        province:
           type: string
-          description: The item's SKU (stock keeping unit).
-          example: IPOD2008GREEN
-        tags:
+          description: Province
+          example: Ontario
+        province_code:
           type: string
-          description: A string of comma-separated product tags
-          example: Emotive, Flash Memory, MP3, Music
-        tax_amount:
-          type: number
-          description: Tax amount
-          example: 20
-        tax_lines:
-          items:
-            $ref: '#/components/schemas/TaxLineDto'
-          type: array
-          description: An array of tax line objects, each of which details a tax applicable to the order.
-        tax_rate:
-          type: number
-          description: Tax rate
-          example: 1
-        taxable:
-          type: boolean
-          description: Whether the item was taxable.
-        tip_payment_gateway:
+          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
+        updated_at:
           type: string
-          description: The payment gateway used to tender the tip, such as shopbase_payments. Present only on tips.
-        tip_payment_method:
+          description: Updated at time
+          format: date-time
+        zip:
           type: string
-          description: The payment method used to tender the tip, such as Visa. Present only on tips.
-        title:
-          type: string
-          description: The title of the product.
-          example: IPOD2008GREEN
-        total_discount:
-          type: number
-          description: The total discount amount applied to this line item in the shop currency. This value is not subtracted in the line item price.
-        total_item_discount_price:
-          type: number
-          description: Total item discount price
-          example: 10
-        total_line_with_discount_price:
-          type: number
-          description: Total line with discount price
-          example: 10
-        total_tax_amount:
-          type: number
-          description: Total tax amount
-          example: 10
-        variant_id:
-          type: integer
-          description: Variant ID
-          example: 1
-        variant_title:
-          type: string
-          description: The title of the product variant.
-          example: IPOD2008GREEN
-        vendor:
-          type: string
-          description: The name of the item's supplier.
-        weight:
-          type: number
-          description: The weight of the item
-          example: 1.5
-        weight_unit:
-          type: string
-          description: The weight unit of the item
-          example: kg
+          description: ZIP
+          example: K2P 1L4
       type: object
     NotificationWithSublingResponseDto:
       properties:
@@ -1120,33 +925,6 @@ components:
           type: object
         previous:
           $ref: '#/components/schemas/NotificationSublingResponseDto'
-      type: object
-    PriceBasedShippingRateDto:
-      properties:
-        created_at:
-          type: integer
-        free_ship:
-          type: boolean
-        id:
-          type: integer
-        max_order_subtotal:
-          type: number
-        min_order_subtotal:
-          type: number
-        name:
-          type: string
-        order_subtotal_unit:
-          type: string
-        price:
-          type: number
-        price_unit:
-          type: string
-        shipping_zone_id:
-          type: integer
-        shop_id:
-          type: integer
-        updated_at:
-          type: integer
       type: object
     LineItemShippingRate:
       properties:
@@ -1178,11 +956,59 @@ components:
           description: The variant in which this shipping rate is applied for
           example: 123213213123
       type: object
-    NotificationSublingResponseDto:
+    AbandonedCheckoutsUpdateSwaggerResponse:
       properties:
-        category:
+        success:
+          type: boolean
+      type: object
+    PriceBasedShippingRateDto:
+      properties:
+        created_at:
+          type: integer
+        free_ship:
+          type: boolean
+        id:
+          type: integer
+        max_order_subtotal:
+          type: number
+        min_order_subtotal:
+          type: number
+        name:
           type: string
-        type:
+        order_subtotal_unit:
+          type: string
+        price:
+          type: number
+        price_unit:
+          type: string
+        shipping_zone_id:
+          type: integer
+        shop_id:
+          type: integer
+        updated_at:
+          type: integer
+      type: object
+    ShippingMethod:
+      properties:
+        carrier_code:
+          type: string
+        discount_amount:
+          type: number
+        discounted_price:
+          type: number
+        method_code:
+          type: string
+        method_title:
+          type: string
+        price:
+          type: number
+        shipping_rates:
+          items:
+            $ref: '#/components/schemas/ShippingRate'
+          type: array
+        shipping_rule_id:
+          type: integer
+        shipping_rule_type:
           type: string
       type: object
     ItemBasedShippingRateDto:
@@ -1215,6 +1041,169 @@ components:
           type: integer
         updated_at:
           type: integer
+      type: object
+    AbandonedCheckoutsSwaggerResponse:
+      properties:
+        checkouts:
+          items:
+            $ref: '#/components/schemas/AbandonedCheckoutDto'
+          type: array
+      type: object
+    AbandonedCheckoutNoteSwaggerRequest:
+      properties:
+        note:
+          type: string
+      type: object
+    DiscountApplication:
+      properties:
+        allocation_method:
+          type: string
+        amount:
+          type: number
+        code:
+          type: string
+        discount_type:
+          type: string
+        is_valid:
+          type: boolean
+        price_rule_id:
+          type: integer
+        price_rule_title:
+          type: string
+        price_rule_type:
+          type: string
+        scope:
+          type: string
+        type:
+          type: string
+        value:
+          type: number
+        value_type:
+          type: string
+      type: object
+    WeightBasedShippingRateDto:
+      properties:
+        created_at:
+          type: integer
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
+        price_unit:
+          type: string
+        shipping_zone_id:
+          type: integer
+        shop_id:
+          type: integer
+        updated_at:
+          type: integer
+        weight_high:
+          type: number
+        weight_low:
+          type: number
+        weight_unit:
+          type: string
+      type: object
+    CustomerDto:
+      properties:
+        accepts_marketing:
+          type: boolean
+          description: Whether the customer has consented to receive marketing material via email.
+          example: true
+        addresses:
+          items:
+            $ref: '#/components/schemas/CustomerAddressDetail'
+          type: array
+          description: A list of the ten most recently updated addresses for the customer.
+        average_spent:
+          type: number
+          description: The average amount of money that the customer has spent across their order history.
+          example: 37.96
+        created_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer was created.
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
+          example: USD
+        default_address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+          description: The default address for the customer.
+        email:
+          type: string
+          description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
+          example: test@shopbase.com
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
+          type: integer
+          description: A unique identifier for the customer.
+          example: 107333978
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: English
+        last_order_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer purchase a last order
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        last_order_id:
+          type: integer
+          description: The ID of the customer's last order.
+          example: 234132602919
+        last_order_name:
+          type: string
+          description: The name of the customer's last order. This is directly related to the name field on the Order resource.
+          example: '#1169'
+        last_sent_abandoned_email_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the last abandoned checkout email was sent to this customer
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        note:
+          type: string
+          description: A note about the customer.
+          example: Placed an order that had a fraud warning
+        orders_count:
+          type: integer
+          description: The number of orders associated with this customer.
+          example: 6
+        phone:
+          type: string
+          description: "The unique phone number ([E.164 format](https://en.wikipedia.org/wiki/E.164)) for this customer. Attempting to assign the same phone number to multiple customers returns an error. The property can be set using different formats, but each format must represent a number that can be dialed from anywhere in the world. The following formats are all valid:\n * 6135551212 \n * +16135551212 \n * (613)555-1212 \n * +1 613-555-1212"
+          example: '+16135551111'
+        state:
+          type: string
+          description: "The state of the customer's account with a shop. Default value: disabled. Valid values:\n\n * **disabled**: The customer doesn't have an active account. Customer acounts can be disabled from the ShopBase admin at any time.\n * **invited**: The customer has received an emailed invite to create an account.\n * **enabled**: The customer has created an account.\n * **declined**: The customer declined the email invite to create an account."
+          example: disabled
+        tags:
+          type: string
+          description: Tags that the shop owner has attached to the customer, formatted as a string of comma-separated values.
+          example: loyal
+        tax_exempt:
+          type: boolean
+          description: Whether the customer is exempt from paying taxes on their order. If ```true```, then taxes won't be applied to an order at checkout. If ```false```, then taxes will be applied at checkout.
+          example: true
+        total_spent:
+          type: number
+          description: The total amount of money that the customer has spent across their order history.
+          example: 37.96
+        updated_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer information was last updated.
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        verified_email:
+          type: boolean
+          description: Whether the customer has verified their email address.
+          example: true
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

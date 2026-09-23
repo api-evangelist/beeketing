@@ -139,18 +139,6 @@ paths:
         required: true
 components:
   schemas:
-    ScriptTagSwaggerResponse:
-      properties:
-        script_tag:
-          $ref: '#/components/schemas/ScriptTagV2'
-      type: object
-    ScriptTagsSwaggerResponse:
-      properties:
-        script_tags:
-          items:
-            $ref: '#/components/schemas/ScriptTagV2'
-          type: array
-      type: object
     ScriptTagV2:
       properties:
         created_at:
@@ -189,6 +177,18 @@ components:
         updated_at:
           type: integer
           description: The date and time ([ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)) when the script tag was last updated.
+      type: object
+    ScriptTagsSwaggerResponse:
+      properties:
+        script_tags:
+          items:
+            $ref: '#/components/schemas/ScriptTagV2'
+          type: array
+      type: object
+    ScriptTagSwaggerResponse:
+      properties:
+        script_tag:
+          $ref: '#/components/schemas/ScriptTagV2'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

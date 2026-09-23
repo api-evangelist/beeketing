@@ -18,7 +18,7 @@ tags:
 paths:
   /admin/customers.json:
     get:
-      summary: Retrieves a list of customers.
+      summary: Retrieves a list of customers
       responses:
         '200':
           description: OK
@@ -88,7 +88,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - read_customers
     post:
-      summary: Creates a customer.
+      summary: Creates a customer
       responses:
         '200':
           description: OK
@@ -129,7 +129,7 @@ paths:
         - read_customers
   /admin/customers/{customer_id:[0-9]+}/send_invite.json:
     post:
-      summary: Sends an account invite to a customer.
+      summary: Sends an account invite to a customer
       responses:
         '200':
           description: OK
@@ -153,7 +153,7 @@ paths:
         required: true
   /admin/customers/{id:\\d+}.json:
     get:
-      summary: Retrieves a single customer.
+      summary: Retrieves a single customer
       responses:
         '200':
           description: OK
@@ -197,7 +197,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - write_customers
     put:
-      summary: Updates a customer.
+      summary: Updates a customer
       responses:
         '200':
           description: OK
@@ -221,12 +221,33 @@ paths:
         required: true
 components:
   schemas:
-    CustomerForResponse:
+    CountResponse:
       properties:
-        customers:
+        count:
+          type: integer
+      type: object
+    SendInvitationRequest:
+      properties:
+        customer_invite:
+          $ref: '#/components/schemas/CustomerInvite'
+      type: object
+    CustomerInvite:
+      properties:
+        bcc:
           items:
-            $ref: '#/components/schemas/CustomerDto'
+            type: string
           type: array
+        custom_message:
+          type: string
+        from:
+          type: string
+          example: steve@apple.com
+        subject:
+          type: string
+          example: Customer account activation
+        to:
+          type: string
+          example: bob.norman@hostmail.com
       type: object
     CustomerAddressDetail:
       properties:
@@ -317,10 +338,17 @@ components:
       type: object
     models.SwaggerDeleteResponse:
       type: object
-    CountResponse:
+    CustomerForResponse:
       properties:
-        count:
-          type: integer
+        customers:
+          items:
+            $ref: '#/components/schemas/CustomerDto'
+          type: array
+      type: object
+    CustomerSwaggerResponse:
+      properties:
+        customer:
+          $ref: '#/components/schemas/CustomerDto'
       type: object
     CustomerDto:
       properties:
@@ -420,34 +448,6 @@ components:
           type: boolean
           description: Whether the customer has verified their email address.
           example: true
-      type: object
-    CustomerInvite:
-      properties:
-        bcc:
-          items:
-            type: string
-          type: array
-        custom_message:
-          type: string
-        from:
-          type: string
-          example: steve@apple.com
-        subject:
-          type: string
-          example: Customer account activation
-        to:
-          type: string
-          example: bob.norman@hostmail.com
-      type: object
-    CustomerSwaggerResponse:
-      properties:
-        customer:
-          $ref: '#/components/schemas/CustomerDto'
-      type: object
-    SendInvitationRequest:
-      properties:
-        customer_invite:
-          $ref: '#/components/schemas/CustomerInvite'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

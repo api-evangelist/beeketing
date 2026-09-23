@@ -11,17 +11,22 @@ info:
     url: https://www.shopbase.net
   x-logo:
     url: https://admin-cdn.shopbase.com/img/Compact.ac400184.svg
-  description: You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment. </br></br>A fulfillment represents a group of one or more items in an order
+  description: 'You can use the Fulfillment resource to view, create, modify, or delete an order''s fulfillment.
+
+
+    A fulfillment represents a group of one or more items in an order'
 servers:
 - url: https://shop-name.onshopbase.com
 tags:
-- description: You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment. </br></br>A fulfillment represents a group of one or more items in an order
+- description: 'You can use the Fulfillment resource to view, create, modify, or delete an order''s fulfillment.
+
+
+    A fulfillment represents a group of one or more items in an order'
   name: Fulfillment
 paths:
   /admin/orders/{order_id:[0-9]+}/fulfillments.json:
     get:
       summary: Retrieves fulfillments associated with an order
-      description: Retrieves fulfillments associated with an order
       responses:
         '200':
           description: OK
@@ -61,7 +66,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - read_orders
     post:
-      summary: Create a fulfillment.
+      summary: Create a fulfillment
       description: 'Create a fulfillment for the specified order and line items.
 
 
@@ -148,7 +153,9 @@ paths:
   /admin/orders/{order_id:[0-9]+}/fulfillments/{fulfillment_id:[0-9]+}.json:
     get:
       summary: Retrieve a specific fulfillment
-      description: "Retrieve a specific fulfillment. \n (fields: Comma-separated list of fields to include in the response.)"
+      description: 'Retrieve a specific fulfillment.
+
+        (fields: Comma-separated list of fields to include in the response.)'
       responses:
         '200':
           description: OK
@@ -202,7 +209,6 @@ paths:
   /admin/orders/{order_id:[0-9]+}/fulfillments/{fulfillment_id:[0-9]+}/cancel.json:
     post:
       summary: Cancel a fulfillment
-      description: Cancel a fulfillment
       responses:
         '200':
           description: OK
@@ -232,7 +238,6 @@ paths:
   /admin/orders/{order_id:[0-9]+}/fulfillments/{fulfillment_id:[0-9]+}/complete.json:
     post:
       summary: Complete a fulfillment
-      description: Complete a fulfillment
       responses:
         '200':
           description: OK
@@ -273,383 +278,6 @@ paths:
         required: true
 components:
   schemas:
-    Fulfillment:
-      properties:
-        created_at:
-          type: integer
-          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
-        date_done:
-          type: integer
-          description: The date and time when the fulfillment was fulfilled. The API returns this value in ISO 8601 format.
-        detected_tracking_company:
-          type: string
-          description: Detected tracking company
-        first_tracking_step_at:
-          type: integer
-          description: The date and time when the first tracking step created
-        id:
-          type: integer
-          description: The ID for the fulfillment.
-          example: 255858046
-        last_crawled_at:
-          type: integer
-          description: The date and time when the fulfillment was last crawled
-        last_mile_tracking_company:
-          type: string
-          description: Last mile tracking company
-        last_mile_tracking_number:
-          type: string
-          description: Last mile tracking number
-        last_response_log:
-          type: string
-          description: Save last response of failed status
-        last_tracking_step_at:
-          type: integer
-          description: The date and time when the last tracking step created
-        line_items:
-          items:
-            $ref: '#/components/schemas/LineItemFulfillment'
-          type: array
-          description: Fulfillment line items
-        name:
-          type: string
-          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
-
-            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
-          example: '255858046'
-        notify_customer:
-          type: boolean
-          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated. \n For orders that were initially created using the API, the default value is false.\n For all other orders, the default value is true."
-          example: true
-        order_id:
-          type: integer
-          description: The unique numeric identifier for the order.
-          example: 450789469
-        send_delay_mail:
-          type: boolean
-          description: check send email delay shipping
-        service:
-          type: string
-          description: "The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.\n The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2)."
-          example: '255858046'
-        shipment_status:
-          type: string
-          description: "The current shipment status of the fulfillment. Valid values: \n * **attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.\n * **ready_for_pickup**:  The shipment is ready for pickup at a shipping depot.\n * **confirmed**: The carrier is aware of the shipment, but hasn't received it yet. \n * **in_transit**: The shipment is being transported between shipping facilities on the way to its destination.\n  * **out_for_delivery**: The shipment is being delivered to its final destination.\n * **delivered**: The shipment was successfully delivered.\n * **delayed**: The tracking status need more time to be updated (maybe cause by shipping carrier website issue), probably will be ready in 6~12 hours. \n * **failure, not_found, invalid**: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled."
-          example: confirmed
-        status:
-          type: string
-          description: "The status of the fulfillment. Valid values: \n * **pending**: The fulfillment is pending. \n * **open**: The fulfillment has been acknowledged by the service and is in processing. \n * **success**: The fulfillment was successful. \n * **cancelled**: The fulfillment was cancelled. \n * **error**: There was an error with the fulfillment request. \n * **failure**: he fulfillment request failed."
-          example: '255858046'
-        tracking_company:
-          type: string
-          description: The name of the tracking company.
-          example: 4PX
-        tracking_numbers:
-          items:
-            type: string
-          type: array
-          description: A list of tracking numbers, provided by the shipping company.
-          example:
-          - 112345Z2345
-        tracking_steps:
-          type: string
-          description: Tracking steps
-        tracking_urls:
-          items:
-            type: string
-          type: array
-          description: The URLs of tracking pages for the fulfillment.
-          example:
-          - http://track-example.com/startairmail.php?code=112345Z2345
-        updated_at:
-          type: integer
-          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
-        variant_inventory_management:
-          type: string
-          description: The name of the inventory management service.
-          example: shopbase
-      type: object
-    FulfillmentDto:
-      properties:
-        claim_id:
-          type: integer
-          description: the claim id of fulfillment
-        created_at:
-          type: integer
-          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
-        date_done:
-          type: integer
-          description: The date and time (ISO 8601 format) when the fulfillment was fulfilled.
-        detected_tracking_company:
-          type: string
-          description: Detected tracking company
-        first_tracking_step_at:
-          type: integer
-          description: The date and time when the first tracking step created
-        id:
-          type: integer
-          description: The ID for the fulfillment.
-          example: 255858046
-        last_crawled_at:
-          type: integer
-          description: The date and time when the fulfillment was last crawled
-        last_mile_tracking_company:
-          type: string
-          description: The tracking company when the package arrived at destination country
-        last_mile_tracking_number:
-          type: string
-          description: The tracking number of packages when arrived at destination country
-        last_tracking_step_at:
-          type: integer
-          description: The date and time when the last tracking step created
-        name:
-          type: string
-          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
-
-            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
-          example: '255858046'
-        notify_customer:
-          type: boolean
-          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated.\nFor orders that were initially created using the API, the default value is false.\nFor all other orders, the default value is true."
-          example: true
-        order_id:
-          type: integer
-          description: The unique numeric identifier for the order.
-          example: 450789469
-        send_delay_mail:
-          type: boolean
-          description: check send email delay shipping
-        service:
-          type: string
-          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
-
-            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
-          example: '255858046'
-        shipment_status:
-          type: string
-          description: 'The current shipment status of the fulfillment. Valid values
-
-            </br>**label_printed**: A label for the shipment was purchased and printed.
-
-            </br>**label_purchased**: A label for the shipment was purchased, but not printed.
-
-            </br>**attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.
-
-            </br>**ready_for_pickup**: The shipment is ready for pickup at a shipping depot.
-
-            </br>**confirmed**: The carrier is aware of the shipment, but hasn''t received it yet.
-
-            </br>**in_transit**: The shipment is being transported between shipping facilities on the way to its destination.
-
-            </br>**out_for_delivery**: The shipment is being delivered to its final destination.
-
-            </br>**delivered**: The shipment was succesfully delivered.
-
-            </br>**failure**:  Something went wrong when pulling tracking information for the shipment, such as an invalid tracking number or the shipment was cancelled.'
-          example: confirmed
-        status:
-          type: string
-          description: 'The status of the fulfillment. Valid values
-
-            </br>**pending**: The fulfillment is pending.
-
-            </br>**open**: The fulfillment has been acknowledged by the service and is in processing.
-
-            </br>**success**: The fulfillment was successful.
-
-            </br>**cancelled**: The fulfillment was cancelled.
-
-            </br>**error**: There was an error with the fulfillment request.
-
-            </br>**failure**: the fulfillment request failed.
-
-            </br>**processing**: the fulfillment request is in processing.'
-          example: '255858046'
-        tracking_company:
-          type: string
-          description: The name of the tracking company.
-          example: 4PX
-        tracking_number:
-          type: string
-          description: A trackping number, provided by the shipping company
-          example: 1Z2345
-        tracking_numbers:
-          items:
-            type: string
-          type: array
-          description: A list of tracking numbers, provided by the shipping company.
-          example:
-          - 112345Z2345
-        tracking_steps:
-          type: object
-          description: Tracking steps object
-        tracking_url:
-          type: string
-          description: Link to tracking pag
-          example: http://example.com/etracking/tracking.cgi?InquiryNumber1=1Z2345&TypeOfInquiryNumber=T&AcceptUPSLicenseAgreement=yes&submit=Track
-        tracking_urls:
-          items:
-            type: string
-          type: array
-          description: The URLs of tracking pages for the fulfillment.
-          example:
-          - http://track-example.com/startairmail.php?code=112345Z2345
-        updated_at:
-          type: integer
-          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
-        variant_inventory_management:
-          type: string
-          description: The name of the inventory management service.
-          example: shopbase
-      type: object
-    CountFulfillmentsSwaggerResponse:
-      properties:
-        count:
-          type: integer
-      type: object
-    FulfillmentSwaggerInput:
-      properties:
-        fulfillment:
-          $ref: '#/components/schemas/Fulfillment'
-      type: object
-    OrderLineItemDiscountApplicationDto:
-      properties:
-        amount:
-          type: number
-          description: The discount amount allocated to the line in the shop currency.
-        discount_application_index:
-          type: integer
-          description: The index of the associated discount application in the order's discount_applications list.
-      type: object
-    FulfillmentsSwaggerResponse:
-      properties:
-        fulfillments:
-          items:
-            $ref: '#/components/schemas/OrderFulfillmentDto'
-          type: array
-      type: object
-    FulfillRequestWrapperSwagger:
-      properties:
-        fulfillment:
-          $ref: '#/components/schemas/FulfillRequestSwagger'
-      type: object
-    OrderFulfillmentDto:
-      properties:
-        created_at:
-          type: integer
-          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
-        date_done:
-          type: integer
-          description: The date and time when the fulfillment was fulfilled. The API returns this value in ISO 8601 format.
-        detected_tracking_company:
-          type: string
-          description: Detected tracking company
-        first_tracking_step_at:
-          type: integer
-          description: The date and time when the first tracking step created
-        id:
-          type: integer
-          description: The ID for the fulfillment.
-          example: 255858046
-        last_crawled_at:
-          type: integer
-          description: The date and time when the fulfillment was last crawled
-        last_mile_tracking_company:
-          type: string
-          description: Last mile tracking company
-        last_mile_tracking_number:
-          type: string
-          description: Last mile tracking number
-        last_response_log:
-          type: string
-          description: Save last response of failed status
-        last_tracking_step_at:
-          type: integer
-          description: The date and time when the last tracking step created
-        line_items:
-          items:
-            $ref: '#/components/schemas/OrderLineItemDto'
-          type: array
-        name:
-          type: string
-          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
-
-            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
-          example: '255858046'
-        notify_customer:
-          type: boolean
-          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated. \n For orders that were initially created using the API, the default value is false.\n For all other orders, the default value is true."
-          example: true
-        order_id:
-          type: integer
-          description: The unique numeric identifier for the order.
-          example: 450789469
-        send_delay_mail:
-          type: boolean
-          description: check send email delay shipping
-        service:
-          type: string
-          description: "The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.\n The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2)."
-          example: '255858046'
-        shipment_status:
-          type: string
-          description: "The current shipment status of the fulfillment. Valid values: \n * **attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.\n * **ready_for_pickup**:  The shipment is ready for pickup at a shipping depot.\n * **confirmed**: The carrier is aware of the shipment, but hasn't received it yet. \n * **in_transit**: The shipment is being transported between shipping facilities on the way to its destination.\n  * **out_for_delivery**: The shipment is being delivered to its final destination.\n * **delivered**: The shipment was successfully delivered.\n * **delayed**: The tracking status need more time to be updated (maybe cause by shipping carrier website issue), probably will be ready in 6~12 hours. \n * **failure, not_found, invalid**: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled."
-          example: confirmed
-        status:
-          type: string
-          description: "The status of the fulfillment. Valid values: \n * **pending**: The fulfillment is pending. \n * **open**: The fulfillment has been acknowledged by the service and is in processing. \n * **success**: The fulfillment was successful. \n * **cancelled**: The fulfillment was cancelled. \n * **error**: There was an error with the fulfillment request. \n * **failure**: he fulfillment request failed."
-          example: '255858046'
-        tracking_company:
-          type: string
-          description: The name of the tracking company.
-          example: 4PX
-        tracking_number:
-          type: string
-          example: 1Z2345
-        tracking_numbers:
-          items:
-            type: string
-          type: array
-          description: A list of tracking numbers, provided by the shipping company.
-          example:
-          - 112345Z2345
-        tracking_steps:
-          type: object
-        tracking_url:
-          type: string
-          example: http://example.com/etracking/tracking.cgi?InquiryNumber1=1Z2345&TypeOfInquiryNumber=T&AcceptUPSLicenseAgreement=yes&submit=Track
-        tracking_urls:
-          items:
-            type: string
-          type: array
-          description: The URLs of tracking pages for the fulfillment.
-          example:
-          - http://track-example.com/startairmail.php?code=112345Z2345
-        updated_at:
-          type: integer
-          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
-        variant_inventory_management:
-          type: string
-          description: The name of the inventory management service.
-          example: shopbase
-      type: object
-    updateFulfillmentInfo:
-      properties:
-        notify_customer:
-          type: boolean
-        service:
-          type: string
-        shipment_status:
-          type: string
-        status:
-          type: string
-        tracking_company:
-          type: string
-        tracking_number:
-          type: string
-        tracking_url:
-          type: string
-      type: object
     OrderLineItemDto:
       properties:
         discount_allocations:
@@ -834,6 +462,11 @@ components:
           description: The weight unit of the item
           example: kg
       type: object
+    FulfillRequestWrapperSwagger:
+      properties:
+        fulfillment:
+          $ref: '#/components/schemas/FulfillRequestSwagger'
+      type: object
     FulfillRequestSwagger:
       properties:
         line_items:
@@ -868,6 +501,288 @@ components:
           example:
           - https://t.17track.net/en#nums=LO55960699CN
       type: object
+    CountFulfillmentsSwaggerResponse:
+      properties:
+        count:
+          type: integer
+      type: object
+    Fulfillment:
+      properties:
+        created_at:
+          type: integer
+          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
+        date_done:
+          type: integer
+          description: The date and time when the fulfillment was fulfilled. The API returns this value in ISO 8601 format.
+        detected_tracking_company:
+          type: string
+          description: Detected tracking company
+        first_tracking_step_at:
+          type: integer
+          description: The date and time when the first tracking step created
+        id:
+          type: integer
+          description: The ID for the fulfillment.
+          example: 255858046
+        last_crawled_at:
+          type: integer
+          description: The date and time when the fulfillment was last crawled
+        last_mile_tracking_company:
+          type: string
+          description: Last mile tracking company
+        last_mile_tracking_number:
+          type: string
+          description: Last mile tracking number
+        last_response_log:
+          type: string
+          description: Save last response of failed status
+        last_tracking_step_at:
+          type: integer
+          description: The date and time when the last tracking step created
+        line_items:
+          items:
+            $ref: '#/components/schemas/LineItemFulfillment'
+          type: array
+          description: Fulfillment line items
+        name:
+          type: string
+          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
+
+            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
+          example: '255858046'
+        notify_customer:
+          type: boolean
+          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated. \n For orders that were initially created using the API, the default value is false.\n For all other orders, the default value is true."
+          example: true
+        order_id:
+          type: integer
+          description: The unique numeric identifier for the order.
+          example: 450789469
+        send_delay_mail:
+          type: boolean
+          description: check send email delay shipping
+        service:
+          type: string
+          description: "The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.\n The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2)."
+          example: '255858046'
+        shipment_status:
+          type: string
+          description: "The current shipment status of the fulfillment. Valid values: \n * **attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.\n * **ready_for_pickup**:  The shipment is ready for pickup at a shipping depot.\n * **confirmed**: The carrier is aware of the shipment, but hasn't received it yet. \n * **in_transit**: The shipment is being transported between shipping facilities on the way to its destination.\n  * **out_for_delivery**: The shipment is being delivered to its final destination.\n * **delivered**: The shipment was successfully delivered.\n * **delayed**: The tracking status need more time to be updated (maybe cause by shipping carrier website issue), probably will be ready in 6~12 hours. \n * **failure, not_found, invalid**: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled."
+          example: confirmed
+        status:
+          type: string
+          description: "The status of the fulfillment. Valid values: \n * **pending**: The fulfillment is pending. \n * **open**: The fulfillment has been acknowledged by the service and is in processing. \n * **success**: The fulfillment was successful. \n * **cancelled**: The fulfillment was cancelled. \n * **error**: There was an error with the fulfillment request. \n * **failure**: he fulfillment request failed."
+          example: '255858046'
+        tracking_company:
+          type: string
+          description: The name of the tracking company.
+          example: 4PX
+        tracking_numbers:
+          items:
+            type: string
+          type: array
+          description: A list of tracking numbers, provided by the shipping company.
+          example:
+          - 112345Z2345
+        tracking_steps:
+          type: string
+          description: Tracking steps
+        tracking_urls:
+          items:
+            type: string
+          type: array
+          description: The URLs of tracking pages for the fulfillment.
+          example:
+          - http://track-example.com/startairmail.php?code=112345Z2345
+        updated_at:
+          type: integer
+          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
+        variant_inventory_management:
+          type: string
+          description: The name of the inventory management service.
+          example: shopbase
+      type: object
+    FulfillmentSwaggerResponse:
+      properties:
+        fulfillment:
+          $ref: '#/components/schemas/OrderFulfillmentDto'
+      type: object
+    OrderFulfillmentDto:
+      properties:
+        created_at:
+          type: integer
+          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
+        date_done:
+          type: integer
+          description: The date and time when the fulfillment was fulfilled. The API returns this value in ISO 8601 format.
+        detected_tracking_company:
+          type: string
+          description: Detected tracking company
+        first_tracking_step_at:
+          type: integer
+          description: The date and time when the first tracking step created
+        id:
+          type: integer
+          description: The ID for the fulfillment.
+          example: 255858046
+        last_crawled_at:
+          type: integer
+          description: The date and time when the fulfillment was last crawled
+        last_mile_tracking_company:
+          type: string
+          description: Last mile tracking company
+        last_mile_tracking_number:
+          type: string
+          description: Last mile tracking number
+        last_response_log:
+          type: string
+          description: Save last response of failed status
+        last_tracking_step_at:
+          type: integer
+          description: The date and time when the last tracking step created
+        line_items:
+          items:
+            $ref: '#/components/schemas/OrderLineItemDto'
+          type: array
+        name:
+          type: string
+          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
+
+            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
+          example: '255858046'
+        notify_customer:
+          type: boolean
+          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated. \n For orders that were initially created using the API, the default value is false.\n For all other orders, the default value is true."
+          example: true
+        order_id:
+          type: integer
+          description: The unique numeric identifier for the order.
+          example: 450789469
+        send_delay_mail:
+          type: boolean
+          description: check send email delay shipping
+        service:
+          type: string
+          description: "The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.\n The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2)."
+          example: '255858046'
+        shipment_status:
+          type: string
+          description: "The current shipment status of the fulfillment. Valid values: \n * **attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.\n * **ready_for_pickup**:  The shipment is ready for pickup at a shipping depot.\n * **confirmed**: The carrier is aware of the shipment, but hasn't received it yet. \n * **in_transit**: The shipment is being transported between shipping facilities on the way to its destination.\n  * **out_for_delivery**: The shipment is being delivered to its final destination.\n * **delivered**: The shipment was successfully delivered.\n * **delayed**: The tracking status need more time to be updated (maybe cause by shipping carrier website issue), probably will be ready in 6~12 hours. \n * **failure, not_found, invalid**: Something went wrong when pulling tracking information for the shipment, such as the tracking number was invalid or the shipment was canceled."
+          example: confirmed
+        status:
+          type: string
+          description: "The status of the fulfillment. Valid values: \n * **pending**: The fulfillment is pending. \n * **open**: The fulfillment has been acknowledged by the service and is in processing. \n * **success**: The fulfillment was successful. \n * **cancelled**: The fulfillment was cancelled. \n * **error**: There was an error with the fulfillment request. \n * **failure**: he fulfillment request failed."
+          example: '255858046'
+        tracking_company:
+          type: string
+          description: The name of the tracking company.
+          example: 4PX
+        tracking_number:
+          type: string
+          example: 1Z2345
+        tracking_numbers:
+          items:
+            type: string
+          type: array
+          description: A list of tracking numbers, provided by the shipping company.
+          example:
+          - 112345Z2345
+        tracking_steps:
+          type: object
+        tracking_url:
+          type: string
+          example: http://example.com/etracking/tracking.cgi?InquiryNumber1=1Z2345&TypeOfInquiryNumber=T&AcceptUPSLicenseAgreement=yes&submit=Track
+        tracking_urls:
+          items:
+            type: string
+          type: array
+          description: The URLs of tracking pages for the fulfillment.
+          example:
+          - http://track-example.com/startairmail.php?code=112345Z2345
+        updated_at:
+          type: integer
+          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
+        variant_inventory_management:
+          type: string
+          description: The name of the inventory management service.
+          example: shopbase
+      type: object
+    OrderLineItemDiscountApplicationDto:
+      properties:
+        amount:
+          type: number
+          description: The discount amount allocated to the line in the shop currency.
+        discount_application_index:
+          type: integer
+          description: The index of the associated discount application in the order's discount_applications list.
+      type: object
+    LineItemFulfillRequestSwagger:
+      properties:
+        id:
+          type: integer
+          description: Id of line item which belong to order
+          example: 1234
+        quantity:
+          type: number
+          description: Quantity want to fulfill, if not provide, quantity will be line item fulfillable quantity
+          example: 1
+      type: object
+    FulfillmentSwaggerInput:
+      properties:
+        fulfillment:
+          $ref: '#/components/schemas/Fulfillment'
+      type: object
+    LineItemFulfillment:
+      properties:
+        created_at:
+          type: integer
+        fulfillment_id:
+          type: integer
+        id:
+          type: integer
+        line_item_id:
+          type: integer
+        order_id:
+          type: integer
+        quantity:
+          type: integer
+        shop_id:
+          type: integer
+        updated_at:
+          type: integer
+      type: object
+    TaxLineDto:
+      properties:
+        price:
+          type: number
+          description: The amount added to the order for this tax in the shop currency.
+          example: 25.81
+        rate:
+          type: number
+          description: The tax rate applied to the order to calculate the tax price.
+          example: 0.13
+        title:
+          type: string
+          description: The name of the tax.
+          example: HST
+      type: object
+    updateFulfillmentInfo:
+      properties:
+        notify_customer:
+          type: boolean
+        service:
+          type: string
+        shipment_status:
+          type: string
+        status:
+          type: string
+        tracking_company:
+          type: string
+        tracking_number:
+          type: string
+        tracking_url:
+          type: string
+      type: object
     LineItemShippingRate:
       properties:
         code:
@@ -898,60 +813,150 @@ components:
           description: The variant in which this shipping rate is applied for
           example: 123213213123
       type: object
-    LineItemFulfillment:
+    FulfillmentsSwaggerResponse:
       properties:
-        created_at:
-          type: integer
-        fulfillment_id:
-          type: integer
-        id:
-          type: integer
-        line_item_id:
-          type: integer
-        order_id:
-          type: integer
-        quantity:
-          type: integer
-        shop_id:
-          type: integer
-        updated_at:
-          type: integer
-      type: object
-    LineItemFulfillRequestSwagger:
-      properties:
-        id:
-          type: integer
-          description: Id of line item which belong to order
-          example: 1234
-        quantity:
-          type: number
-          description: Quantity want to fulfill, if not provide, quantity will be line item fulfillable quantity
-          example: 1
-      type: object
-    FulfillmentSwaggerResponse:
-      properties:
-        fulfillment:
-          $ref: '#/components/schemas/OrderFulfillmentDto'
+        fulfillments:
+          items:
+            $ref: '#/components/schemas/OrderFulfillmentDto'
+          type: array
       type: object
     updateFulfillmentRequest:
       properties:
         fulfillment:
           $ref: '#/components/schemas/updateFulfillmentInfo'
       type: object
-    TaxLineDto:
+    FulfillmentDto:
       properties:
-        price:
-          type: number
-          description: The amount added to the order for this tax in the shop currency.
-          example: 25.81
-        rate:
-          type: number
-          description: The tax rate applied to the order to calculate the tax price.
-          example: 0.13
-        title:
+        claim_id:
+          type: integer
+          description: the claim id of fulfillment
+        created_at:
+          type: integer
+          description: The date and time when the fulfillment was created. The API returns this value in ISO 8601 format.
+        date_done:
+          type: integer
+          description: The date and time (ISO 8601 format) when the fulfillment was fulfilled.
+        detected_tracking_company:
           type: string
-          description: The name of the tax.
-          example: HST
+          description: Detected tracking company
+        first_tracking_step_at:
+          type: integer
+          description: The date and time when the first tracking step created
+        id:
+          type: integer
+          description: The ID for the fulfillment.
+          example: 255858046
+        last_crawled_at:
+          type: integer
+          description: The date and time when the fulfillment was last crawled
+        last_mile_tracking_company:
+          type: string
+          description: The tracking company when the package arrived at destination country
+        last_mile_tracking_number:
+          type: string
+          description: The tracking number of packages when arrived at destination country
+        last_tracking_step_at:
+          type: integer
+          description: The date and time when the last tracking step created
+        name:
+          type: string
+          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
+
+            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
+          example: '255858046'
+        notify_customer:
+          type: boolean
+          description: "Whether the customer should be notified. \n If set to true, then an email will be sent when the fulfillment is created or updated.\nFor orders that were initially created using the API, the default value is false.\nFor all other orders, the default value is true."
+          example: true
+        order_id:
+          type: integer
+          description: The unique numeric identifier for the order.
+          example: 450789469
+        send_delay_mail:
+          type: boolean
+          description: check send email delay shipping
+        service:
+          type: string
+          description: 'The uniquely identifying fulfillment name, consisting of two parts separated by a `.`. The first part represents the order name and the second part represents the fulfillment number.
+
+            The fulfillment number automatically increments depending on how many fulfillments are in an order (e.g. #1001.1, #1001.2).'
+          example: '255858046'
+        shipment_status:
+          type: string
+          description: 'The current shipment status of the fulfillment. Valid values
+
+            </br>**label_printed**: A label for the shipment was purchased and printed.
+
+            </br>**label_purchased**: A label for the shipment was purchased, but not printed.
+
+            </br>**attempted_delivery**: Delivery of the shipment was attempted, but unable to be completed.
+
+            </br>**ready_for_pickup**: The shipment is ready for pickup at a shipping depot.
+
+            </br>**confirmed**: The carrier is aware of the shipment, but hasn''t received it yet.
+
+            </br>**in_transit**: The shipment is being transported between shipping facilities on the way to its destination.
+
+            </br>**out_for_delivery**: The shipment is being delivered to its final destination.
+
+            </br>**delivered**: The shipment was succesfully delivered.
+
+            </br>**failure**:  Something went wrong when pulling tracking information for the shipment, such as an invalid tracking number or the shipment was cancelled.'
+          example: confirmed
+        status:
+          type: string
+          description: 'The status of the fulfillment. Valid values
+
+            </br>**pending**: The fulfillment is pending.
+
+            </br>**open**: The fulfillment has been acknowledged by the service and is in processing.
+
+            </br>**success**: The fulfillment was successful.
+
+            </br>**cancelled**: The fulfillment was cancelled.
+
+            </br>**error**: There was an error with the fulfillment request.
+
+            </br>**failure**: the fulfillment request failed.
+
+            </br>**processing**: the fulfillment request is in processing.'
+          example: '255858046'
+        tracking_company:
+          type: string
+          description: The name of the tracking company.
+          example: 4PX
+        tracking_number:
+          type: string
+          description: A trackping number, provided by the shipping company
+          example: 1Z2345
+        tracking_numbers:
+          items:
+            type: string
+          type: array
+          description: A list of tracking numbers, provided by the shipping company.
+          example:
+          - 112345Z2345
+        tracking_steps:
+          type: object
+          description: Tracking steps object
+        tracking_url:
+          type: string
+          description: Link to tracking pag
+          example: http://example.com/etracking/tracking.cgi?InquiryNumber1=1Z2345&TypeOfInquiryNumber=T&AcceptUPSLicenseAgreement=yes&submit=Track
+        tracking_urls:
+          items:
+            type: string
+          type: array
+          description: The URLs of tracking pages for the fulfillment.
+          example:
+          - http://track-example.com/startairmail.php?code=112345Z2345
+        updated_at:
+          type: integer
+          description: The date and time (ISO 8601 format) when the fulfillment was last modified.
+        variant_inventory_management:
+          type: string
+          description: The name of the inventory management service.
+          example: shopbase
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

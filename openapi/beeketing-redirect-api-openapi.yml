@@ -156,30 +156,12 @@ paths:
         required: true
 components:
   schemas:
-    UpsertRedirectRequestDto:
+    RedirectsSwaggerResponse:
       properties:
-        redirect:
-          $ref: '#/components/schemas/RedirectRequestDto'
-      type: object
-    RedirectSwaggerResponse:
-      properties:
-        redirect:
-          $ref: '#/components/schemas/Redirect'
-      type: object
-    Redirect:
-      properties:
-        from_url:
-          type: string
-          description: The old path to be redirected. When the user visits this path, they will be redirected to the target.
-          example: /products.php
-        id:
-          type: integer
-          description: The ID for the redirect.
-          example: 304339089
-        to_url:
-          type: string
-          description: 'The target location where the user will be redirected. When the user visits the old path specified by the `from_url` property, they will be redirected to this location. This property can be set to any path on the shop''s site, or to an external URL. (maximum: 255 characters)'
-          example: /products
+        redirects:
+          items:
+            $ref: '#/components/schemas/Redirect'
+          type: array
       type: object
     RedirectRequestDto:
       properties:
@@ -196,12 +178,30 @@ components:
           description: 'The target location where the user will be redirected. When the user visits the old path specified by the `from_url` property, they will be redirected to this location. This property can be set to any path on the shop''s site, or to an external URL. (maximum: 255 characters)'
           example: /products-all
       type: object
-    RedirectsSwaggerResponse:
+    UpsertRedirectRequestDto:
       properties:
-        redirects:
-          items:
-            $ref: '#/components/schemas/Redirect'
-          type: array
+        redirect:
+          $ref: '#/components/schemas/RedirectRequestDto'
+      type: object
+    Redirect:
+      properties:
+        from_url:
+          type: string
+          description: The old path to be redirected. When the user visits this path, they will be redirected to the target.
+          example: /products.php
+        id:
+          type: integer
+          description: The ID for the redirect.
+          example: 304339089
+        to_url:
+          type: string
+          description: 'The target location where the user will be redirected. When the user visits the old path specified by the `from_url` property, they will be redirected to this location. This property can be set to any path on the shop''s site, or to an external URL. (maximum: 255 characters)'
+          example: /products
+      type: object
+    RedirectSwaggerResponse:
+      properties:
+        redirect:
+          $ref: '#/components/schemas/Redirect'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

@@ -19,7 +19,6 @@ paths:
   /admin/webhooks.json:
     get:
       summary: Retrieves a list of webhooks
-      description: Retrieves a list of webhooks
       responses:
         '200':
           description: OK
@@ -113,7 +112,6 @@ paths:
   /admin/webhooks/{webhook_id:(?:\\d+)}.json:
     get:
       summary: Retrieves a single of webhooks
-      description: Retrieves a single of webhooks
       responses:
         '200':
           description: OK
@@ -135,7 +133,6 @@ paths:
       - APP_ACCESS_TOKEN: []
     delete:
       summary: Delete a webhook
-      description: Delete a webhook
       responses:
         '200':
           description: OK
@@ -173,6 +170,13 @@ paths:
         required: true
 components:
   schemas:
+    SwaggerDeleteResponse:
+      type: object
+    WebhookSwaggerResponse:
+      properties:
+        webhook:
+          $ref: '#/components/schemas/Webhook'
+      type: object
     Webhook:
       properties:
         address:
@@ -216,19 +220,12 @@ components:
           description: Date and time when the webhook subscription was updated. The API returns this value in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
           example: 901431826
       type: object
-    WebhookSwaggerResponse:
-      properties:
-        webhook:
-          $ref: '#/components/schemas/Webhook'
-      type: object
     WebhooksSwaggerResponse:
       properties:
         webhooks:
           items:
             $ref: '#/components/schemas/Webhook'
           type: array
-      type: object
-    SwaggerDeleteResponse:
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

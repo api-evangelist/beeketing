@@ -18,7 +18,7 @@ tags:
 paths:
   /admin/smart_collections.json:
     get:
-      summary: Retrieves a list of smart collections.
+      summary: Retrieves a list of smart collections
       description: Retrieve a list of all smart collections.
       responses:
         '200':
@@ -35,7 +35,7 @@ paths:
         - read_products
   /admin/smart_collections/count.json:
     get:
-      summary: Retrieves a count of collects.
+      summary: Retrieves a count of collects
       description: Retrieves a count of collects.
       responses:
         '200':
@@ -52,7 +52,7 @@ paths:
         - read_products
   /admin/smart_collections/{smart_collection_id:\\d+}.json:
     get:
-      summary: Retrieves a single smart collection.
+      summary: Retrieves a single smart collection
       description: Retrieve a specific collection by ID.
       responses:
         '200':
@@ -68,7 +68,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - read_products
     delete:
-      summary: Removes a smart collection.
+      summary: Removes a smart collection
       description: Remove a smart collection.
       responses:
         '200':
@@ -85,10 +85,31 @@ paths:
         - write_products
 components:
   schemas:
-    GetSingleSmartCollectionSwagger:
+    GetListSmartCollectionSwagger:
       properties:
-        smart_collection:
-          $ref: '#/components/schemas/CustomCollectionDto'
+        smart_collections:
+          items:
+            $ref: '#/components/schemas/CustomCollectionDto'
+          type: array
+      type: object
+    CustomCollectionMetafield:
+      properties:
+        key:
+          type: string
+          description: A key string for which meta field we use (description_tag, title_tag,..)
+          example: description_tag
+        namespace:
+          type: string
+          description: sphere of influence of key
+          example: global
+        value:
+          type: string
+          description: Value of corresponding key
+          example: description_tag
+        value_type:
+          type: string
+          description: Type of value
+          example: string
       type: object
     CustomCollectionDto:
       properties:
@@ -124,6 +145,20 @@ components:
           description: 'The name of the custom collection. (limit: 255 characters)'
           example: IPods
       type: object
+    DeleteSmartCollectResponseSwagger:
+      properties:
+        success:
+          type: boolean
+          description: Remove a smart collection.
+          example: true
+      type: object
+    CountSmartCollectResponseSwagger:
+      properties:
+        count:
+          type: integer
+          description: Get count of SmartCollection.
+          example: 3
+      type: object
     CustomCollectionImage:
       properties:
         alt:
@@ -147,45 +182,10 @@ components:
           description: The width of the image in pixels.
           example: 500
       type: object
-    CustomCollectionMetafield:
+    GetSingleSmartCollectionSwagger:
       properties:
-        key:
-          type: string
-          description: A key string for which meta field we use (description_tag, title_tag,..)
-          example: description_tag
-        namespace:
-          type: string
-          description: sphere of influence of key
-          example: global
-        value:
-          type: string
-          description: Value of corresponding key
-          example: description_tag
-        value_type:
-          type: string
-          description: Type of value
-          example: string
-      type: object
-    GetListSmartCollectionSwagger:
-      properties:
-        smart_collections:
-          items:
-            $ref: '#/components/schemas/CustomCollectionDto'
-          type: array
-      type: object
-    DeleteSmartCollectResponseSwagger:
-      properties:
-        success:
-          type: boolean
-          description: Remove a smart collection.
-          example: true
-      type: object
-    CountSmartCollectResponseSwagger:
-      properties:
-        count:
-          type: integer
-          description: Get count of SmartCollection.
-          example: 3
+        smart_collection:
+          $ref: '#/components/schemas/CustomCollectionDto'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

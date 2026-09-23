@@ -276,10 +276,22 @@ paths:
         required: true
 components:
   schemas:
-    SinglePageSwaggerResponse:
+    ListPagesSwaggerResponse:
       properties:
+        pages:
+          items:
+            $ref: '#/components/schemas/Page'
+          type: array
+      type: object
+    UpsertPageRequestDto:
+      properties:
+        is_create_redirect:
+          type: boolean
+          description: Option for create redirect from old page handle to new page handle or not
+          example: true
         page:
-          $ref: '#/components/schemas/Page'
+          $ref: '#/components/schemas/PageRequestDto'
+          description: Data update for page
       type: object
     Page:
       properties:
@@ -321,13 +333,6 @@ components:
           type: string
           description: The page's title.
           example: Contact us
-      type: object
-    ListPagesSwaggerResponse:
-      properties:
-        pages:
-          items:
-            $ref: '#/components/schemas/Page'
-          type: array
       type: object
     PageRequestDto:
       properties:
@@ -376,15 +381,10 @@ components:
           description: The page's title.
           example: Contact us
       type: object
-    UpsertPageRequestDto:
+    SinglePageSwaggerResponse:
       properties:
-        is_create_redirect:
-          type: boolean
-          description: Option for create redirect from old page handle to new page handle or not
-          example: true
         page:
-          $ref: '#/components/schemas/PageRequestDto'
-          description: Data update for page
+          $ref: '#/components/schemas/Page'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

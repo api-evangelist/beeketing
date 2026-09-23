@@ -18,7 +18,7 @@ tags:
 paths:
   /admin/products/{product_id}/images.json:
     get:
-      summary: Get all product images.
+      summary: Get all product images
       description: Get all product images for a product.
       responses:
         '200':
@@ -34,7 +34,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - read_products
     post:
-      summary: Create a new product image.
+      summary: Create a new product image
       description: Create a new product image with included image data as att.
       responses:
         '200':
@@ -59,7 +59,6 @@ paths:
         required: true
     put:
       summary: Add multi images for multi variants
-      description: Add multi images for multi variants
       responses:
         '200':
           description: OK
@@ -83,7 +82,7 @@ paths:
         required: true
   /admin/products/{product_id}/images/count.json:
     get:
-      summary: Get a count of all product images.
+      summary: Get a count of all product images
       description: Get a count of all product images.
       responses:
         '200':
@@ -100,7 +99,7 @@ paths:
         - read_products
   /admin/products/{product_id}/images/{image_id}.json:
     get:
-      summary: Get a single product image by id.
+      summary: Get a single product image by id
       description: Show product image.
       responses:
         '200':
@@ -116,7 +115,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - read_products
     delete:
-      summary: Delete a product image.
+      summary: Delete a product image
       description: Delete a product image.
       responses:
         '200':
@@ -132,7 +131,7 @@ paths:
       - APP_ACCESS_TOKEN:
         - write_products
     put:
-      summary: Update an existing product image.
+      summary: Update an existing product image
       description: Modify an image; change its position and alt tag content.
       responses:
         '200':
@@ -157,10 +156,17 @@ paths:
         required: true
 components:
   schemas:
-    UpdateProductImageResponseSwagger:
+    UpdateProductImagesVariantsResponseSwagger:
       properties:
-        images:
-          $ref: '#/components/schemas/AllProductImagesResponse'
+        code:
+          type: integer
+        message:
+          type: string
+      type: object
+    ProductImageRequest:
+      properties:
+        image:
+          $ref: '#/components/schemas/product_image_handlers.ImageRequest'
       type: object
     CountProductImagesResponseSwagger:
       properties:
@@ -169,12 +175,82 @@ components:
           description: All count of all product images.
           example: 3
       type: object
-    UpdateProductImagesVariantsResponseSwagger:
+    DeleteProductImageResponseSwagger:
+      type: object
+    UpdateProductImageRequest:
       properties:
-        code:
-          type: integer
-        message:
+        alt:
           type: string
+          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
+          example: new alt tag content
+        id:
+          type: integer
+          description: A unique numeric identifier for the product image.
+          example: 850703190
+        position:
+          type: integer
+          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
+          example: 1
+      type: object
+    AllProductImagesResponse:
+      properties:
+        alt:
+          type: string
+          example: new alt tag content
+        created_at:
+          type: string
+          description: The date and time when the product image was created. The API returns this value in ISO 8601 format.
+          example: '2012-03-13T16:09:58-04:00'
+        height:
+          type: integer
+          description: Height dimension of the image which is determined on upload.
+          example: 480
+        id:
+          type: integer
+          description: A unique numeric identifier for the product image.
+          example: 850703190
+        old_image_id:
+          type: integer
+        position:
+          type: integer
+          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
+          example: 1
+        product_id:
+          type: integer
+          description: The id of the product associated with the image.
+          example: 632910392
+        src:
+          type: string
+          description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image. For example, add _small, to the filename to retrieve a scaled copy of the image at 100 x 100 px (for example, ipod-nano_small.png), or add _2048x2048 to retrieve a copy of the image constrained at 2048 x 2048 px resolution (for example, ipod-nano_2048x2048.png).
+          example: https://scn-dev.s3.amazonaws.com/uSKbqtidCG-1553937818736606000.jpg
+        updated_at:
+          type: string
+          description: The date and time when the product image was last modified. The API returns this value in ISO 8601 format.
+          example: '2012-03-13T16:09:58-04:00'
+        updated_source:
+          type: string
+          example: hidden
+        variant_ids:
+          items:
+            type: integer
+          type: array
+          description: An array of variant ids associated with the image.
+          example:
+          - 808950810
+        width:
+          type: integer
+          description: Width dimension of the image which is determined on upload.
+          example: 640
+      type: object
+    GetProductImageByIdResponseSwagger:
+      properties:
+        images:
+          $ref: '#/components/schemas/ProductImageDTO'
+      type: object
+    UpdateProductImageRequestSwagger:
+      properties:
+        image:
+          $ref: '#/components/schemas/UpdateProductImageRequest'
       type: object
     CreateProductImageResponse:
       properties:
@@ -233,73 +309,6 @@ components:
             $ref: '#/components/schemas/AllProductImagesResponse'
           type: array
       type: object
-    AllProductImagesResponse:
-      properties:
-        alt:
-          type: string
-          example: new alt tag content
-        created_at:
-          type: string
-          description: The date and time when the product image was created. The API returns this value in ISO 8601 format.
-          example: '2012-03-13T16:09:58-04:00'
-        height:
-          type: integer
-          description: Height dimension of the image which is determined on upload.
-          example: 480
-        id:
-          type: integer
-          description: A unique numeric identifier for the product image.
-          example: 850703190
-        old_image_id:
-          type: integer
-        position:
-          type: integer
-          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
-          example: 1
-        product_id:
-          type: integer
-          description: The id of the product associated with the image.
-          example: 632910392
-        src:
-          type: string
-          description: Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image. For example, add _small, to the filename to retrieve a scaled copy of the image at 100 x 100 px (for example, ipod-nano_small.png), or add _2048x2048 to retrieve a copy of the image constrained at 2048 x 2048 px resolution (for example, ipod-nano_2048x2048.png).
-          example: https://scn-dev.s3.amazonaws.com/uSKbqtidCG-1553937818736606000.jpg
-        updated_at:
-          type: string
-          description: The date and time when the product image was last modified. The API returns this value in ISO 8601 format.
-          example: '2012-03-13T16:09:58-04:00'
-        updated_source:
-          type: string
-          example: hidden
-        variant_ids:
-          items:
-            type: integer
-          type: array
-          description: An array of variant ids associated with the image.
-          example:
-          - 808950810
-        width:
-          type: integer
-          description: Width dimension of the image which is determined on upload.
-          example: 640
-      type: object
-    DeleteProductImageResponseSwagger:
-      type: object
-    ProductImageRequest:
-      properties:
-        image:
-          $ref: '#/components/schemas/product_image_handlers.ImageRequest'
-      type: object
-    GetProductImageByIdResponseSwagger:
-      properties:
-        images:
-          $ref: '#/components/schemas/ProductImageDTO'
-      type: object
-    UpdateProductImageRequestSwagger:
-      properties:
-        image:
-          $ref: '#/components/schemas/UpdateProductImageRequest'
-      type: object
     ProductImageDTO:
       properties:
         alt:
@@ -348,6 +357,11 @@ components:
           description: Width dimension of the image which is determined on upload.
           example: 640
       type: object
+    CreateProductImageResponseSwagger:
+      properties:
+        images:
+          $ref: '#/components/schemas/CreateProductImageResponse'
+      type: object
     product_image_handlers.ImageRequest:
       properties:
         attachment:
@@ -359,25 +373,10 @@ components:
           description: Name of file.
           example: earrings.png
       type: object
-    CreateProductImageResponseSwagger:
+    UpdateProductImageResponseSwagger:
       properties:
         images:
-          $ref: '#/components/schemas/CreateProductImageResponse'
-      type: object
-    UpdateProductImageRequest:
-      properties:
-        alt:
-          type: string
-          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
-          example: new alt tag content
-        id:
-          type: integer
-          description: A unique numeric identifier for the product image.
-          example: 850703190
-        position:
-          type: integer
-          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
-          example: 1
+          $ref: '#/components/schemas/AllProductImagesResponse'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

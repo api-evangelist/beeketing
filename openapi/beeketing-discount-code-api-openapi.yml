@@ -14,12 +14,11 @@ info:
 servers:
 - url: https://shop-name.onshopbase.com
 tags:
-- name: DiscountCode
+- name: Discount Code
 paths:
   /admin/price_rules.json:
     get:
       summary: Retrieve a list of price rules
-      description: Retrieve a list of price rules
       responses:
         '200':
           description: OK
@@ -28,7 +27,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PriceRulesResponse'
       tags:
-      - DiscountCode
+      - Discount Code
       operationId: retrieves-price-rules
       security:
       - APP_ACCESS_TOKEN: []
@@ -59,7 +58,7 @@ paths:
         schema:
           type: number
       tags:
-      - DiscountCode
+      - Discount Code
       operationId: get-a-list-discount-code
       security:
       - APP_ACCESS_TOKEN: []
@@ -74,7 +73,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DiscountCodeResponse'
       tags:
-      - DiscountCode
+      - Discount Code
       operationId: create-a-discount-code
       security:
       - APP_ACCESS_TOKEN: []
@@ -105,13 +104,12 @@ paths:
         schema:
           type: number
       tags:
-      - DiscountCode
+      - Discount Code
       operationId: get-a-discount-code
       security:
       - APP_ACCESS_TOKEN: []
     delete:
       summary: Deletes a discount code
-      description: Deletes a discount code
       responses:
         '200':
           description: OK
@@ -120,7 +118,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeleteDiscountCodeResponse'
       tags:
-      - DiscountCode
+      - Discount Code
       operationId: delete-a-discount-code
       security:
       - APP_ACCESS_TOKEN: []
@@ -135,7 +133,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/DiscountCodeResponse'
       tags:
-      - DiscountCode
+      - Discount Code
       operationId: update-a-discount-code
       security:
       - APP_ACCESS_TOKEN: []
@@ -149,10 +147,18 @@ paths:
         required: true
 components:
   schemas:
-    DiscountCodeResponse:
+    ToEntitlementQuantityRatio:
       properties:
-        discount_code:
-          $ref: '#/components/schemas/DiscountCodeDto'
+        entitled_quantity:
+          type: number
+        prerequisite_quantity:
+          type: number
+      type: object
+    ShippingPriceRange:
+      properties:
+        less_than_or_equal_to:
+          type: number
+          example: 10
       type: object
     PriceRuleDto:
       properties:
@@ -324,68 +330,12 @@ components:
           type: number
           example: 50
       type: object
-    SubtotalRange:
-      properties:
-        greater_than_or_equal_to:
-          type: number
-          example: 40
-      type: object
-    DeleteDiscountCodeResponse:
-      properties:
-        message:
-          type: string
-        success:
-          type: boolean
-      type: object
     PriceRulesResponse:
       properties:
         price_rules:
           items:
             $ref: '#/components/schemas/PriceRuleDto'
           type: array
-      type: object
-    ShippingPriceRange:
-      properties:
-        less_than_or_equal_to:
-          type: number
-          example: 10
-      type: object
-    DiscountCodeDto:
-      properties:
-        code:
-          type: string
-          description: "The case-insensitive discount code that customers use at checkout. (maximum: 255 characters)\n ```Use the same value for code as the title property of the associated price rule.```"
-          example: SUMMERSALE10OFF
-        created_at:
-          type: string
-          description: The date and time (ISO 8601 format) when the discount code was created.
-          example: '2019-04-19T16:09:54-04:00'
-        id:
-          type: integer
-          description: The ID for the discount code.
-          example: 898668068
-        price_rule:
-          $ref: '#/components/schemas/PriceRuleDto'
-          description: PriceRule
-        price_rule_id:
-          type: integer
-          description: The ID for the price rule that this discount code belongs to.
-          example: 423748927342
-        scope:
-          type: string
-          description: scope shopbase, printbase
-        shop_id:
-          type: integer
-          description: shop id
-          example: 896781590
-        updated_at:
-          type: string
-          description: The date and time (ISO 8601 format) when the discount code was updated.
-          example: '2019-04-19T16:09:54-04:00'
-        usage_count:
-          type: integer
-          description: The number of times that the discount code has been redeemed.
-          example: 6
       type: object
     PriceRulesRequest:
       properties:
@@ -438,12 +388,60 @@ components:
         updated_at_min:
           type: integer
       type: object
-    ToEntitlementQuantityRatio:
+    DiscountCodeResponse:
       properties:
-        entitled_quantity:
+        discount_code:
+          $ref: '#/components/schemas/DiscountCodeDto'
+      type: object
+    SubtotalRange:
+      properties:
+        greater_than_or_equal_to:
           type: number
-        prerequisite_quantity:
-          type: number
+          example: 40
+      type: object
+    DeleteDiscountCodeResponse:
+      properties:
+        message:
+          type: string
+        success:
+          type: boolean
+      type: object
+    DiscountCodeDto:
+      properties:
+        code:
+          type: string
+          description: "The case-insensitive discount code that customers use at checkout. (maximum: 255 characters)\n ```Use the same value for code as the title property of the associated price rule.```"
+          example: SUMMERSALE10OFF
+        created_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the discount code was created.
+          example: '2019-04-19T16:09:54-04:00'
+        id:
+          type: integer
+          description: The ID for the discount code.
+          example: 898668068
+        price_rule:
+          $ref: '#/components/schemas/PriceRuleDto'
+          description: PriceRule
+        price_rule_id:
+          type: integer
+          description: The ID for the price rule that this discount code belongs to.
+          example: 423748927342
+        scope:
+          type: string
+          description: scope shopbase, printbase
+        shop_id:
+          type: integer
+          description: shop id
+          example: 896781590
+        updated_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the discount code was updated.
+          example: '2019-04-19T16:09:54-04:00'
+        usage_count:
+          type: integer
+          description: The number of times that the discount code has been redeemed.
+          example: 6
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:
