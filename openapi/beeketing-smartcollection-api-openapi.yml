@@ -92,24 +92,47 @@ components:
             $ref: '#/components/schemas/CustomCollectionDto'
           type: array
       type: object
-    CustomCollectionMetafield:
+    CustomCollectionImage:
       properties:
-        key:
+        alt:
           type: string
-          description: A key string for which meta field we use (description_tag, title_tag,..)
-          example: description_tag
-        namespace:
+          description: Alternative text that describes the collection image.
+          example: iPods
+        created_at:
           type: string
-          description: sphere of influence of key
-          example: global
-        value:
+          description: The time and date (ISO 8601 format) when the image was added to the collection.
+          example: '2018-04-19T09:34:47-04:00'
+        height:
+          type: integer
+          description: The height of the image in pixels.
+          example: 488
+        src:
           type: string
-          description: Value of corresponding key
-          example: description_tag
-        value_type:
-          type: string
-          description: Type of value
-          example: string
+          description: The source URL that specifies the location of the image.
+          example: https://img.btdmp.com/collections/ipod.jpg
+        width:
+          type: integer
+          description: The width of the image in pixels.
+          example: 500
+      type: object
+    DeleteSmartCollectResponseSwagger:
+      properties:
+        success:
+          type: boolean
+          description: Remove a smart collection.
+          example: true
+      type: object
+    GetSingleSmartCollectionSwagger:
+      properties:
+        smart_collection:
+          $ref: '#/components/schemas/CustomCollectionDto'
+      type: object
+    CountSmartCollectResponseSwagger:
+      properties:
+        count:
+          type: integer
+          description: Get count of SmartCollection.
+          example: 3
       type: object
     CustomCollectionDto:
       properties:
@@ -145,47 +168,24 @@ components:
           description: 'The name of the custom collection. (limit: 255 characters)'
           example: IPods
       type: object
-    DeleteSmartCollectResponseSwagger:
+    CustomCollectionMetafield:
       properties:
-        success:
-          type: boolean
-          description: Remove a smart collection.
-          example: true
-      type: object
-    CountSmartCollectResponseSwagger:
-      properties:
-        count:
-          type: integer
-          description: Get count of SmartCollection.
-          example: 3
-      type: object
-    CustomCollectionImage:
-      properties:
-        alt:
+        key:
           type: string
-          description: Alternative text that describes the collection image.
-          example: iPods
-        created_at:
+          description: A key string for which meta field we use (description_tag, title_tag,..)
+          example: description_tag
+        namespace:
           type: string
-          description: The time and date (ISO 8601 format) when the image was added to the collection.
-          example: '2018-04-19T09:34:47-04:00'
-        height:
-          type: integer
-          description: The height of the image in pixels.
-          example: 488
-        src:
+          description: sphere of influence of key
+          example: global
+        value:
           type: string
-          description: The source URL that specifies the location of the image.
-          example: https://img.btdmp.com/collections/ipod.jpg
-        width:
-          type: integer
-          description: The width of the image in pixels.
-          example: 500
-      type: object
-    GetSingleSmartCollectionSwagger:
-      properties:
-        smart_collection:
-          $ref: '#/components/schemas/CustomCollectionDto'
+          description: Value of corresponding key
+          example: description_tag
+        value_type:
+          type: string
+          description: Type of value
+          example: string
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

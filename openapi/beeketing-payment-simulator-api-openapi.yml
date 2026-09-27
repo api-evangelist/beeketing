@@ -245,48 +245,6 @@ components:
 
             <p>Login password of merchant in payment settings</p>'
       type: object
-    CheckCredentialSwaggerResponse:
-      properties:
-        x_result:
-          type: string
-          description: 'The valid values are valid, invalid, restricted.
-
-            * **valid**: Account is valid
-
-            * **invalid**: Account is invalid
-
-            * **restricted**: Account is restricted'
-      type: object
-    CaptureRefundOrVoidHandlerSwaggerRequest:
-      properties:
-        x_account_id:
-          type: string
-          description: Login id of merchant in payment settings
-        x_amount:
-          type: number
-          description: Order's amount
-        x_currency:
-          type: string
-          description: Order's currency
-        x_gateway_reference:
-          type: string
-          description: Unique reference for payment issued by the payment processor.
-        x_invoice:
-          type: string
-          description: Only available on request type = capture
-        x_reference:
-          type: string
-          description: Unique token for current checkout
-        x_signature:
-          type: string
-          description: See [Signing mechanism](https://docs.ocg.to/link/4417#bkmrk-2.3%C2%A0signing-mechanis)
-        x_transaction_type:
-          type: string
-          description: The valid values are `capture`, `refund`, `void`, `get`.
-        x_url_callback:
-          type: string
-          description: URL to which a callback notification should be sent asynchronously.
-      type: object
     PaymentResponseDto:
       properties:
         x_account_id:
@@ -335,6 +293,48 @@ components:
             * **void**: Cancel the payment.
 
             * **get**: Get the payment.'
+      type: object
+    CaptureRefundOrVoidHandlerSwaggerRequest:
+      properties:
+        x_account_id:
+          type: string
+          description: Login id of merchant in payment settings
+        x_amount:
+          type: number
+          description: Order's amount
+        x_currency:
+          type: string
+          description: Order's currency
+        x_gateway_reference:
+          type: string
+          description: Unique reference for payment issued by the payment processor.
+        x_invoice:
+          type: string
+          description: Only available on request type = capture
+        x_reference:
+          type: string
+          description: Unique token for current checkout
+        x_signature:
+          type: string
+          description: See [Signing mechanism](https://docs.ocg.to/link/4417#bkmrk-2.3%C2%A0signing-mechanis)
+        x_transaction_type:
+          type: string
+          description: The valid values are `capture`, `refund`, `void`, `get`.
+        x_url_callback:
+          type: string
+          description: URL to which a callback notification should be sent asynchronously.
+      type: object
+    CheckCredentialSwaggerResponse:
+      properties:
+        x_result:
+          type: string
+          description: 'The valid values are valid, invalid, restricted.
+
+            * **valid**: Account is valid
+
+            * **invalid**: Account is invalid
+
+            * **restricted**: Account is restricted'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

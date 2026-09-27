@@ -171,12 +171,7 @@ paths:
         - write_customers
 components:
   schemas:
-    updateCustomerAddressForm:
-      properties:
-        customer_address:
-          type: object
-      type: object
-    CustomerAddressResponse:
+    CustomerAddressDetailResponse:
       properties:
         customer_address:
           $ref: '#/components/schemas/CustomerAddressDetail'
@@ -187,6 +182,23 @@ components:
           items:
             $ref: '#/components/schemas/CustomerAddressDetail'
           type: array
+      type: object
+    models.SwaggerDeleteResponse:
+      type: object
+    CustomerAddressResponse:
+      properties:
+        customer_address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+      type: object
+    CustomerAddressCreateForm:
+      properties:
+        address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+      type: object
+    updateCustomerAddressForm:
+      properties:
+        customer_address:
+          type: object
       type: object
     CustomerAddressDetail:
       properties:
@@ -274,18 +286,6 @@ components:
           type: string
           description: ZIP
           example: K2P 1L4
-      type: object
-    CustomerAddressCreateForm:
-      properties:
-        address:
-          $ref: '#/components/schemas/CustomerAddressDetail'
-      type: object
-    models.SwaggerDeleteResponse:
-      type: object
-    CustomerAddressDetailResponse:
-      properties:
-        customer_address:
-          $ref: '#/components/schemas/CustomerAddressDetail'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

@@ -87,6 +87,33 @@ paths:
         description: BODY import order by api
 components:
   schemas:
+    OrderShippingAddressDto:
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        company:
+          type: string
+        country:
+          type: string
+        country_code:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        province:
+          type: string
+        zip:
+          type: string
+      type: object
     PhubLineItemImportRespDto:
       properties:
         id:
@@ -108,10 +135,12 @@ components:
         variant_title:
           type: string
       type: object
-    ImportSingleOrderResponse:
+    PhubLineItemImportTrackingDataRespDto:
       properties:
-        order_id:
-          type: integer
+        tracking_number:
+          type: string
+        tracking_url:
+          type: string
       type: object
     ImportSingleOrderRequest:
       properties:
@@ -160,6 +189,28 @@ components:
           description: Shop id
           example: 123456
       type: object
+    ImportSingleOrderResponse:
+      properties:
+        order_id:
+          type: integer
+      type: object
+    PhubOrderImportRespDto:
+      properties:
+        id:
+          type: integer
+        line_items:
+          items:
+            $ref: '#/components/schemas/PhubLineItemImportRespDto'
+          type: array
+        order_name:
+          type: string
+        shipping_address:
+          $ref: '#/components/schemas/OrderShippingAddressDto'
+        shop_id:
+          type: integer
+        status:
+          type: string
+      type: object
     ImportLineItem:
       properties:
         artwork_back_url:
@@ -205,57 +256,6 @@ components:
         supplier_product_color:
           type: string
         supplier_product_size:
-          type: string
-      type: object
-    OrderShippingAddressDto:
-      properties:
-        address1:
-          type: string
-        address2:
-          type: string
-        city:
-          type: string
-        company:
-          type: string
-        country:
-          type: string
-        country_code:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-        name:
-          type: string
-        phone:
-          type: string
-        province:
-          type: string
-        zip:
-          type: string
-      type: object
-    PhubLineItemImportTrackingDataRespDto:
-      properties:
-        tracking_number:
-          type: string
-        tracking_url:
-          type: string
-      type: object
-    PhubOrderImportRespDto:
-      properties:
-        id:
-          type: integer
-        line_items:
-          items:
-            $ref: '#/components/schemas/PhubLineItemImportRespDto'
-          type: array
-        order_name:
-          type: string
-        shipping_address:
-          $ref: '#/components/schemas/OrderShippingAddressDto'
-        shop_id:
-          type: integer
-        status:
           type: string
       type: object
   securitySchemes:

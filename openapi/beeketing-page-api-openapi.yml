@@ -276,13 +276,6 @@ paths:
         required: true
 components:
   schemas:
-    ListPagesSwaggerResponse:
-      properties:
-        pages:
-          items:
-            $ref: '#/components/schemas/Page'
-          type: array
-      type: object
     UpsertPageRequestDto:
       properties:
         is_create_redirect:
@@ -334,6 +327,18 @@ components:
           description: The page's title.
           example: Contact us
       type: object
+    ListPagesSwaggerResponse:
+      properties:
+        pages:
+          items:
+            $ref: '#/components/schemas/Page'
+          type: array
+      type: object
+    SinglePageSwaggerResponse:
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+      type: object
     PageRequestDto:
       properties:
         body_html:
@@ -380,11 +385,6 @@ components:
           type: string
           description: The page's title.
           example: Contact us
-      type: object
-    SinglePageSwaggerResponse:
-      properties:
-        page:
-          $ref: '#/components/schemas/Page'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

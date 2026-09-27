@@ -114,18 +114,6 @@ components:
   schemas:
     gitlab.SwaggerDeleteResponse:
       type: object
-    SingleFulfillmentServiceSwaggerResponse:
-      properties:
-        fulfillment_service:
-          $ref: '#/components/schemas/FulfillmentService'
-      type: object
-    FulfillmentServicesListSwaggerResponse:
-      properties:
-        fulfillment_services:
-          items:
-            $ref: '#/components/schemas/FulfillmentService'
-          type: array
-      type: object
     FulfillmentService:
       properties:
         can_remove_mapping:
@@ -140,6 +128,18 @@ components:
           type: string
           description: Service name
           example: Service name
+      type: object
+    FulfillmentServicesListSwaggerResponse:
+      properties:
+        fulfillment_services:
+          items:
+            $ref: '#/components/schemas/FulfillmentService'
+          type: array
+      type: object
+    SingleFulfillmentServiceSwaggerResponse:
+      properties:
+        fulfillment_service:
+          $ref: '#/components/schemas/FulfillmentService'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

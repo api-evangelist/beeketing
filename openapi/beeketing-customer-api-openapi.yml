@@ -221,15 +221,123 @@ paths:
         required: true
 components:
   schemas:
+    CustomerForResponse:
+      properties:
+        customers:
+          items:
+            $ref: '#/components/schemas/CustomerDto'
+          type: array
+      type: object
+    models.SwaggerDeleteResponse:
+      type: object
     CountResponse:
       properties:
         count:
           type: integer
       type: object
-    SendInvitationRequest:
+    CustomerSwaggerResponse:
       properties:
-        customer_invite:
-          $ref: '#/components/schemas/CustomerInvite'
+        customer:
+          $ref: '#/components/schemas/CustomerDto'
+      type: object
+    CustomerDto:
+      properties:
+        accepts_marketing:
+          type: boolean
+          description: Whether the customer has consented to receive marketing material via email.
+          example: true
+        addresses:
+          items:
+            $ref: '#/components/schemas/CustomerAddressDetail'
+          type: array
+          description: A list of the ten most recently updated addresses for the customer.
+        average_spent:
+          type: number
+          description: The average amount of money that the customer has spent across their order history.
+          example: 37.96
+        created_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer was created.
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        currency:
+          type: string
+          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
+          example: USD
+        default_address:
+          $ref: '#/components/schemas/CustomerAddressDetail'
+          description: The default address for the customer.
+        email:
+          type: string
+          description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
+          example: test@shopbase.com
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
+          type: integer
+          description: A unique identifier for the customer.
+          example: 107333978
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: English
+        last_order_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer purchase a last order
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        last_order_id:
+          type: integer
+          description: The ID of the customer's last order.
+          example: 234132602919
+        last_order_name:
+          type: string
+          description: The name of the customer's last order. This is directly related to the name field on the Order resource.
+          example: '#1169'
+        last_sent_abandoned_email_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the last abandoned checkout email was sent to this customer
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        note:
+          type: string
+          description: A note about the customer.
+          example: Placed an order that had a fraud warning
+        orders_count:
+          type: integer
+          description: The number of orders associated with this customer.
+          example: 6
+        phone:
+          type: string
+          description: "The unique phone number ([E.164 format](https://en.wikipedia.org/wiki/E.164)) for this customer. Attempting to assign the same phone number to multiple customers returns an error. The property can be set using different formats, but each format must represent a number that can be dialed from anywhere in the world. The following formats are all valid:\n * 6135551212 \n * +16135551212 \n * (613)555-1212 \n * +1 613-555-1212"
+          example: '+16135551111'
+        state:
+          type: string
+          description: "The state of the customer's account with a shop. Default value: disabled. Valid values:\n\n * **disabled**: The customer doesn't have an active account. Customer acounts can be disabled from the ShopBase admin at any time.\n * **invited**: The customer has received an emailed invite to create an account.\n * **enabled**: The customer has created an account.\n * **declined**: The customer declined the email invite to create an account."
+          example: disabled
+        tags:
+          type: string
+          description: Tags that the shop owner has attached to the customer, formatted as a string of comma-separated values.
+          example: loyal
+        tax_exempt:
+          type: boolean
+          description: Whether the customer is exempt from paying taxes on their order. If ```true```, then taxes won't be applied to an order at checkout. If ```false```, then taxes will be applied at checkout.
+          example: true
+        total_spent:
+          type: number
+          description: The total amount of money that the customer has spent across their order history.
+          example: 37.96
+        updated_at:
+          type: string
+          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer information was last updated.
+          format: date-time
+          example: '2012-08-24T14:01:46-04:00'
+        verified_email:
+          type: boolean
+          description: Whether the customer has verified their email address.
+          example: true
       type: object
     CustomerInvite:
       properties:
@@ -336,118 +444,10 @@ components:
           description: ZIP
           example: K2P 1L4
       type: object
-    models.SwaggerDeleteResponse:
-      type: object
-    CustomerForResponse:
+    SendInvitationRequest:
       properties:
-        customers:
-          items:
-            $ref: '#/components/schemas/CustomerDto'
-          type: array
-      type: object
-    CustomerSwaggerResponse:
-      properties:
-        customer:
-          $ref: '#/components/schemas/CustomerDto'
-      type: object
-    CustomerDto:
-      properties:
-        accepts_marketing:
-          type: boolean
-          description: Whether the customer has consented to receive marketing material via email.
-          example: true
-        addresses:
-          items:
-            $ref: '#/components/schemas/CustomerAddressDetail'
-          type: array
-          description: A list of the ten most recently updated addresses for the customer.
-        average_spent:
-          type: number
-          description: The average amount of money that the customer has spent across their order history.
-          example: 37.96
-        created_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer was created.
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        currency:
-          type: string
-          description: The three-letter code ([ISO 4217 format](https://en.wikipedia.org/wiki/ISO_4217)) for the currency that the customer used when they paid for their last order. Defaults to the shop currency. Returns the shop currency for test orders.
-          example: USD
-        default_address:
-          $ref: '#/components/schemas/CustomerAddressDetail'
-          description: The default address for the customer.
-        email:
-          type: string
-          description: The unique email address of the customer. Attempting to assign the same email address to multiple customers returns an error.
-          example: test@shopbase.com
-        first_name:
-          type: string
-          description: The customer's first name.
-          example: John
-        id:
-          type: integer
-          description: A unique identifier for the customer.
-          example: 107333978
-        last_name:
-          type: string
-          description: The customer's last name.
-          example: English
-        last_order_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer purchase a last order
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        last_order_id:
-          type: integer
-          description: The ID of the customer's last order.
-          example: 234132602919
-        last_order_name:
-          type: string
-          description: The name of the customer's last order. This is directly related to the name field on the Order resource.
-          example: '#1169'
-        last_sent_abandoned_email_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the last abandoned checkout email was sent to this customer
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        note:
-          type: string
-          description: A note about the customer.
-          example: Placed an order that had a fraud warning
-        orders_count:
-          type: integer
-          description: The number of orders associated with this customer.
-          example: 6
-        phone:
-          type: string
-          description: "The unique phone number ([E.164 format](https://en.wikipedia.org/wiki/E.164)) for this customer. Attempting to assign the same phone number to multiple customers returns an error. The property can be set using different formats, but each format must represent a number that can be dialed from anywhere in the world. The following formats are all valid:\n * 6135551212 \n * +16135551212 \n * (613)555-1212 \n * +1 613-555-1212"
-          example: '+16135551111'
-        state:
-          type: string
-          description: "The state of the customer's account with a shop. Default value: disabled. Valid values:\n\n * **disabled**: The customer doesn't have an active account. Customer acounts can be disabled from the ShopBase admin at any time.\n * **invited**: The customer has received an emailed invite to create an account.\n * **enabled**: The customer has created an account.\n * **declined**: The customer declined the email invite to create an account."
-          example: disabled
-        tags:
-          type: string
-          description: Tags that the shop owner has attached to the customer, formatted as a string of comma-separated values.
-          example: loyal
-        tax_exempt:
-          type: boolean
-          description: Whether the customer is exempt from paying taxes on their order. If ```true```, then taxes won't be applied to an order at checkout. If ```false```, then taxes will be applied at checkout.
-          example: true
-        total_spent:
-          type: number
-          description: The total amount of money that the customer has spent across their order history.
-          example: 37.96
-        updated_at:
-          type: string
-          description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the customer information was last updated.
-          format: date-time
-          example: '2012-08-24T14:01:46-04:00'
-        verified_email:
-          type: boolean
-          description: Whether the customer has verified their email address.
-          example: true
+        customer_invite:
+          $ref: '#/components/schemas/CustomerInvite'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

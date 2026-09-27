@@ -147,6 +147,100 @@ paths:
         required: true
 components:
   schemas:
+    DiscountCodeDto:
+      properties:
+        code:
+          type: string
+          description: "The case-insensitive discount code that customers use at checkout. (maximum: 255 characters)\n ```Use the same value for code as the title property of the associated price rule.```"
+          example: SUMMERSALE10OFF
+        created_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the discount code was created.
+          example: '2019-04-19T16:09:54-04:00'
+        id:
+          type: integer
+          description: The ID for the discount code.
+          example: 898668068
+        price_rule:
+          $ref: '#/components/schemas/PriceRuleDto'
+          description: PriceRule
+        price_rule_id:
+          type: integer
+          description: The ID for the price rule that this discount code belongs to.
+          example: 423748927342
+        scope:
+          type: string
+          description: scope shopbase, printbase
+        shop_id:
+          type: integer
+          description: shop id
+          example: 896781590
+        updated_at:
+          type: string
+          description: The date and time (ISO 8601 format) when the discount code was updated.
+          example: '2019-04-19T16:09:54-04:00'
+        usage_count:
+          type: integer
+          description: The number of times that the discount code has been redeemed.
+          example: 6
+      type: object
+    ShippingPriceRange:
+      properties:
+        less_than_or_equal_to:
+          type: number
+          example: 10
+      type: object
+    PriceRulesRequest:
+      properties:
+        created_at_max:
+          type: integer
+        created_at_min:
+          type: integer
+        ends_at_max:
+          type: integer
+        ends_at_min:
+          type: integer
+        fields:
+          items:
+            type: string
+          type: array
+        filter:
+          type: string
+        ids:
+          items:
+            type: integer
+          type: array
+        ignore_id:
+          type: integer
+        limit:
+          type: integer
+        no_prerequisite:
+          type: boolean
+        page:
+          type: integer
+        shop_id:
+          type: integer
+        since_id:
+          type: integer
+        sort_by:
+          type: string
+        starts_at_max:
+          type: integer
+        starts_at_min:
+          type: integer
+        target_selection:
+          type: string
+        times_used:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+        updated_at_max:
+          type: integer
+        updated_at_min:
+          type: integer
+      type: object
     ToEntitlementQuantityRatio:
       properties:
         entitled_quantity:
@@ -154,11 +248,29 @@ components:
         prerequisite_quantity:
           type: number
       type: object
-    ShippingPriceRange:
+    SubtotalRange:
       properties:
-        less_than_or_equal_to:
+        greater_than_or_equal_to:
           type: number
-          example: 10
+          example: 40
+      type: object
+    QuantityRange:
+      properties:
+        greater_than_or_equal_to:
+          type: number
+          example: 50
+      type: object
+    DiscountCodeResponse:
+      properties:
+        discount_code:
+          $ref: '#/components/schemas/DiscountCodeDto'
+      type: object
+    PriceRulesResponse:
+      properties:
+        price_rules:
+          items:
+            $ref: '#/components/schemas/PriceRuleDto'
+          type: array
       type: object
     PriceRuleDto:
       properties:
@@ -324,124 +436,12 @@ components:
           description: "The value type of the price rule. Valid values: \n * **fixed_amount**:  Applies a discount of value as a unit of the store's currency. For example, if value is -30 and the store's currency is USD, then $30 USD is deducted when the discount is applied. \n * **percentage**: Applies a percentage discount of value. For example, if value is -30, then 30% will be deducted when the discount is applied. \n If target_type is shipping_line, then only percentage is accepted."
           example: fixed_amount
       type: object
-    QuantityRange:
-      properties:
-        greater_than_or_equal_to:
-          type: number
-          example: 50
-      type: object
-    PriceRulesResponse:
-      properties:
-        price_rules:
-          items:
-            $ref: '#/components/schemas/PriceRuleDto'
-          type: array
-      type: object
-    PriceRulesRequest:
-      properties:
-        created_at_max:
-          type: integer
-        created_at_min:
-          type: integer
-        ends_at_max:
-          type: integer
-        ends_at_min:
-          type: integer
-        fields:
-          items:
-            type: string
-          type: array
-        filter:
-          type: string
-        ids:
-          items:
-            type: integer
-          type: array
-        ignore_id:
-          type: integer
-        limit:
-          type: integer
-        no_prerequisite:
-          type: boolean
-        page:
-          type: integer
-        shop_id:
-          type: integer
-        since_id:
-          type: integer
-        sort_by:
-          type: string
-        starts_at_max:
-          type: integer
-        starts_at_min:
-          type: integer
-        target_selection:
-          type: string
-        times_used:
-          type: integer
-        title:
-          type: string
-        type:
-          type: string
-        updated_at_max:
-          type: integer
-        updated_at_min:
-          type: integer
-      type: object
-    DiscountCodeResponse:
-      properties:
-        discount_code:
-          $ref: '#/components/schemas/DiscountCodeDto'
-      type: object
-    SubtotalRange:
-      properties:
-        greater_than_or_equal_to:
-          type: number
-          example: 40
-      type: object
     DeleteDiscountCodeResponse:
       properties:
         message:
           type: string
         success:
           type: boolean
-      type: object
-    DiscountCodeDto:
-      properties:
-        code:
-          type: string
-          description: "The case-insensitive discount code that customers use at checkout. (maximum: 255 characters)\n ```Use the same value for code as the title property of the associated price rule.```"
-          example: SUMMERSALE10OFF
-        created_at:
-          type: string
-          description: The date and time (ISO 8601 format) when the discount code was created.
-          example: '2019-04-19T16:09:54-04:00'
-        id:
-          type: integer
-          description: The ID for the discount code.
-          example: 898668068
-        price_rule:
-          $ref: '#/components/schemas/PriceRuleDto'
-          description: PriceRule
-        price_rule_id:
-          type: integer
-          description: The ID for the price rule that this discount code belongs to.
-          example: 423748927342
-        scope:
-          type: string
-          description: scope shopbase, printbase
-        shop_id:
-          type: integer
-          description: shop id
-          example: 896781590
-        updated_at:
-          type: string
-          description: The date and time (ISO 8601 format) when the discount code was updated.
-          example: '2019-04-19T16:09:54-04:00'
-        usage_count:
-          type: integer
-          description: The number of times that the discount code has been redeemed.
-          example: 6
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

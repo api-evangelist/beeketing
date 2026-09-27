@@ -561,348 +561,6 @@ paths:
         required: true
 components:
   schemas:
-    APIResponseProductDto:
-      properties:
-        product:
-          $ref: '#/components/schemas/ProductDto'
-      type: object
-    CountResponse:
-      properties:
-        count:
-          type: integer
-      type: object
-    PatchProductResponseSwagger:
-      properties:
-        is_process_background:
-          type: boolean
-        status:
-          type: boolean
-      type: object
-    ProductPatchRequest:
-      properties:
-        count_retry:
-          type: integer
-        data:
-          $ref: '#/components/schemas/ProductPatchFields'
-        dest_shop_id:
-          type: integer
-        exclude_ids:
-          items:
-            type: integer
-          type: array
-        has_custom_option:
-          type: string
-        has_image:
-          type: string
-        ids:
-          items:
-            type: integer
-          type: array
-        keep_current_product_id:
-          type: boolean
-        page:
-          type: integer
-        published_status:
-          type: string
-        shop_id:
-          type: integer
-        title:
-          type: string
-        title_mode:
-          type: string
-        type:
-          type: string
-      type: object
-    APIResponseProductTagsDto:
-      properties:
-        success:
-          type: boolean
-          description: This field is request api success
-          example: true
-        tags:
-          items:
-            type: string
-          type: array
-          description: This field is request api success
-          example:
-          - tag1
-          - tag2
-          - tag3
-      type: object
-    DisplayOptions:
-      properties:
-        group_options_by:
-          type: integer
-          description: Group option by specific field
-          example: 1
-      type: object
-    ProductVariantRequestWithOptionValueDto:
-      properties:
-        barcode:
-          type: string
-          description: The code of variant for easy managing
-          example: 9 788073 400972
-        body_html:
-          type: string
-        compare_at_price:
-          type: number
-          description: The price compare with
-          example: 200
-        cost_per_item:
-          type: number
-        fulfillment_service:
-          type: string
-          description: The name of fulfillment
-          example: Shop base fulfillment
-        id:
-          type: integer
-          description: A unique numeric identifier for the product variant. Each id is unique across the ShopBase system. No two products variant will have the same id, even if they're from different shops.
-          example: 632910392
-        image_id:
-          type: integer
-          description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
-          example: 434522
-        image_ids:
-          type: string
-        inventory_management:
-          type: string
-          description: The name of inventory management
-          example: shopbase
-        inventory_policy:
-          type: string
-          description: 'Whether customers are allowed to place an order for the product variant when it''s out of stock. Valid values
-
-            * **deny**:  Customers are not allowed to place orders for the product variant if it''s out of stock
-
-            * **continue**:  Customers are allowed to place orders for the product variant if it''s out of stock.'
-        inventory_quantity:
-          type: integer
-          description: The quantity in inventory.
-          example: 100
-        is_default:
-          type: boolean
-          description: Option to decide that this variant is default or not
-          example: true
-        metafields:
-          items:
-            $ref: '#/components/schemas/MetaField'
-          type: array
-        option1:
-          type: string
-          description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService
-          example: IPOD2008PINK
-        position:
-          type: integer
-          description: The position of variant.
-          example: 1
-        price:
-          type: number
-          description: The price of variant.
-          example: 100
-        product_id:
-          type: integer
-          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
-          example: 632910392
-        requires_shipping:
-          type: boolean
-          description: Whether a customer needs to provide a shipping address when placing an order for the product variant.
-          example: true
-        sku:
-          type: string
-          description: The Metafield resource allows you to add additional information to other Admin API resources. Present, we don't use this field. We use table metafield instead.
-          example: 'null'
-        sync_cache_time:
-          type: integer
-        taxable:
-          type: boolean
-          description: Whether a tax is charged when the product variant is sold.
-          example: true
-        title:
-          type: string
-          description: The name of the product.
-          example: IPod Nano - 8GB
-        updated_at:
-          type: integer
-        weight:
-          type: number
-          description: Weight of product
-          example: 12
-        weight_unit:
-          type: string
-          description: unit of weight
-          example: '12'
-      type: object
-    dto.ImageRequest:
-      properties:
-        position:
-          type: integer
-          description: Position of list image
-          example: 1
-        src:
-          type: string
-          description: url of image
-          example: https://theme.hstatic.net/1000003443/1000386436/14/partner-shopbase.jpg?v=3381
-      type: object
-    dto.Condition:
-      properties:
-        relation:
-          type: string
-          description: Condition relation
-          example: equals
-        value:
-          type: string
-          description: Condition value
-          example: Hair
-      type: object
-    dto.CustomOptionValue:
-      properties:
-        text:
-          type: string
-          description: Option's text, unique
-          example: Option text
-        thumbnail:
-          type: string
-          description: Option's thumbnail if custom option is picture choice. If thumbnail is empty, picture will be displayed by url from value
-        value:
-          type: string
-          description: Option's value
-          example: Option value
-      type: object
-    ProductReorderRequest:
-      properties:
-        options:
-          items:
-            $ref: '#/components/schemas/ProductReorderOptionItem'
-          type: array
-          description: List of option want to reorder
-        product_id:
-          type: integer
-          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
-          example: 632910392
-      type: object
-    ProductDto:
-      properties:
-        body_html:
-          type: string
-          description: A description of the product. Supports HTML formatting.
-          example: '<p>It''s the small iPod with a big idea: Video.<p>'
-        can_preview:
-          type: boolean
-          description: This product can be previewed by personalize tool or not
-        collection_ids:
-          items:
-            type: integer
-          type: array
-        created_at:
-          type: integer
-          description: Created at time
-        custom_options:
-          items:
-            $ref: '#/components/schemas/dto.CustomOption'
-          type: array
-        display_options:
-          $ref: '#/components/schemas/DisplayOptions'
-        fulfillment_services:
-          items:
-            $ref: '#/components/schemas/FulfillmentService'
-          type: array
-        handle:
-          type: string
-          description: A unique human-friendly string for the product. Automatically generated from the product's `title`. Used by the Liquid templating language to refer to objects.
-          example: ipod-nano-8gb
-        id:
-          type: integer
-          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
-          example: 632910392
-        image:
-          $ref: '#/components/schemas/gitlab.ProductImage'
-        images:
-          items:
-            $ref: '#/components/schemas/gitlab.ProductImage'
-          type: array
-        metafields_global_description_tag:
-          type: string
-          description: A description of the product used for SEO purposes. Generally added to the <meta name='description'> tag.
-          example: 'It''s the small iPod with a big idea: Video.'
-        metafields_global_title_tag:
-          type: string
-          description: The name of the product used for SEO purposes. Generally added to the  <meta name='title'> tag.
-          example: IPod Nano - White, 8GB
-        options:
-          items:
-            $ref: '#/components/schemas/dto.ProductOption'
-          type: array
-        product_availability:
-          type: integer
-          description: '1. Available in all channels
-
-            2. Hide from the sitemap.txt
-
-            3. Hide from online store listing pages (homepage, collection pages, search page,...)
-
-            0. Hide from all channels'
-          example: 7
-        product_type:
-          type: string
-          description: A categorization for the product used for filtering and searching products.
-          example: Cult Products
-        published:
-          type: boolean
-          description: Published or not
-          example: true
-        published_at:
-          type: integer
-          description: The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.
-        tags:
-          type: string
-          description: A string of comma-separated tags that are used for filtering and search. A product can have up to 250 tags. Each tag can have up to 255 characters.
-          example: Emotive, Flash Memory, MP3, Music
-        title:
-          type: string
-          description: The name of the product.
-          example: IPod Nano - 8GB
-        updated_at:
-          type: integer
-          description: Updated at time
-        variants:
-          items:
-            $ref: '#/components/schemas/ProductVariantRequestWithOptionValueDto'
-          type: array
-        vendor:
-          type: string
-          description: The name of the product's vendor.
-          example: Apple
-      type: object
-    dto.ProductOption:
-      properties:
-        id:
-          type: integer
-          description: Id of product option set
-          example: 1002
-        name:
-          type: string
-          description: Name of product option set
-          example: color
-        position:
-          type: integer
-          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
-          example: 1
-        product_id:
-          type: integer
-          description: The id of the product associated with the image.
-          example: 632910392
-        values:
-          items:
-            type: string
-          type: array
-          description: List of product option
-          example:
-          - red
-          - ' blue'
-          - ' green'
-      type: object
-    SwaggerDeleteResponse:
-      type: object
     FulfillmentService:
       properties:
         can_remove_mapping:
@@ -918,60 +576,24 @@ components:
           description: Service name
           example: Service name
       type: object
-    dto.CustomOptionValidations:
+    ProductVariantDuplicateRequest:
       properties:
-        allowed_characters:
-          items:
-            type: string
-          type: array
-          description: 'List character is allowed
-
-            </br>**characters**: Characters
-
-            </br>**numbers**: Numbers
-
-            </br>**symbol**: Special characters
-
-            </br>**emoji**: Emoji'
-          example:
-          - symbol
-        max_length:
+        new_value:
+          type: string
+          description: Value of option want to duplicate
+          example: Pink
+        option_id:
           type: integer
-          description: Maximum length
-          example: 50
-        min_size:
-          type: number
-          description: Maximum size
-          example: 50
-        required:
-          type: boolean
-          description: Check whether value is required or not
-          example: true
-      type: object
-    MetaField:
-      properties:
-        description:
-          type: string
-          description: Description
-        key:
-          type: string
-          description: Key
-        namespace:
-          type: string
-          description: Namespace
-        value:
-          type: string
-          description: Value
-        value_type:
-          type: string
-          description: Value type
-      type: object
-    ProductGetTypesSwaggerResponse:
-      properties:
-        types:
+          description: Option set id that want to duplicate
+          example: 274948
+        variants:
           items:
-            type: string
+            type: integer
           type: array
+          description: List of form variant ids want to duplicate
+          example:
+          - 274942
+          - 274948
       type: object
     dto.CustomOption:
       properties:
@@ -1050,20 +672,235 @@ components:
           type: array
           description: List option value
       type: object
-    dto.Rule:
+    ProductPatchRequest:
       properties:
-        conditions:
+        count_retry:
+          type: integer
+        data:
+          $ref: '#/components/schemas/ProductPatchFields'
+        dest_shop_id:
+          type: integer
+        exclude_ids:
           items:
-            $ref: '#/components/schemas/dto.Condition'
+            type: integer
           type: array
-        show_option_ids:
+        has_custom_option:
+          type: string
+        has_image:
+          type: string
+        ids:
           items:
-            type: string
+            type: integer
           type: array
-          description: List ids will be shown
-          example:
-          - '1123123'
-          - '3453567'
+        keep_current_product_id:
+          type: boolean
+        page:
+          type: integer
+        published_status:
+          type: string
+        shop_id:
+          type: integer
+        title:
+          type: string
+        title_mode:
+          type: string
+        type:
+          type: string
+      type: object
+    handlers.ProductRequest:
+      properties:
+        collection_id:
+          type: integer
+          description: Filter results by product collection ID.
+          example: 123456
+        created_at_max:
+          type: string
+          description: 'Show products created before date. (format: 2014-04-25T16:15:47-04:00)'
+          example: '2014-04-25T16:15:47-04:00'
+        created_at_min:
+          type: string
+          description: 'Show products created after date. (format: 2014-04-25T16:15:47-04:00)'
+          example: '2014-04-25T16:15:47-04:00'
+        limit:
+          type: integer
+          description: 'Return up to this many results per page. (default: 50, maximum: 250).'
+          example: 10
+        page:
+          type: integer
+          description: 'Using for pagination. (default: 1).'
+          example: 1
+        published_at_min:
+          type: string
+          description: 'Show products published after date. (format: 2014-04-25T16:15:47-04:00)'
+          example: '2014-04-25T16:15:47-04:00'
+        published_status:
+          type: string
+          description: 'Return products by their published status. (default: any), published: Show only published products. unpublished: Show only unpublished products. any: Show all products.'
+          example: any
+        since_id:
+          type: integer
+          description: Restrict results to after the specified ID.
+          example: 3456789
+        sort_order:
+          type: string
+          description: 'Order which is used to arranging items. (valid orders: alpha-asc, alpha-desc, created-asc, created-desc, price-asc, price-desc)'
+          example: alpha-asc
+        title:
+          type: string
+          description: Filter product by title
+          example: product
+        updated_at_max:
+          type: string
+          description: 'Show products last updated before date. (format: 2014-04-25T16:15:47-04:00)'
+          example: '2014-04-25T16:15:47-04:00'
+        updated_at_min:
+          type: string
+          description: 'Show products last updated after date. (format: 2014-04-25T16:15:47-04:00)'
+          example: '2014-04-25T16:15:47-04:00'
+      type: object
+    ProductSwaggerResponse:
+      properties:
+        product:
+          $ref: '#/components/schemas/ProductDto'
+      type: object
+    ProductReorderRequest:
+      properties:
+        options:
+          items:
+            $ref: '#/components/schemas/ProductReorderOptionItem'
+          type: array
+          description: List of option want to reorder
+        product_id:
+          type: integer
+          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
+          example: 632910392
+      type: object
+    ProductDtoSwagger:
+      properties:
+        body_html:
+          type: string
+          description: A description of the product. Supports HTML formatting.
+          example: '<p>It''s the small iPod with a big idea: Video.<p>'
+        custom_options:
+          items:
+            $ref: '#/components/schemas/dto.CustomOption'
+          type: array
+          description: List of custom options
+        display_options:
+          $ref: '#/components/schemas/DisplayOptions'
+          description: List of display options
+        handle:
+          type: string
+          description: A unique human-friendly string for the product. Automatically generated from the product's `title`. Used by the Liquid templating language to refer to objects.
+          example: ipod-nano-8gb
+        images:
+          items:
+            $ref: '#/components/schemas/dto.ImageRequest'
+          type: array
+          description: List of images
+        metafields_global_description_tag:
+          type: string
+          description: A description of the product used for SEO purposes. Generally added to the <meta name='description'> tag.
+          example: 'It''s the small iPod with a big idea: Video.'
+        metafields_global_title_tag:
+          type: string
+          description: The name of the product used for SEO purposes. Generally added to the  <meta name='title'> tag.
+          example: IPod Nano - White, 8GB
+        options:
+          items:
+            $ref: '#/components/schemas/dto.ProductOption'
+          type: array
+          description: List of options
+        product_availability:
+          type: integer
+          description: '1. Available in all channels
+
+            2. Hide from the sitemap.txt
+
+            3. Hide from online store listing pages (homepage, collection pages, search page,...)
+
+            0. Hide from all channels'
+          example: 7
+        product_type:
+          type: string
+          description: A categorization for the product used for filtering and searching products.
+          example: Cult Products
+        published:
+          type: boolean
+          description: Published or not
+          example: true
+        published_at:
+          type: integer
+          description: The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.
+        tags:
+          type: string
+          description: A string of comma-separated tags that are used for filtering and search. A product can have up to 250 tags. Each tag can have up to 255 characters.
+          example: Emotive, Flash Memory, MP3, Music
+        title:
+          type: string
+          description: The name of the product.
+          example: IPod Nano - 8GB
+        variants:
+          items:
+            $ref: '#/components/schemas/ProductVariantRequestWithOptionValueDtoSwagger'
+          type: array
+          description: List of variants
+        vendor:
+          type: string
+          description: The name of the product's vendor.
+          example: Apple
+      type: object
+    DisplayOptions:
+      properties:
+        group_options_by:
+          type: integer
+          description: Group option by specific field
+          example: 1
+      type: object
+    MetaField:
+      properties:
+        description:
+          type: string
+          description: Description
+        key:
+          type: string
+          description: Key
+        namespace:
+          type: string
+          description: Namespace
+        value:
+          type: string
+          description: Value
+        value_type:
+          type: string
+          description: Value type
+      type: object
+    ProductUpdateRequestSwagger:
+      properties:
+        is_create_redirect:
+          type: boolean
+          description: Option for create redirect or not when update product. If true, create a redirect from old handle to new handle
+          example: true
+        product:
+          $ref: '#/components/schemas/ProductDtoTransformRequestUpdateProduct'
+          description: Data of product to update
+      type: object
+    ProductDeleteMultiSwaggerResponse:
+      properties:
+        status:
+          type: string
+          description: Message for delete success.
+          example: delete success
+      type: object
+    ProductsByCollectionSwaggerResponse:
+      properties:
+        products:
+          items:
+            $ref: '#/components/schemas/gitlab.Product'
+          type: array
+        total:
+          type: integer
+          example: 1
       type: object
     gitlab.ProductImage:
       properties:
@@ -1139,61 +976,360 @@ components:
           description: Width dimension of the image which is determined on upload.
           example: 640
       type: object
-    ProductPatchFields:
+    dto.CustomOptionValidations:
       properties:
-        add_collections:
-          items:
-            type: integer
-          type: array
-        add_tags:
+        allowed_characters:
           items:
             type: string
           type: array
-        import_progress:
+          description: 'List character is allowed
+
+            </br>**characters**: Characters
+
+            </br>**numbers**: Numbers
+
+            </br>**symbol**: Special characters
+
+            </br>**emoji**: Emoji'
+          example:
+          - symbol
+        max_length:
+          type: integer
+          description: Maximum length
+          example: 50
+        min_size:
+          type: number
+          description: Maximum size
+          example: 50
+        required:
+          type: boolean
+          description: Check whether value is required or not
+          example: true
+      type: object
+    dto.CustomOptionValue:
+      properties:
+        text:
+          type: string
+          description: Option's text, unique
+          example: Option text
+        thumbnail:
+          type: string
+          description: Option's thumbnail if custom option is picture choice. If thumbnail is empty, picture will be displayed by url from value
+        value:
+          type: string
+          description: Option's value
+          example: Option value
+      type: object
+    CountResponse:
+      properties:
+        count:
+          type: integer
+      type: object
+    APIResponseProductTagsDto:
+      properties:
+        success:
+          type: boolean
+          description: This field is request api success
+          example: true
+        tags:
           items:
             type: string
           type: array
+          description: This field is request api success
+          example:
+          - tag1
+          - tag2
+          - tag3
+      type: object
+    SwaggerDeleteResponse:
+      type: object
+    PatchProductResponseSwagger:
+      properties:
+        is_process_background:
+          type: boolean
+        status:
+          type: boolean
+      type: object
+    gitlab.Product:
+      properties:
+        body_html:
+          type: string
+          description: A description of the product. Supports HTML formatting.
+          example: '<p>It''s the small iPod with a big idea: Video.<p>'
+        can_preview:
+          type: boolean
+          description: This product can be previewed by personalize tool or not
+        created_at:
+          type: integer
+          description: Created at time
+        custom_options:
+          type: string
+          description: The schema to generate custom option form fields
+        handle:
+          type: string
+          description: A unique human-friendly string for the product. Automatically generated from the product's `title`. Used by the Liquid templating language to refer to objects.
+          example: ipod-nano-8gb
+        id:
+          type: integer
+          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
+          example: 632910392
+        metafields_global_description_tag:
+          type: string
+          description: A description of the product used for SEO purposes. Generally added to the <meta name='description'> tag.
+          example: 'It''s the small iPod with a big idea: Video.'
+        metafields_global_title_tag:
+          type: string
+          description: The name of the product used for SEO purposes. Generally added to the  <meta name='title'> tag.
+          example: IPod Nano - White, 8GB
+        product_availability:
+          type: integer
+          description: '1. Available in all channels
+
+            2. Hide from the sitemap.txt
+
+            3. Hide from online store listing pages (homepage, collection pages, search page,...)
+
+            0. Hide from all channels'
+          example: 7
+        product_type:
+          type: string
+          description: A categorization for the product used for filtering and searching products.
+          example: Cult Products
         published:
           type: boolean
-        remove_collections:
-          items:
-            type: integer
-          type: array
-        remove_tags:
-          items:
-            type: string
-          type: array
+          description: Published or not
+          example: true
+        published_at:
+          type: integer
+          description: The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.
+        tags:
+          type: string
+          description: A string of comma-separated tags that are used for filtering and search. A product can have up to 250 tags. Each tag can have up to 255 characters.
+          example: Emotive, Flash Memory, MP3, Music
+        title:
+          type: string
+          description: The name of the product.
+          example: IPod Nano - 8GB
+        updated_at:
+          type: integer
+          description: Updated at time
+        vendor:
+          type: string
+          description: The name of the product's vendor.
+          example: Apple
       type: object
-    ProductSwaggerResponse:
-      properties:
-        product:
-          $ref: '#/components/schemas/ProductDto'
-      type: object
-    ProductsByCollectionSwaggerResponse:
+    ProductsSwaggerResponse:
       properties:
         products:
           items:
-            $ref: '#/components/schemas/gitlab.Product'
+            $ref: '#/components/schemas/ProductDto'
           type: array
-        total:
-          type: integer
-          example: 1
       type: object
-    ProductReorderOptionItem:
+    ProductVariantRequestWithOptionValueDtoSwagger:
+      properties:
+        barcode:
+          type: string
+          description: The code of variant for easy managing
+          example: 9 788073 400972
+        compare_at_price:
+          type: number
+          description: The price compare with
+          example: 200
+        cost_per_item:
+          type: number
+        fulfillment_service:
+          type: string
+          description: The name of fulfillment
+          example: shopbase
+        id:
+          type: integer
+          description: A unique numeric identifier for the product variant. Each id is unique across the ShopBase system. No two products variant will have the same id, even if they're from different shops.
+          example: 632910392
+        image_id:
+          type: integer
+          description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
+          example: 434522
+        inventory_management:
+          type: string
+          description: The name of inventory management
+          example: shopbase
+        inventory_policy:
+          type: string
+          description: 'Whether customers are allowed to place an order for the product variant when it''s out of stock. Valid values
+
+            </br>**deny**:  Customers are not allowed to place orders for the product variant if it''s out of stock
+
+            </br>**continue**:  Customers are allowed to place orders for the product variant if it''s out of stock.'
+        inventory_quantity:
+          type: integer
+          description: The quantity in inventory.
+          example: 100
+        is_default:
+          type: boolean
+          description: Option to decide that this variant is default or not
+          example: true
+        option1:
+          type: string
+          description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService
+          example: IPOD2008PINK
+        price:
+          type: number
+          description: The price of variant.
+          example: 100
+        product_id:
+          type: integer
+          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
+          example: 632910392
+        requires_shipping:
+          type: boolean
+          description: Whether a customer needs to provide a shipping address when placing an order for the product variant.
+          example: true
+        sku:
+          type: string
+          description: The Metafield resource allows you to add additional information to other Admin API resources. Present, we don't use this field. We use table metafield instead.
+        taxable:
+          type: boolean
+          description: Whether a tax is charged when the product variant is sold.
+          example: true
+        title:
+          type: string
+          description: The name of the product.
+          example: IPod Nano - 8GB
+        weight:
+          type: number
+          description: Weight of product
+          example: 12
+        weight_unit:
+          type: string
+          description: unit of weight
+          example: '12'
+      type: object
+    dto.Rule:
+      properties:
+        conditions:
+          items:
+            $ref: '#/components/schemas/dto.Condition'
+          type: array
+        show_option_ids:
+          items:
+            type: string
+          type: array
+          description: List ids will be shown
+          example:
+          - '1123123'
+          - '3453567'
+      type: object
+    ProductVariantDuplicateResponseSwagger:
+      properties:
+        fail:
+          items:
+            type: integer
+          type: array
+          description: List of variant id duplicate failure
+          example:
+          - 100013905
+        status:
+          type: boolean
+          description: 'Status of duplicate process: true or false'
+          example: true
+        success:
+          items:
+            type: integer
+          type: array
+          description: List of variant id duplicate successful
+          example:
+          - 100013903
+          - 100013904
+      type: object
+    ProductGetTypesSwaggerResponse:
+      properties:
+        types:
+          items:
+            type: string
+          type: array
+      type: object
+    ProductGetVendorsSwaggerResponse:
+      properties:
+        vendors:
+          items:
+            type: string
+          type: array
+      type: object
+    dto.Condition:
+      properties:
+        relation:
+          type: string
+          description: Condition relation
+          example: equals
+        value:
+          type: string
+          description: Condition value
+          example: Hair
+      type: object
+    dto.ProductOption:
       properties:
         id:
           type: integer
           description: Id of product option set
-          example: 100
+          example: 1002
+        name:
+          type: string
+          description: Name of product option set
+          example: color
+        position:
+          type: integer
+          description: The order of the product image in the list. The first product image is at position 1 and is the main image for the product.
+          example: 1
+        product_id:
+          type: integer
+          description: The id of the product associated with the image.
+          example: 632910392
         values:
           items:
             type: string
           type: array
-          description: List of product option value.
+          description: List of product option
           example:
-          - Red
-          - ' Blue'
-          - ' Green'
+          - red
+          - ' blue'
+          - ' green'
+      type: object
+    ProductRemoveMappingResponse:
+      properties:
+        success:
+          type: boolean
+      type: object
+    ProductDeleteMultiSwaggerRequest:
+      properties:
+        exclude_ids:
+          items:
+            type: integer
+          type: array
+          description: This field will exclude ids of product that want to keep.
+          example:
+          - 1
+          - 2
+          - 3
+        type:
+          type: string
+          description: Use type for want delete all product with value default is all.
+          example: all
+      type: object
+    APIResponseProductDto:
+      properties:
+        product:
+          $ref: '#/components/schemas/ProductDto'
+      type: object
+    dto.ImageRequest:
+      properties:
+        position:
+          type: integer
+          description: Position of list image
+          example: 1
+        src:
+          type: string
+          description: url of image
+          example: https://theme.hstatic.net/1000003443/1000386436/14/partner-shopbase.jpg?v=3381
       type: object
     ProductDtoTransformRequestUpdateProduct:
       properties:
@@ -1294,90 +1430,26 @@ components:
           description: The name of the product's vendor.
           example: Apple
       type: object
+    ProductReorderOptionItem:
+      properties:
+        id:
+          type: integer
+          description: Id of product option set
+          example: 100
+        values:
+          items:
+            type: string
+          type: array
+          description: List of product option value.
+          example:
+          - Red
+          - ' Blue'
+          - ' Green'
+      type: object
     ProductSwaggerRequest:
       properties:
         product:
           $ref: '#/components/schemas/ProductDtoSwagger'
-      type: object
-    ProductDeleteMultiSwaggerResponse:
-      properties:
-        status:
-          type: string
-          description: Message for delete success.
-          example: delete success
-      type: object
-    gitlab.Product:
-      properties:
-        body_html:
-          type: string
-          description: A description of the product. Supports HTML formatting.
-          example: '<p>It''s the small iPod with a big idea: Video.<p>'
-        can_preview:
-          type: boolean
-          description: This product can be previewed by personalize tool or not
-        created_at:
-          type: integer
-          description: Created at time
-        custom_options:
-          type: string
-          description: The schema to generate custom option form fields
-        handle:
-          type: string
-          description: A unique human-friendly string for the product. Automatically generated from the product's `title`. Used by the Liquid templating language to refer to objects.
-          example: ipod-nano-8gb
-        id:
-          type: integer
-          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
-          example: 632910392
-        metafields_global_description_tag:
-          type: string
-          description: A description of the product used for SEO purposes. Generally added to the <meta name='description'> tag.
-          example: 'It''s the small iPod with a big idea: Video.'
-        metafields_global_title_tag:
-          type: string
-          description: The name of the product used for SEO purposes. Generally added to the  <meta name='title'> tag.
-          example: IPod Nano - White, 8GB
-        product_availability:
-          type: integer
-          description: '1. Available in all channels
-
-            2. Hide from the sitemap.txt
-
-            3. Hide from online store listing pages (homepage, collection pages, search page,...)
-
-            0. Hide from all channels'
-          example: 7
-        product_type:
-          type: string
-          description: A categorization for the product used for filtering and searching products.
-          example: Cult Products
-        published:
-          type: boolean
-          description: Published or not
-          example: true
-        published_at:
-          type: integer
-          description: The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.
-        tags:
-          type: string
-          description: A string of comma-separated tags that are used for filtering and search. A product can have up to 250 tags. Each tag can have up to 255 characters.
-          example: Emotive, Flash Memory, MP3, Music
-        title:
-          type: string
-          description: The name of the product.
-          example: IPod Nano - 8GB
-        updated_at:
-          type: integer
-          description: Updated at time
-        vendor:
-          type: string
-          description: The name of the product's vendor.
-          example: Apple
-      type: object
-    ProductRemoveMappingResponse:
-      properties:
-        success:
-          type: boolean
       type: object
     dto.ProductVariantRequestWithOptionValue:
       properties:
@@ -1458,103 +1530,71 @@ components:
           description: unit of weight
           example: '12'
       type: object
-    handlers.ProductRequest:
+    ProductPatchFields:
       properties:
-        collection_id:
-          type: integer
-          description: Filter results by product collection ID.
-          example: 123456
-        created_at_max:
-          type: string
-          description: 'Show products created before date. (format: 2014-04-25T16:15:47-04:00)'
-          example: '2014-04-25T16:15:47-04:00'
-        created_at_min:
-          type: string
-          description: 'Show products created after date. (format: 2014-04-25T16:15:47-04:00)'
-          example: '2014-04-25T16:15:47-04:00'
-        limit:
-          type: integer
-          description: 'Return up to this many results per page. (default: 50, maximum: 250).'
-          example: 10
-        page:
-          type: integer
-          description: 'Using for pagination. (default: 1).'
-          example: 1
-        published_at_min:
-          type: string
-          description: 'Show products published after date. (format: 2014-04-25T16:15:47-04:00)'
-          example: '2014-04-25T16:15:47-04:00'
-        published_status:
-          type: string
-          description: 'Return products by their published status. (default: any), published: Show only published products. unpublished: Show only unpublished products. any: Show all products.'
-          example: any
-        since_id:
-          type: integer
-          description: Restrict results to after the specified ID.
-          example: 3456789
-        sort_order:
-          type: string
-          description: 'Order which is used to arranging items. (valid orders: alpha-asc, alpha-desc, created-asc, created-desc, price-asc, price-desc)'
-          example: alpha-asc
-        title:
-          type: string
-          description: Filter product by title
-          example: product
-        updated_at_max:
-          type: string
-          description: 'Show products last updated before date. (format: 2014-04-25T16:15:47-04:00)'
-          example: '2014-04-25T16:15:47-04:00'
-        updated_at_min:
-          type: string
-          description: 'Show products last updated after date. (format: 2014-04-25T16:15:47-04:00)'
-          example: '2014-04-25T16:15:47-04:00'
-      type: object
-    ProductGetVendorsSwaggerResponse:
-      properties:
-        vendors:
+        add_collections:
+          items:
+            type: integer
+          type: array
+        add_tags:
+          items:
+            type: string
+          type: array
+        import_progress:
+          items:
+            type: string
+          type: array
+        published:
+          type: boolean
+        remove_collections:
+          items:
+            type: integer
+          type: array
+        remove_tags:
           items:
             type: string
           type: array
       type: object
-    ProductDeleteMultiSwaggerRequest:
-      properties:
-        exclude_ids:
-          items:
-            type: integer
-          type: array
-          description: This field will exclude ids of product that want to keep.
-          example:
-          - 1
-          - 2
-          - 3
-        type:
-          type: string
-          description: Use type for want delete all product with value default is all.
-          example: all
-      type: object
-    ProductDtoSwagger:
+    ProductDto:
       properties:
         body_html:
           type: string
           description: A description of the product. Supports HTML formatting.
           example: '<p>It''s the small iPod with a big idea: Video.<p>'
+        can_preview:
+          type: boolean
+          description: This product can be previewed by personalize tool or not
+        collection_ids:
+          items:
+            type: integer
+          type: array
+        created_at:
+          type: integer
+          description: Created at time
         custom_options:
           items:
             $ref: '#/components/schemas/dto.CustomOption'
           type: array
-          description: List of custom options
         display_options:
           $ref: '#/components/schemas/DisplayOptions'
-          description: List of display options
+        fulfillment_services:
+          items:
+            $ref: '#/components/schemas/FulfillmentService'
+          type: array
         handle:
           type: string
           description: A unique human-friendly string for the product. Automatically generated from the product's `title`. Used by the Liquid templating language to refer to objects.
           example: ipod-nano-8gb
+        id:
+          type: integer
+          description: A unique numeric identifier for the product. Each id is unique across the ShopBase system. No two products will have the same id, even if they're from different shops.
+          example: 632910392
+        image:
+          $ref: '#/components/schemas/gitlab.ProductImage'
         images:
           items:
-            $ref: '#/components/schemas/dto.ImageRequest'
+            $ref: '#/components/schemas/gitlab.ProductImage'
           type: array
-          description: List of images
         metafields_global_description_tag:
           type: string
           description: A description of the product used for SEO purposes. Generally added to the <meta name='description'> tag.
@@ -1567,7 +1607,6 @@ components:
           items:
             $ref: '#/components/schemas/dto.ProductOption'
           type: array
-          description: List of options
         product_availability:
           type: integer
           description: '1. Available in all channels
@@ -1597,22 +1636,26 @@ components:
           type: string
           description: The name of the product.
           example: IPod Nano - 8GB
+        updated_at:
+          type: integer
+          description: Updated at time
         variants:
           items:
-            $ref: '#/components/schemas/ProductVariantRequestWithOptionValueDtoSwagger'
+            $ref: '#/components/schemas/ProductVariantRequestWithOptionValueDto'
           type: array
-          description: List of variants
         vendor:
           type: string
           description: The name of the product's vendor.
           example: Apple
       type: object
-    ProductVariantRequestWithOptionValueDtoSwagger:
+    ProductVariantRequestWithOptionValueDto:
       properties:
         barcode:
           type: string
           description: The code of variant for easy managing
           example: 9 788073 400972
+        body_html:
+          type: string
         compare_at_price:
           type: number
           description: The price compare with
@@ -1622,7 +1665,7 @@ components:
         fulfillment_service:
           type: string
           description: The name of fulfillment
-          example: shopbase
+          example: Shop base fulfillment
         id:
           type: integer
           description: A unique numeric identifier for the product variant. Each id is unique across the ShopBase system. No two products variant will have the same id, even if they're from different shops.
@@ -1631,6 +1674,8 @@ components:
           type: integer
           description: The unique numeric identifier for a product's image. The image must be associated to the same product as the variant.
           example: 434522
+        image_ids:
+          type: string
         inventory_management:
           type: string
           description: The name of inventory management
@@ -1639,9 +1684,9 @@ components:
           type: string
           description: 'Whether customers are allowed to place an order for the product variant when it''s out of stock. Valid values
 
-            </br>**deny**:  Customers are not allowed to place orders for the product variant if it''s out of stock
+            * **deny**:  Customers are not allowed to place orders for the product variant if it''s out of stock
 
-            </br>**continue**:  Customers are allowed to place orders for the product variant if it''s out of stock.'
+            * **continue**:  Customers are allowed to place orders for the product variant if it''s out of stock.'
         inventory_quantity:
           type: integer
           description: The quantity in inventory.
@@ -1650,10 +1695,18 @@ components:
           type: boolean
           description: Option to decide that this variant is default or not
           example: true
+        metafields:
+          items:
+            $ref: '#/components/schemas/MetaField'
+          type: array
         option1:
           type: string
           description: A unique identifier for the product variant in the shop. Required in order to connect to a FulfillmentService
           example: IPOD2008PINK
+        position:
+          type: integer
+          description: The position of variant.
+          example: 1
         price:
           type: number
           description: The price of variant.
@@ -1669,6 +1722,9 @@ components:
         sku:
           type: string
           description: The Metafield resource allows you to add additional information to other Admin API resources. Present, we don't use this field. We use table metafield instead.
+          example: 'null'
+        sync_cache_time:
+          type: integer
         taxable:
           type: boolean
           description: Whether a tax is charged when the product variant is sold.
@@ -1677,6 +1733,8 @@ components:
           type: string
           description: The name of the product.
           example: IPod Nano - 8GB
+        updated_at:
+          type: integer
         weight:
           type: number
           description: Weight of product
@@ -1685,64 +1743,6 @@ components:
           type: string
           description: unit of weight
           example: '12'
-      type: object
-    ProductVariantDuplicateRequest:
-      properties:
-        new_value:
-          type: string
-          description: Value of option want to duplicate
-          example: Pink
-        option_id:
-          type: integer
-          description: Option set id that want to duplicate
-          example: 274948
-        variants:
-          items:
-            type: integer
-          type: array
-          description: List of form variant ids want to duplicate
-          example:
-          - 274942
-          - 274948
-      type: object
-    ProductVariantDuplicateResponseSwagger:
-      properties:
-        fail:
-          items:
-            type: integer
-          type: array
-          description: List of variant id duplicate failure
-          example:
-          - 100013905
-        status:
-          type: boolean
-          description: 'Status of duplicate process: true or false'
-          example: true
-        success:
-          items:
-            type: integer
-          type: array
-          description: List of variant id duplicate successful
-          example:
-          - 100013903
-          - 100013904
-      type: object
-    ProductUpdateRequestSwagger:
-      properties:
-        is_create_redirect:
-          type: boolean
-          description: Option for create redirect or not when update product. If true, create a redirect from old handle to new handle
-          example: true
-        product:
-          $ref: '#/components/schemas/ProductDtoTransformRequestUpdateProduct'
-          description: Data of product to update
-      type: object
-    ProductsSwaggerResponse:
-      properties:
-        products:
-          items:
-            $ref: '#/components/schemas/ProductDto'
-          type: array
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

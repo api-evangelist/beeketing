@@ -78,32 +78,6 @@ paths:
         required: true
 components:
   schemas:
-    RefundParamsDto:
-      properties:
-        amount:
-          type: number
-          description: Refund amount.
-          example: 10
-        order_id:
-          type: integer
-          description: OrderId to refund ( optional )
-          example: 123456
-        reason_title:
-          type: string
-          description: Refund reason.
-          example: 'Refunded for the order #1234567'
-        transaction_type:
-          type: string
-          description: Transaction type.
-          example: order_refund
-      type: object
-    SuccessResponse:
-      properties:
-        success:
-          type: boolean
-          description: Is Refund successfully.
-          example: true
-      type: object
     FailureResponse:
       properties:
         message:
@@ -141,6 +115,25 @@ components:
           description: Is capture charge successfully.
           example: true
       type: object
+    RefundParamsDto:
+      properties:
+        amount:
+          type: number
+          description: Refund amount.
+          example: 10
+        order_id:
+          type: integer
+          description: OrderId to refund ( optional )
+          example: 123456
+        reason_title:
+          type: string
+          description: Refund reason.
+          example: 'Refunded for the order #1234567'
+        transaction_type:
+          type: string
+          description: Transaction type.
+          example: order_refund
+      type: object
     swagggerCaptureFailureResponse:
       properties:
         message:
@@ -151,6 +144,13 @@ components:
           type: boolean
           description: Is capture charge failure.
           example: false
+      type: object
+    SuccessResponse:
+      properties:
+        success:
+          type: boolean
+          description: Is Refund successfully.
+          example: true
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:
