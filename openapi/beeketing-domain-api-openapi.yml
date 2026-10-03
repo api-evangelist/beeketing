@@ -35,6 +35,13 @@ paths:
       - APP_ACCESS_TOKEN: []
 components:
   schemas:
+    Res:
+      properties:
+        shop_domains:
+          items:
+            $ref: '#/components/schemas/ShopDomain'
+          type: array
+      type: object
     ShopDomain:
       properties:
         id:
@@ -45,13 +52,6 @@ components:
           type: string
           description: Domain name connected
           example: apple.com
-      type: object
-    Res:
-      properties:
-        shop_domains:
-          items:
-            $ref: '#/components/schemas/ShopDomain'
-          type: array
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

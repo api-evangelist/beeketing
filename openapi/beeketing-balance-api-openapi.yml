@@ -78,43 +78,6 @@ paths:
         required: true
 components:
   schemas:
-    FailureResponse:
-      properties:
-        message:
-          type: string
-          description: If un-success, response error message.
-          example: invalid Refund amount
-        success:
-          type: boolean
-          description: Is Refund failure.
-          example: false
-      type: object
-    swagggerCaptureChargeParams:
-      properties:
-        amount:
-          type: number
-          description: Charge amount.
-          example: 10
-        order_id:
-          type: integer
-          description: OrderId to refund ( optional )
-          example: 123456
-        reason_title:
-          type: string
-          description: Charge reason.
-          example: Pay the subscription bill Feb 12,2019 - Mar 12.2019
-        transaction_type:
-          type: string
-          description: Transaction type.
-          example: PrintBase bill
-      type: object
-    swagggerCaptureSuccessResponse:
-      properties:
-        success:
-          type: boolean
-          description: Is capture charge successfully.
-          example: true
-      type: object
     RefundParamsDto:
       properties:
         amount:
@@ -144,6 +107,43 @@ components:
           type: boolean
           description: Is capture charge failure.
           example: false
+      type: object
+    FailureResponse:
+      properties:
+        message:
+          type: string
+          description: If un-success, response error message.
+          example: invalid Refund amount
+        success:
+          type: boolean
+          description: Is Refund failure.
+          example: false
+      type: object
+    swagggerCaptureSuccessResponse:
+      properties:
+        success:
+          type: boolean
+          description: Is capture charge successfully.
+          example: true
+      type: object
+    swagggerCaptureChargeParams:
+      properties:
+        amount:
+          type: number
+          description: Charge amount.
+          example: 10
+        order_id:
+          type: integer
+          description: OrderId to refund ( optional )
+          example: 123456
+        reason_title:
+          type: string
+          description: Charge reason.
+          example: Pay the subscription bill Feb 12,2019 - Mar 12.2019
+        transaction_type:
+          type: string
+          description: Transaction type.
+          example: PrintBase bill
       type: object
     SuccessResponse:
       properties:

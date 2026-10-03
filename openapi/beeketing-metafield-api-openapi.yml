@@ -260,6 +260,23 @@ paths:
         required: true
 components:
   schemas:
+    APIResponseCountDto:
+      properties:
+        count:
+          type: integer
+      type: object
+    APIResponseMetafieldsDto:
+      properties:
+        metafields:
+          items:
+            $ref: '#/components/schemas/MetafieldDto'
+          type: array
+      type: object
+    APIRequestMetafield:
+      properties:
+        metafield:
+          $ref: '#/components/schemas/MetafieldDto'
+      type: object
     MetafieldDto:
       properties:
         description:
@@ -282,23 +299,6 @@ components:
           type: object
         value_type:
           type: string
-      type: object
-    APIResponseCountDto:
-      properties:
-        count:
-          type: integer
-      type: object
-    APIResponseMetafieldsDto:
-      properties:
-        metafields:
-          items:
-            $ref: '#/components/schemas/MetafieldDto'
-          type: array
-      type: object
-    APIRequestMetafield:
-      properties:
-        metafield:
-          $ref: '#/components/schemas/MetafieldDto'
       type: object
     APIResponseMetafieldDto:
       properties:

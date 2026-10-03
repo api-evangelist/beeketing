@@ -221,24 +221,32 @@ paths:
         required: true
 components:
   schemas:
+    models.SwaggerDeleteResponse:
+      type: object
+    CustomerInvite:
+      properties:
+        bcc:
+          items:
+            type: string
+          type: array
+        custom_message:
+          type: string
+        from:
+          type: string
+          example: steve@apple.com
+        subject:
+          type: string
+          example: Customer account activation
+        to:
+          type: string
+          example: bob.norman@hostmail.com
+      type: object
     CustomerForResponse:
       properties:
         customers:
           items:
             $ref: '#/components/schemas/CustomerDto'
           type: array
-      type: object
-    models.SwaggerDeleteResponse:
-      type: object
-    CountResponse:
-      properties:
-        count:
-          type: integer
-      type: object
-    CustomerSwaggerResponse:
-      properties:
-        customer:
-          $ref: '#/components/schemas/CustomerDto'
       type: object
     CustomerDto:
       properties:
@@ -339,24 +347,6 @@ components:
           description: Whether the customer has verified their email address.
           example: true
       type: object
-    CustomerInvite:
-      properties:
-        bcc:
-          items:
-            type: string
-          type: array
-        custom_message:
-          type: string
-        from:
-          type: string
-          example: steve@apple.com
-        subject:
-          type: string
-          example: Customer account activation
-        to:
-          type: string
-          example: bob.norman@hostmail.com
-      type: object
     CustomerAddressDetail:
       properties:
         address1:
@@ -443,6 +433,16 @@ components:
           type: string
           description: ZIP
           example: K2P 1L4
+      type: object
+    CountResponse:
+      properties:
+        count:
+          type: integer
+      type: object
+    CustomerSwaggerResponse:
+      properties:
+        customer:
+          $ref: '#/components/schemas/CustomerDto'
       type: object
     SendInvitationRequest:
       properties:

@@ -139,6 +139,11 @@ paths:
         required: true
 components:
   schemas:
+    ScriptTagSwaggerResponse:
+      properties:
+        script_tag:
+          $ref: '#/components/schemas/ScriptTagV2'
+      type: object
     ScriptTagV2:
       properties:
         created_at:
@@ -184,11 +189,6 @@ components:
           items:
             $ref: '#/components/schemas/ScriptTagV2'
           type: array
-      type: object
-    ScriptTagSwaggerResponse:
-      properties:
-        script_tag:
-          $ref: '#/components/schemas/ScriptTagV2'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

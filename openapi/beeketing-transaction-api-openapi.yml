@@ -140,22 +140,65 @@ paths:
         - read_orders
 components:
   schemas:
-    CountResponse:
-      properties:
-        count:
-          type: integer
-      type: object
     OrderTransactionSwaggerResponse:
       properties:
         transaction:
           $ref: '#/components/schemas/TransactionDto'
       type: object
-    OrderTransactionsSwaggerResponse:
+    CurrencyExchangeAdjustmentDto:
       properties:
-        transactions:
-          items:
-            $ref: '#/components/schemas/TransactionDto'
-          type: array
+        adjustment:
+          type: number
+          description: The difference between the amounts on the associated transaction and the parent transaction.
+          example: -0.01
+        currency:
+          type: string
+          description: The shop currency.
+          example: CAD
+        final_amount:
+          type: number
+          description: The amount of the associated transaction in the shop currency.
+          example: -53.63
+        id:
+          type: integer
+          description: The ID of the adjustment.
+          example: 1
+        original_amount:
+          type: number
+          description: The amount of the parent transaction in the shop currency.
+          example: -53.62
+      type: object
+    SingleOrderTransactionSwaggerResponse:
+      properties:
+        transaction:
+          $ref: '#/components/schemas/TransactionDto'
+      type: object
+    CountResponse:
+      properties:
+        count:
+          type: integer
+      type: object
+    PaymentDetailsDto:
+      properties:
+        avs_result_code:
+          type: string
+          description: The response code from the [address verification system](https://en.wikipedia.org/wiki/Address_Verification_System). The code is a single letter; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
+          example: '123456'
+        credit_card_bin:
+          type: string
+          description: The [issuer identification number](https://en.wikipedia.org/wiki/ISO/IEC_7812) (IIN), formerly known as bank identification number (BIN) of the customer's credit card. This is made up of the first few digits of the credit card number.
+          example: M
+        credit_card_company:
+          type: string
+          description: The name of the company that issued the customer's credit card.
+          example: Visa
+        credit_card_number:
+          type: string
+          description: The customer's credit card number, with most of the leading digits redacted.
+        cvv_result_code:
+          type: string
+          description: The response code from the credit card company indicating whether the customer entered the [card security code](https://en.wikipedia.org/wiki/Card_security_code), or card verification value, correctly. The code is a single letter or empty string; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
+          example: M
       type: object
     TransactionDto:
       properties:
@@ -258,55 +301,12 @@ components:
           description: The date and time ([ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601)) when the transaction was updated.
           example: '2019-03-13T16:09:54-04:00'
       type: object
-    SingleOrderTransactionSwaggerResponse:
+    OrderTransactionsSwaggerResponse:
       properties:
-        transaction:
-          $ref: '#/components/schemas/TransactionDto'
-      type: object
-    CurrencyExchangeAdjustmentDto:
-      properties:
-        adjustment:
-          type: number
-          description: The difference between the amounts on the associated transaction and the parent transaction.
-          example: -0.01
-        currency:
-          type: string
-          description: The shop currency.
-          example: CAD
-        final_amount:
-          type: number
-          description: The amount of the associated transaction in the shop currency.
-          example: -53.63
-        id:
-          type: integer
-          description: The ID of the adjustment.
-          example: 1
-        original_amount:
-          type: number
-          description: The amount of the parent transaction in the shop currency.
-          example: -53.62
-      type: object
-    PaymentDetailsDto:
-      properties:
-        avs_result_code:
-          type: string
-          description: The response code from the [address verification system](https://en.wikipedia.org/wiki/Address_Verification_System). The code is a single letter; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
-          example: '123456'
-        credit_card_bin:
-          type: string
-          description: The [issuer identification number](https://en.wikipedia.org/wiki/ISO/IEC_7812) (IIN), formerly known as bank identification number (BIN) of the customer's credit card. This is made up of the first few digits of the credit card number.
-          example: M
-        credit_card_company:
-          type: string
-          description: The name of the company that issued the customer's credit card.
-          example: Visa
-        credit_card_number:
-          type: string
-          description: The customer's credit card number, with most of the leading digits redacted.
-        cvv_result_code:
-          type: string
-          description: The response code from the credit card company indicating whether the customer entered the [card security code](https://en.wikipedia.org/wiki/Card_security_code), or card verification value, correctly. The code is a single letter or empty string; see [this chart](http://www.emsecommerce.net/avs_cvv2_response_codes.htm) for the codes and their definitions.
-          example: M
+        transactions:
+          items:
+            $ref: '#/components/schemas/TransactionDto'
+          type: array
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

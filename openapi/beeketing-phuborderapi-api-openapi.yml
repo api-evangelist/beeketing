@@ -87,59 +87,51 @@ paths:
         description: BODY import order by api
 components:
   schemas:
-    OrderShippingAddressDto:
+    ImportLineItem:
       properties:
-        address1:
+        artwork_back_url:
           type: string
-        address2:
+        artwork_front_url:
           type: string
-        city:
+        color:
           type: string
-        company:
+        lineitem_quantity:
+          type: integer
+          description: Line item quantity
+          example: 10
+        lineitem_sku:
           type: string
-        country:
+          description: Line item sky
+          example: example
+        mockup_back_url:
           type: string
-        country_code:
-          type: string
-        first_name:
-          type: string
-        last_name:
+        mockup_front_url:
           type: string
         name:
           type: string
-        phone:
+          description: Line item name
+          example: example name
+        product_id:
           type: string
-        province:
-          type: string
-        zip:
-          type: string
-      type: object
-    PhubLineItemImportRespDto:
-      properties:
-        id:
-          type: integer
-        line_item_import_id:
-          type: integer
+          description: Product id
+          example: example_id
         product_name:
           type: string
-        quantity:
+          description: Product name
+          example: example name
+        reference_id:
+          type: string
+          description: Ref id
+          example: example
+        size:
+          type: string
+        supplier_id:
           type: integer
-        sku:
+        supplier_name:
           type: string
-        status:
+        supplier_product_color:
           type: string
-        tracking_carrier:
-          type: string
-        tracking_data:
-          $ref: '#/components/schemas/PhubLineItemImportTrackingDataRespDto'
-        variant_title:
-          type: string
-      type: object
-    PhubLineItemImportTrackingDataRespDto:
-      properties:
-        tracking_number:
-          type: string
-        tracking_url:
+        supplier_product_size:
           type: string
       type: object
     ImportSingleOrderRequest:
@@ -189,10 +181,39 @@ components:
           description: Shop id
           example: 123456
       type: object
-    ImportSingleOrderResponse:
+    PhubLineItemImportTrackingDataRespDto:
       properties:
-        order_id:
-          type: integer
+        tracking_number:
+          type: string
+        tracking_url:
+          type: string
+      type: object
+    OrderShippingAddressDto:
+      properties:
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        company:
+          type: string
+        country:
+          type: string
+        country_code:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        name:
+          type: string
+        phone:
+          type: string
+        province:
+          type: string
+        zip:
+          type: string
       type: object
     PhubOrderImportRespDto:
       properties:
@@ -211,52 +232,31 @@ components:
         status:
           type: string
       type: object
-    ImportLineItem:
+    PhubLineItemImportRespDto:
       properties:
-        artwork_back_url:
-          type: string
-        artwork_front_url:
-          type: string
-        color:
-          type: string
-        lineitem_quantity:
+        id:
           type: integer
-          description: Line item quantity
-          example: 10
-        lineitem_sku:
-          type: string
-          description: Line item sky
-          example: example
-        mockup_back_url:
-          type: string
-        mockup_front_url:
-          type: string
-        name:
-          type: string
-          description: Line item name
-          example: example name
-        product_id:
-          type: string
-          description: Product id
-          example: example_id
+        line_item_import_id:
+          type: integer
         product_name:
           type: string
-          description: Product name
-          example: example name
-        reference_id:
-          type: string
-          description: Ref id
-          example: example
-        size:
-          type: string
-        supplier_id:
+        quantity:
           type: integer
-        supplier_name:
+        sku:
           type: string
-        supplier_product_color:
+        status:
           type: string
-        supplier_product_size:
+        tracking_carrier:
           type: string
+        tracking_data:
+          $ref: '#/components/schemas/PhubLineItemImportTrackingDataRespDto'
+        variant_title:
+          type: string
+      type: object
+    ImportSingleOrderResponse:
+      properties:
+        order_id:
+          type: integer
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

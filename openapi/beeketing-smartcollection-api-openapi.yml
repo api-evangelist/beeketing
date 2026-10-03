@@ -85,55 +85,6 @@ paths:
         - write_products
 components:
   schemas:
-    GetListSmartCollectionSwagger:
-      properties:
-        smart_collections:
-          items:
-            $ref: '#/components/schemas/CustomCollectionDto'
-          type: array
-      type: object
-    CustomCollectionImage:
-      properties:
-        alt:
-          type: string
-          description: Alternative text that describes the collection image.
-          example: iPods
-        created_at:
-          type: string
-          description: The time and date (ISO 8601 format) when the image was added to the collection.
-          example: '2018-04-19T09:34:47-04:00'
-        height:
-          type: integer
-          description: The height of the image in pixels.
-          example: 488
-        src:
-          type: string
-          description: The source URL that specifies the location of the image.
-          example: https://img.btdmp.com/collections/ipod.jpg
-        width:
-          type: integer
-          description: The width of the image in pixels.
-          example: 500
-      type: object
-    DeleteSmartCollectResponseSwagger:
-      properties:
-        success:
-          type: boolean
-          description: Remove a smart collection.
-          example: true
-      type: object
-    GetSingleSmartCollectionSwagger:
-      properties:
-        smart_collection:
-          $ref: '#/components/schemas/CustomCollectionDto'
-      type: object
-    CountSmartCollectResponseSwagger:
-      properties:
-        count:
-          type: integer
-          description: Get count of SmartCollection.
-          example: 3
-      type: object
     CustomCollectionDto:
       properties:
         body_html:
@@ -167,6 +118,55 @@ components:
           type: string
           description: 'The name of the custom collection. (limit: 255 characters)'
           example: IPods
+      type: object
+    GetSingleSmartCollectionSwagger:
+      properties:
+        smart_collection:
+          $ref: '#/components/schemas/CustomCollectionDto'
+      type: object
+    GetListSmartCollectionSwagger:
+      properties:
+        smart_collections:
+          items:
+            $ref: '#/components/schemas/CustomCollectionDto'
+          type: array
+      type: object
+    DeleteSmartCollectResponseSwagger:
+      properties:
+        success:
+          type: boolean
+          description: Remove a smart collection.
+          example: true
+      type: object
+    CountSmartCollectResponseSwagger:
+      properties:
+        count:
+          type: integer
+          description: Get count of SmartCollection.
+          example: 3
+      type: object
+    CustomCollectionImage:
+      properties:
+        alt:
+          type: string
+          description: Alternative text that describes the collection image.
+          example: iPods
+        created_at:
+          type: string
+          description: The time and date (ISO 8601 format) when the image was added to the collection.
+          example: '2018-04-19T09:34:47-04:00'
+        height:
+          type: integer
+          description: The height of the image in pixels.
+          example: 488
+        src:
+          type: string
+          description: The source URL that specifies the location of the image.
+          example: https://img.btdmp.com/collections/ipod.jpg
+        width:
+          type: integer
+          description: The width of the image in pixels.
+          example: 500
       type: object
     CustomCollectionMetafield:
       properties:

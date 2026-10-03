@@ -170,6 +170,13 @@ paths:
         required: true
 components:
   schemas:
+    WebhookSwaggerResponse:
+      properties:
+        webhook:
+          $ref: '#/components/schemas/Webhook'
+      type: object
+    SwaggerDeleteResponse:
+      type: object
     Webhook:
       properties:
         address:
@@ -219,13 +226,6 @@ components:
           items:
             $ref: '#/components/schemas/Webhook'
           type: array
-      type: object
-    WebhookSwaggerResponse:
-      properties:
-        webhook:
-          $ref: '#/components/schemas/Webhook'
-      type: object
-    SwaggerDeleteResponse:
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:
