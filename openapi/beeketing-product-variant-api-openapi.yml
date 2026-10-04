@@ -169,10 +169,19 @@ paths:
         required: true
 components:
   schemas:
-    APIResponseUpdateProductVariantDto:
+    DeleteProductVariantResponse:
       properties:
-        variant:
-          $ref: '#/components/schemas/ProductVariantResponse'
+        success:
+          type: boolean
+          description: This field is request api success
+          example: true
+      type: object
+    AllVariantResponse:
+      properties:
+        variants:
+          items:
+            $ref: '#/components/schemas/ProductVariantResponse'
+          type: array
       type: object
     ProductVariantRawRequest:
       properties:
@@ -248,18 +257,6 @@ components:
           type: string
           description: 'The unit of measurement that applies to the product variant''s weight. If you don''t specify a value for ''weight_unit'', then the shop''s default unit of measurement is applied. Valid values: g, kg, oz, and lb.'
           example: oz
-      type: object
-    ProductVariantDtoRequest:
-      properties:
-        duplicate_from_variant:
-          type: boolean
-        variant:
-          $ref: '#/components/schemas/ProductVariantRawRequest'
-      type: object
-    APIResponseCreateProductVariantDto:
-      properties:
-        variant:
-          $ref: '#/components/schemas/ProductVariantResponse'
       type: object
     ProductVariantRawRequestSwagger:
       properties:
@@ -349,18 +346,6 @@ components:
           $ref: '#/components/schemas/Price'
           description: Price
       type: object
-    VariantByIdSwagger:
-      properties:
-        variant:
-          $ref: '#/components/schemas/ProductVariantResponse'
-      type: object
-    AllVariantResponse:
-      properties:
-        variants:
-          items:
-            $ref: '#/components/schemas/ProductVariantResponse'
-          type: array
-      type: object
     Price:
       properties:
         amount:
@@ -371,6 +356,40 @@ components:
           type: string
           description: Currency code
           example: USD
+      type: object
+    APIResponseUpdateProductVariantDto:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantResponse'
+      type: object
+    ProductVariantDtoRequest:
+      properties:
+        duplicate_from_variant:
+          type: boolean
+        variant:
+          $ref: '#/components/schemas/ProductVariantRawRequest'
+      type: object
+    VariantCountResponse:
+      properties:
+        count:
+          type: integer
+          description: All variants for a product
+          example: 4
+      type: object
+    APIRequestCreateProductVariantDto:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantRawRequestSwagger'
+      type: object
+    APIResponseCreateProductVariantDto:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantResponse'
+      type: object
+    VariantByIdSwagger:
+      properties:
+        variant:
+          $ref: '#/components/schemas/ProductVariantResponse'
       type: object
     ProductVariantResponse:
       properties:
@@ -466,25 +485,6 @@ components:
           type: string
           description: 'The unit of measurement that applies to the product variant''s weight. If you don''t specify a value for ''weight_unit'', then the shop''s default unit of measurement is applied. Valid values: g, kg, oz, and lb.'
           example: oz
-      type: object
-    DeleteProductVariantResponse:
-      properties:
-        success:
-          type: boolean
-          description: This field is request api success
-          example: true
-      type: object
-    APIRequestCreateProductVariantDto:
-      properties:
-        variant:
-          $ref: '#/components/schemas/ProductVariantRawRequestSwagger'
-      type: object
-    VariantCountResponse:
-      properties:
-        count:
-          type: integer
-          description: All variants for a product
-          example: 4
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

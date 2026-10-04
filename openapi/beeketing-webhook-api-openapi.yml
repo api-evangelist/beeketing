@@ -170,13 +170,6 @@ paths:
         required: true
 components:
   schemas:
-    WebhookSwaggerResponse:
-      properties:
-        webhook:
-          $ref: '#/components/schemas/Webhook'
-      type: object
-    SwaggerDeleteResponse:
-      type: object
     Webhook:
       properties:
         address:
@@ -220,12 +213,19 @@ components:
           description: Date and time when the webhook subscription was updated. The API returns this value in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601).
           example: 901431826
       type: object
+    SwaggerDeleteResponse:
+      type: object
     WebhooksSwaggerResponse:
       properties:
         webhooks:
           items:
             $ref: '#/components/schemas/Webhook'
           type: array
+      type: object
+    WebhookSwaggerResponse:
+      properties:
+        webhook:
+          $ref: '#/components/schemas/Webhook'
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

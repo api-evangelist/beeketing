@@ -276,6 +276,11 @@ paths:
         required: true
 components:
   schemas:
+    SinglePageSwaggerResponse:
+      properties:
+        page:
+          $ref: '#/components/schemas/Page'
+      type: object
     UpsertPageRequestDto:
       properties:
         is_create_redirect:
@@ -285,47 +290,6 @@ components:
         page:
           $ref: '#/components/schemas/PageRequestDto'
           description: Data update for page
-      type: object
-    Page:
-      properties:
-        body_html:
-          type: string
-          description: The text content of the page, complete with HTML markup.
-          example: Contact us at <a href=\&quot;mailto:contact@johns-apparel.com\&quot;>contact@johns-apparel.com</a>
-        handle:
-          type: string
-          description: A unique, human-friendly string for the page, generated automatically from its title. In online store themes, the Liquid templating language refers to a page by its handle.
-          example: contact-us
-        id:
-          type: integer
-          description: The unique numeric identifier for the page.
-          example: 131092082
-        is_show_in_search:
-          type: boolean
-        publish:
-          type: boolean
-          description: Tell whether this page is visible or hidden
-          example: true
-        search_engine_image:
-          type: string
-        search_engine_meta_description:
-          type: string
-          description: The description to display in Search Engine
-          example: Contact us at contact@johns-apparel.com
-        search_engine_title:
-          type: string
-          description: The title to display in Search Engine
-          example: Contact us
-        tags:
-          type: string
-        template:
-          type: string
-          description: Template name which will be used to display. If this field is empty, default template will be used instead
-          example: contact_us
-        title:
-          type: string
-          description: The page's title.
-          example: Contact us
       type: object
     PageRequestDto:
       properties:
@@ -381,10 +345,46 @@ components:
             $ref: '#/components/schemas/Page'
           type: array
       type: object
-    SinglePageSwaggerResponse:
+    Page:
       properties:
-        page:
-          $ref: '#/components/schemas/Page'
+        body_html:
+          type: string
+          description: The text content of the page, complete with HTML markup.
+          example: Contact us at <a href=\&quot;mailto:contact@johns-apparel.com\&quot;>contact@johns-apparel.com</a>
+        handle:
+          type: string
+          description: A unique, human-friendly string for the page, generated automatically from its title. In online store themes, the Liquid templating language refers to a page by its handle.
+          example: contact-us
+        id:
+          type: integer
+          description: The unique numeric identifier for the page.
+          example: 131092082
+        is_show_in_search:
+          type: boolean
+        publish:
+          type: boolean
+          description: Tell whether this page is visible or hidden
+          example: true
+        search_engine_image:
+          type: string
+        search_engine_meta_description:
+          type: string
+          description: The description to display in Search Engine
+          example: Contact us at contact@johns-apparel.com
+        search_engine_title:
+          type: string
+          description: The title to display in Search Engine
+          example: Contact us
+        tags:
+          type: string
+        template:
+          type: string
+          description: Template name which will be used to display. If this field is empty, default template will be used instead
+          example: contact_us
+        title:
+          type: string
+          description: The page's title.
+          example: Contact us
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

@@ -272,11 +272,6 @@ components:
             $ref: '#/components/schemas/MetafieldDto'
           type: array
       type: object
-    APIRequestMetafield:
-      properties:
-        metafield:
-          $ref: '#/components/schemas/MetafieldDto'
-      type: object
     MetafieldDto:
       properties:
         description:
@@ -299,6 +294,11 @@ components:
           type: object
         value_type:
           type: string
+      type: object
+    APIRequestMetafield:
+      properties:
+        metafield:
+          $ref: '#/components/schemas/MetafieldDto'
       type: object
     APIResponseMetafieldDto:
       properties:

@@ -119,18 +119,6 @@ components:
           description: 'The name of the custom collection. (limit: 255 characters)'
           example: IPods
       type: object
-    GetSingleSmartCollectionSwagger:
-      properties:
-        smart_collection:
-          $ref: '#/components/schemas/CustomCollectionDto'
-      type: object
-    GetListSmartCollectionSwagger:
-      properties:
-        smart_collections:
-          items:
-            $ref: '#/components/schemas/CustomCollectionDto'
-          type: array
-      type: object
     DeleteSmartCollectResponseSwagger:
       properties:
         success:
@@ -138,12 +126,29 @@ components:
           description: Remove a smart collection.
           example: true
       type: object
-    CountSmartCollectResponseSwagger:
+    GetSingleSmartCollectionSwagger:
       properties:
-        count:
-          type: integer
-          description: Get count of SmartCollection.
-          example: 3
+        smart_collection:
+          $ref: '#/components/schemas/CustomCollectionDto'
+      type: object
+    CustomCollectionMetafield:
+      properties:
+        key:
+          type: string
+          description: A key string for which meta field we use (description_tag, title_tag,..)
+          example: description_tag
+        namespace:
+          type: string
+          description: sphere of influence of key
+          example: global
+        value:
+          type: string
+          description: Value of corresponding key
+          example: description_tag
+        value_type:
+          type: string
+          description: Type of value
+          example: string
       type: object
     CustomCollectionImage:
       properties:
@@ -168,24 +173,19 @@ components:
           description: The width of the image in pixels.
           example: 500
       type: object
-    CustomCollectionMetafield:
+    GetListSmartCollectionSwagger:
       properties:
-        key:
-          type: string
-          description: A key string for which meta field we use (description_tag, title_tag,..)
-          example: description_tag
-        namespace:
-          type: string
-          description: sphere of influence of key
-          example: global
-        value:
-          type: string
-          description: Value of corresponding key
-          example: description_tag
-        value_type:
-          type: string
-          description: Type of value
-          example: string
+        smart_collections:
+          items:
+            $ref: '#/components/schemas/CustomCollectionDto'
+          type: array
+      type: object
+    CountSmartCollectResponseSwagger:
+      properties:
+        count:
+          type: integer
+          description: Get count of SmartCollection.
+          example: 3
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

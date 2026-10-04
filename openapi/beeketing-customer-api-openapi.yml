@@ -221,32 +221,99 @@ paths:
         required: true
 components:
   schemas:
+    CustomerAddressDetail:
+      properties:
+        address1:
+          type: string
+          description: The customer's mailing address.
+          example: 123 Fake Street
+        address2:
+          type: string
+          description: An additional field for the customer's mailing address.
+        city:
+          type: string
+          description: The customer's city, town, or village.
+          example: Fakecity
+        company:
+          type: string
+          description: The customer's company.
+        country:
+          type: string
+          description: The customer's country.
+          example: Vietnam
+        country_code:
+          type: string
+          description: The two-letter country code corresponding to the customer's country.
+          example: VN
+        country_id:
+          type: integer
+          description: A unique identifier for the customer.
+        country_name:
+          type: string
+          description: The customer's normalized country name.
+          example: Viet nam
+        cpf_number:
+          type: string
+          description: Brazil CPF Number
+        cpf_or_cnpj_number:
+          type: string
+          description: CPF/CNPJ number
+          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
+        created_at:
+          type: string
+          description: Created at time
+          format: date-time
+        default:
+          type: boolean
+          description: Whether this address is the default address for the customer.
+        first_name:
+          type: string
+          description: The customer's first name.
+          example: John
+        id:
+          type: integer
+          description: A unique identifier for the address.
+        last_name:
+          type: string
+          description: The customer's last name.
+          example: Smith
+        latitude:
+          type: number
+          description: Latitude
+        longitude:
+          type: number
+          description: Longtitude
+        name:
+          type: string
+          description: Address name
+          example: example name
+        phone:
+          type: string
+          description: 'Phone number
+
+            Example 555-555-5555'
+        province:
+          type: string
+          description: Province
+          example: Ontario
+        province_code:
+          type: string
+          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
+        updated_at:
+          type: string
+          description: Updated at time
+          format: date-time
+        zip:
+          type: string
+          description: ZIP
+          example: K2P 1L4
+      type: object
     models.SwaggerDeleteResponse:
       type: object
-    CustomerInvite:
+    SendInvitationRequest:
       properties:
-        bcc:
-          items:
-            type: string
-          type: array
-        custom_message:
-          type: string
-        from:
-          type: string
-          example: steve@apple.com
-        subject:
-          type: string
-          example: Customer account activation
-        to:
-          type: string
-          example: bob.norman@hostmail.com
-      type: object
-    CustomerForResponse:
-      properties:
-        customers:
-          items:
-            $ref: '#/components/schemas/CustomerDto'
-          type: array
+        customer_invite:
+          $ref: '#/components/schemas/CustomerInvite'
       type: object
     CustomerDto:
       properties:
@@ -347,93 +414,6 @@ components:
           description: Whether the customer has verified their email address.
           example: true
       type: object
-    CustomerAddressDetail:
-      properties:
-        address1:
-          type: string
-          description: The customer's mailing address.
-          example: 123 Fake Street
-        address2:
-          type: string
-          description: An additional field for the customer's mailing address.
-        city:
-          type: string
-          description: The customer's city, town, or village.
-          example: Fakecity
-        company:
-          type: string
-          description: The customer's company.
-        country:
-          type: string
-          description: The customer's country.
-          example: Vietnam
-        country_code:
-          type: string
-          description: The two-letter country code corresponding to the customer's country.
-          example: VN
-        country_id:
-          type: integer
-          description: A unique identifier for the customer.
-        country_name:
-          type: string
-          description: The customer's normalized country name.
-          example: Viet nam
-        cpf_number:
-          type: string
-          description: Brazil CPF Number
-        cpf_or_cnpj_number:
-          type: string
-          description: CPF/CNPJ number
-          example: 'CPF: 231.234.234-23, CNPJ: 23.123.423/4234-24'
-        created_at:
-          type: string
-          description: Created at time
-          format: date-time
-        default:
-          type: boolean
-          description: Whether this address is the default address for the customer.
-        first_name:
-          type: string
-          description: The customer's first name.
-          example: John
-        id:
-          type: integer
-          description: A unique identifier for the address.
-        last_name:
-          type: string
-          description: The customer's last name.
-          example: Smith
-        latitude:
-          type: number
-          description: Latitude
-        longitude:
-          type: number
-          description: Longtitude
-        name:
-          type: string
-          description: Address name
-          example: example name
-        phone:
-          type: string
-          description: 'Phone number
-
-            Example 555-555-5555'
-        province:
-          type: string
-          description: Province
-          example: Ontario
-        province_code:
-          type: string
-          description: The code for the region of the address, such as the province, state, or district. For example QC for Quebec, Canada.
-        updated_at:
-          type: string
-          description: Updated at time
-          format: date-time
-        zip:
-          type: string
-          description: ZIP
-          example: K2P 1L4
-      type: object
     CountResponse:
       properties:
         count:
@@ -444,10 +424,30 @@ components:
         customer:
           $ref: '#/components/schemas/CustomerDto'
       type: object
-    SendInvitationRequest:
+    CustomerInvite:
       properties:
-        customer_invite:
-          $ref: '#/components/schemas/CustomerInvite'
+        bcc:
+          items:
+            type: string
+          type: array
+        custom_message:
+          type: string
+        from:
+          type: string
+          example: steve@apple.com
+        subject:
+          type: string
+          example: Customer account activation
+        to:
+          type: string
+          example: bob.norman@hostmail.com
+      type: object
+    CustomerForResponse:
+      properties:
+        customers:
+          items:
+            $ref: '#/components/schemas/CustomerDto'
+          type: array
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

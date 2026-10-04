@@ -125,42 +125,6 @@ paths:
         required: true
 components:
   schemas:
-    CountPriceRulesSwaggerResponse:
-      properties:
-        count:
-          type: integer
-      type: object
-    SubtotalRange:
-      properties:
-        greater_than_or_equal_to:
-          type: number
-          example: 40
-      type: object
-    DeletePriceRuleResponse:
-      properties:
-        message:
-          type: string
-        success:
-          type: boolean
-      type: object
-    QuantityRange:
-      properties:
-        greater_than_or_equal_to:
-          type: number
-          example: 50
-      type: object
-    PriceRuleSwaggerResponse:
-      properties:
-        price_rule:
-          $ref: '#/components/schemas/PriceRuleDto'
-      type: object
-    ToEntitlementQuantityRatio:
-      properties:
-        entitled_quantity:
-          type: number
-        prerequisite_quantity:
-          type: number
-      type: object
     PriceRuleDto:
       properties:
         allocation_limit:
@@ -325,11 +289,47 @@ components:
           description: "The value type of the price rule. Valid values: \n * **fixed_amount**:  Applies a discount of value as a unit of the store's currency. For example, if value is -30 and the store's currency is USD, then $30 USD is deducted when the discount is applied. \n * **percentage**: Applies a percentage discount of value. For example, if value is -30, then 30% will be deducted when the discount is applied. \n If target_type is shipping_line, then only percentage is accepted."
           example: fixed_amount
       type: object
+    SubtotalRange:
+      properties:
+        greater_than_or_equal_to:
+          type: number
+          example: 40
+      type: object
+    PriceRuleSwaggerResponse:
+      properties:
+        price_rule:
+          $ref: '#/components/schemas/PriceRuleDto'
+      type: object
+    DeletePriceRuleResponse:
+      properties:
+        message:
+          type: string
+        success:
+          type: boolean
+      type: object
     ShippingPriceRange:
       properties:
         less_than_or_equal_to:
           type: number
           example: 10
+      type: object
+    ToEntitlementQuantityRatio:
+      properties:
+        entitled_quantity:
+          type: number
+        prerequisite_quantity:
+          type: number
+      type: object
+    QuantityRange:
+      properties:
+        greater_than_or_equal_to:
+          type: number
+          example: 50
+      type: object
+    CountPriceRulesSwaggerResponse:
+      properties:
+        count:
+          type: integer
       type: object
   securitySchemes:
     APP_ACCESS_TOKEN:

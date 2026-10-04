@@ -132,22 +132,28 @@ paths:
         - write_products
 components:
   schemas:
-    CreateCollectResponseSwagger:
+    DeleteCollectResponseSwagger:
+      properties:
+        success:
+          type: boolean
+          description: Api response success
+          example: true
+      type: object
+    CollectByIdResponseSwagger:
       properties:
         collect:
-          $ref: '#/components/schemas/Collect'
+          $ref: '#/components/schemas/CollectByIdResponse'
       type: object
-    CollectCountResponseSwagger:
+    CreateCollectResponse:
       properties:
-        count:
+        collection_id:
           type: integer
-          description: Get count of collects.
-          example: 3
-      type: object
-    CreateCollectRequestSwagger:
-      properties:
-        collect:
-          $ref: '#/components/schemas/CreateCollectResponse'
+          description: The ID of the custom collection containing the product.
+          example: 86733558492
+        product_id:
+          type: integer
+          description: The unique numeric identifier for the product in the custom collection.
+          example: 16011
       type: object
     Collect:
       properties:
@@ -176,17 +182,17 @@ components:
           description: This is the same value as position but padded with leading zeroes to make it alphanumeric-sortable. This value is applied only when the custom collection is sorted manually.
           example: '0000000002'
       type: object
-    CollectByIdResponseSwagger:
+    CreateCollectRequestSwagger:
       properties:
         collect:
-          $ref: '#/components/schemas/CollectByIdResponse'
+          $ref: '#/components/schemas/CreateCollectResponse'
       type: object
-    DeleteCollectResponseSwagger:
+    CollectCountResponseSwagger:
       properties:
-        success:
-          type: boolean
-          description: Api response success
-          example: true
+        count:
+          type: integer
+          description: Get count of collects.
+          example: 3
       type: object
     CollectByIdResponse:
       properties:
@@ -223,23 +229,17 @@ components:
           description: The date and time (ISO 8601 format) when the collect was last updated.
           example: 'updated_at: 2018-04-25T13:51:12-04:00'
       type: object
+    CreateCollectResponseSwagger:
+      properties:
+        collect:
+          $ref: '#/components/schemas/Collect'
+      type: object
     CollectListResponseSwagger:
       properties:
         collects:
           items:
             $ref: '#/components/schemas/CollectListResponse'
           type: array
-      type: object
-    CreateCollectResponse:
-      properties:
-        collection_id:
-          type: integer
-          description: The ID of the custom collection containing the product.
-          example: 86733558492
-        product_id:
-          type: integer
-          description: The unique numeric identifier for the product in the custom collection.
-          example: 16011
       type: object
     CollectListResponse:
       properties:

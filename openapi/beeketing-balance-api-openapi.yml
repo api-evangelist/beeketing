@@ -78,6 +78,17 @@ paths:
         required: true
 components:
   schemas:
+    FailureResponse:
+      properties:
+        message:
+          type: string
+          description: If un-success, response error message.
+          example: invalid Refund amount
+        success:
+          type: boolean
+          description: Is Refund failure.
+          example: false
+      type: object
     RefundParamsDto:
       properties:
         amount:
@@ -96,35 +107,6 @@ components:
           type: string
           description: Transaction type.
           example: order_refund
-      type: object
-    swagggerCaptureFailureResponse:
-      properties:
-        message:
-          type: string
-          description: If un-success, response error message.
-          example: invalid charge amount
-        success:
-          type: boolean
-          description: Is capture charge failure.
-          example: false
-      type: object
-    FailureResponse:
-      properties:
-        message:
-          type: string
-          description: If un-success, response error message.
-          example: invalid Refund amount
-        success:
-          type: boolean
-          description: Is Refund failure.
-          example: false
-      type: object
-    swagggerCaptureSuccessResponse:
-      properties:
-        success:
-          type: boolean
-          description: Is capture charge successfully.
-          example: true
       type: object
     swagggerCaptureChargeParams:
       properties:
@@ -150,6 +132,24 @@ components:
         success:
           type: boolean
           description: Is Refund successfully.
+          example: true
+      type: object
+    swagggerCaptureFailureResponse:
+      properties:
+        message:
+          type: string
+          description: If un-success, response error message.
+          example: invalid charge amount
+        success:
+          type: boolean
+          description: Is capture charge failure.
+          example: false
+      type: object
+    swagggerCaptureSuccessResponse:
+      properties:
+        success:
+          type: boolean
+          description: Is capture charge successfully.
           example: true
       type: object
   securitySchemes:
