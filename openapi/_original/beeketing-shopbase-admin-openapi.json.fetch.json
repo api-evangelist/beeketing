@@ -1,0 +1,12 @@
+{
+ "url": "https://api-doc.shopbase.com/public-swagger.json?v=2026100418",
+ "requested_url": "https://api-doc.shopbase.com/public-swagger.json?v=2026100418",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 560564,
+ "sha256": "353ccde6240d9fe8c25ed52c783fbc0f777ea5f1c0c6e5b7eebcffbe5a58f4a9",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
