@@ -64,6 +64,160 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Beeketing is a company surfaced as a portfolio company of 500-global and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Beeketing began as a Vietnam-founded e-commerce marketing startup (backed by 500 Global) that built conversion-optimization apps for Shopify and other online stores, and evolved into OpenCommerce Group — the operator of ShopBase, a cross-border commerce platform serving 100,000+ merchants across 195 countries alongside PrintBase and PlusBase. The developer surface is the ShopBase Developer Platform: a Shopify-style REST Admin API (plus a GraphQL Admin API) for building public and private apps, themes, and payment gateways. It is secured with OAuth 2.0 authorization-code flow (public apps) or HTTP Basic auth (private apps), scoped with granular access scopes, and supports webhooks, leaky-bucket rate limiting, an app/theme store, and a Storefront SDK. A machine-readable contract is published: a Swagger 2.0 document of 97 paths, 153 operations and 268 definitions, served at https://api-doc.shopbase.com/public-swagger.json and rendered with ReDoc.
 
-Backed by: 500-global — https://opencommercegroup.com
+**Areas:** Company · E-Commerce · Cross-Border Commerce · Marketing · Shopify Apps · REST API · Authentication · Webhook · Themes · Payments
+
+## Beeketing on APIs.io
+
+Everything profiled for Beeketing is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/beeketing/](https://apis.io/providers/beeketing/)** — or go straight to one of the APIs or properties below.
+
+### APIs (27)
+
+- [Beeketing Abandoned Checkout API](https://apis.io/apis/beeketing/beeketing-abandoned-checkout-api/) — You can query the Checkout resource to return abandoned checkouts. A checkout is considered abandoned when a customer leaves the checkout after the first…
+- [Beeketing Balance API](https://apis.io/apis/beeketing/beeketing-balance-api/) — The Balance API from Beeketing — 2 operation(s) for balance.
+- [Beeketing Collect API](https://apis.io/apis/beeketing/beeketing-collect-api/) — The Collect resource connects a product to a custom collection. </br></br>Collects are meant for managing the relationship between products and custom…
+- [Beeketing Custom Collection API](https://apis.io/apis/beeketing/beeketing-custom-collection-api/) — The Custom Collection API from Beeketing — 3 operation(s) for custom collection.
+- [Beeketing Customer Address API](https://apis.io/apis/beeketing/beeketing-customer-address-api/) — The Customer Address API from Beeketing — 4 operation(s) for customer address.
+- [Beeketing Customer API](https://apis.io/apis/beeketing/beeketing-customer-api/) — The Customer API from Beeketing — 4 operation(s) for customer.
+- [Beeketing Domain API](https://apis.io/apis/beeketing/beeketing-domain-api/) — You can use the domain resource to view
+- [Beeketing Draft Order API](https://apis.io/apis/beeketing/beeketing-draftorder-api/) — The DraftOrder API from Beeketing — 2 operation(s) for draftorder.
+- [Beeketing Fulfillment API](https://apis.io/apis/beeketing/beeketing-fulfillment-api/) — You can use the Fulfillment resource to view, create, modify, or delete an order's fulfillment. </br></br>A fulfillment represents a group of one or more…
+- [Beeketing Fulfillment Service API](https://apis.io/apis/beeketing/beeketing-fulfillmentservice-api/) — The FulfillmentService API from Beeketing — 2 operation(s) for fulfillmentservice.
+- [Beeketing Metafield API](https://apis.io/apis/beeketing/beeketing-metafield-api/) — The Metafield API from Beeketing — 3 operation(s) for metafield.
+- [Beeketing Order API](https://apis.io/apis/beeketing/beeketing-order-api/) — An order is a customer's completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process,…
+- [Beeketing Page API](https://apis.io/apis/beeketing/beeketing-page-api/) — The Page API from Beeketing — 3 operation(s) for page.
+- [Beeketing Payment Simulator API](https://apis.io/apis/beeketing/beeketing-payment-simulator-api/) — The Payment Simulator API from Beeketing — 4 operation(s) for payment simulator.
+- [Beeketing Phub Order API](https://apis.io/apis/beeketing/beeketing-phuborderapi-api/) — PhubOrderApi
+- [Beeketing Price Rule API](https://apis.io/apis/beeketing/beeketing-pricerule-api/) — The PriceRule API from Beeketing — 3 operation(s) for pricerule.
+- [Beeketing Product API](https://apis.io/apis/beeketing/beeketing-product-api/) — The Product resource lets you update and create products in a merchant's store. You can use product variants with the Product resource to create or update…
+- [Beeketing Product Image API](https://apis.io/apis/beeketing/beeketing-product-image-api/) — The Product Image API from Beeketing — 3 operation(s) for product image.
+- [Beeketing Product Variant API](https://apis.io/apis/beeketing/beeketing-product-variant-api/) — A variant can be added to a Product resource to represent one version of a product with several options. The Product resource will have a variant for every…
+- [Beeketing Redirect API](https://apis.io/apis/beeketing/beeketing-redirect-api/) — The Redirect API from Beeketing — 2 operation(s) for redirect.
+- [Beeketing Refund API](https://apis.io/apis/beeketing/beeketing-refund-api/) — There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The line items included in the refund, along with restocking…
+- [Beeketing Script Tag API](https://apis.io/apis/beeketing/beeketing-scripttag-api/) — The ScriptTag API from Beeketing — 2 operation(s) for scripttag.
+- [Beeketing Shop API](https://apis.io/apis/beeketing/beeketing-shop-api/) — The Shop API from Beeketing — 1 operation(s) for shop.
+- [Beeketing Smart Collection API](https://apis.io/apis/beeketing/beeketing-smartcollection-api/) — The SmartCollection API from Beeketing — 3 operation(s) for smartcollection.
+- [Beeketing Transaction API](https://apis.io/apis/beeketing/beeketing-transaction-api/) — There are two major parts to a refund:</br>- A record of money returned to the customer</br>- The line items included in the refund, along with restocking…
+- [Beeketing Webhook API](https://apis.io/apis/beeketing/beeketing-webhook-api/) — The Webhook API from Beeketing — 2 operation(s) for webhook.
+- [Beeketing Discount Code API](https://apis.io/apis/beeketing/beeketing-discount-code-api/) — The Discount Code API from Beeketing — 3 operation(s) for discount code.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Beeketing Webhooks](https://apis.io/asyncapis/beeketing/beeketing-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [beeketing-mcp.yml](https://apis.io/servers/beeketing/beeketing-mcp-yml/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Beeketing Shopbase Admin Overlay](https://apis.io/overlays/beeketing/beeketing-shopbase-admin-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Beeketing Authentication](https://apis.io/security/beeketing/beeketing-authentication/)
+- [Beeketing Domain Security](https://apis.io/security/beeketing/beeketing-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Beeketing Scopes](https://apis.io/scopes/beeketing/beeketing-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Beeketing Plans Pricing](https://apis.io/plans/beeketing/beeketing-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Beeketing Rate Limits](https://apis.io/rate-limits/beeketing/beeketing-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://opencommercegroup.com)
+- [Documentation](https://developers.shopbase.com)
+- [Getting started](https://developers.shopbase.com/build-an-app/making-your-first-request.md)
+- [API reference](https://api-doc.shopbase.com)
+- [Pricing](https://www.shopbase.com/pricing)
+- [Sign up](https://accounts.shopbase.com/sign-up)
+- [Support](https://help.shopbase.com/en/)
+- [Changelog](https://updates.shopbase.com/)
+- [Blog](https://www.shopbase.com/blog)
+- [Terms of service](https://www.shopbase.com/terms-of-service)
+- [Privacy policy](https://www.shopbase.com/privacy-policy)
+- [GitHub](https://github.com/beeketing)
+- [Status](https://www.shopbasestatus.com)
+
+## API Evangelist rating
+
+**Kin Score 61.0** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 53.9 |
+| Contract governance | 18.2 |
+| Operational transparency | 47.4 |
+| Developer ergonomics | 73.2 |
+| Access clarity | 69.7 |
+
+**Agent readiness 31.8** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 31.3** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/beeketing/](https://apis.io/providers/beeketing/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Beeketing: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/beeketing/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
